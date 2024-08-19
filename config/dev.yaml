@@ -1,0 +1,5 @@
+mysql:
+  dsn: root:root@tcp(localhost:3306)/webook
+
+Redis:
+  addr: localhost:6379
