@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"golang.org/x/crypto/bcrypt"
 	"webook/internal/domain"
 	"webook/internal/repository"
@@ -9,6 +10,7 @@ import (
 
 // ErrUserDuplicateEmail 定义一个常量ErrUserDuplicateEmail，指代用户重复邮件错误，来自于repository层
 var ErrUserDuplicateEmail = repository.ErrUserDuplicateEmail
+var ErrInvalidUserOrPassword = errors.New("邮箱或者密码不正确")
 
 // UserService 结构体，表示用户相关的业务逻辑服务
 type UserService struct {
@@ -38,4 +40,22 @@ func (svc *UserService) Signup(ctx context.Context, u domain.User) error {
 	u.Password = string(hash)
 	// 调用repository层的Create方法将加密后的用户信息保存到数据库
 	return svc.repo.Create(ctx, u)
+}
+
+func (svc *UserService) Login(ctx context.Context,
+	email, password string) (domain.User, error) {
+	u, err := svc.repo.FindByEmail(ctx, email)
+	if err == repository.ErrUserNotFound {
+		return domain.User{}, ErrInvalidUserOrPassword
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	if err != nil {
+		return domain.User{}, ErrInvalidUserOrPassword
+	}
+	return u, err
+}
+
+func (svc *UserService) Profile(ctx context.Context,
+	id int64) (domain.User, error) {
+	return svc.repo.FindById(ctx, id)
 }

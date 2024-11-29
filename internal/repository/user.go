@@ -9,6 +9,8 @@ import (
 // ErrUserDuplicateEmail 定义一个常量ErrUserDuplicateEmail，指代数据库层返回的重复邮件错误
 var ErrUserDuplicateEmail = dao.ErrUserDuplicateEmail
 
+var ErrUserNotFound = dao.ErrDataNotFound
+
 // UserRepository 定义UserRepository结构体，表示用户数据访问对象
 type UserRepository struct {
 	dao *dao.UserDAO // 引用dao层的UserDAO对象，UserDAO负责与数据库进行操作
@@ -33,4 +35,24 @@ func (ur *UserRepository) Create(ctx context.Context, u domain.User) error {
 	})
 	// 返回dao层Insert方法的错误，若插入成功，err为nil
 	return err
+}
+
+func (ur *UserRepository) FindByEmail(ctx context.Context,
+	email string) (domain.User, error) {
+	u, err := ur.dao.FindByEmail(ctx, email)
+
+	return domain.User{
+		Id:       u.Id,
+		Email:    u.Email,
+		Password: u.Password,
+	}, err
+}
+
+func (ur *UserRepository) FindById(ctx context.Context,
+	id int64) (domain.User, error) {
+	u, err := ur.dao.FindById(ctx, id)
+	return domain.User{
+		Email:    u.Email,
+		Password: u.Password,
+	}, err
 }

@@ -4,22 +4,28 @@ import (
 	"errors"
 	regexp "github.com/dlclark/regexp2"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"net/http"
+	"time"
 	"webook/internal/domain"
 	"webook/internal/service"
 )
 
-// 用于邮箱格式验证的正则表达式
-const emailRegexPattern = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
+const (
+	// 用于邮箱格式验证的正则表达式
+	emailRegexPattern = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
 
-// 用于密码格式验证的正则表达式
-const passwordRegexPattern = `^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$`
+	// 用于密码格式验证的正则表达式
+	passwordRegexPattern = `^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$`
+)
 
 // UserHandler 结构体，用于处理用户相关的HTTP请求
 type UserHandler struct {
 	svc              *service.UserService // 引用service层的UserService，处理具体的业务逻辑
 	emailRegexExp    *regexp.Regexp       // 用于邮箱格式验证的正则表达式对象
 	passwordRegexExp *regexp.Regexp       // 用于密码格式验证的正则表达式对象
+
+	jwtKey string // 用于 JWT 鉴权登录
 }
 
 // NewUserHandler 构造函数，创建并返回一个新的UserHandler实例
@@ -111,18 +117,82 @@ func (c *UserHandler) SignUp(ctx *gin.Context) {
 	ctx.String(http.StatusOK, "hello, 注册成功")
 }
 
-// Login 用户登录接口（尚未实现）
+// Login 用户登录接口，使用的是 JWT
+// 用户通过提供邮箱和密码进行登录，成功后生成一个JWT令牌返回给用户
+// JWT令牌会存储在响应头 "x-jwt-token" 中，供前端存储和后续认证使用
 func (c *UserHandler) Login(ctx *gin.Context) {
-	// 这里可以实现用户登录的相关逻辑，例如验证用户名密码、生成JWT等
+	// 定义请求体结构体，用于接收用户提交的邮箱和密码
+	type LoginReq struct {
+		Email    string `json:"email"`    // 用户的邮箱
+		Password string `json:"password"` // 用户的密码
+	}
+
+	var req LoginReq
+	// 绑定请求数据到结构体
+	// 如果绑定失败（例如字段缺失或格式错误），则直接返回
+	if err := ctx.Bind(&req); err != nil {
+		return
+	}
+
+	// 调用服务层的Login方法进行用户身份验证
+	// 如果邮箱和密码匹配成功，返回用户信息；如果验证失败，返回错误
+	u, err := c.svc.Login(ctx.Request.Context(), req.Email, req.Password)
+	if errors.Is(err, service.ErrInvalidUserOrPassword) {
+		// 如果用户名或密码不正确，返回提示信息
+		ctx.String(http.StatusOK, "用户名或者密码不正确，请重试")
+		return
+	}
+
+	// 登录成功，创建一个新的JWT令牌
+	// UserClaims中包含用户ID以及过期时间
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{
+		Id: u.Id, // 用户ID
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute)), // 设置JWT过期时间
+		},
+	})
+
+	// 使用密钥对生成的JWT令牌进行签名
+	tokenStr, err := token.SignedString(JWTKey)
+	if err != nil {
+		// 如果签名失败，返回系统异常
+		ctx.String(http.StatusOK, "系统异常")
+		return
+	}
+
+	// 将生成的JWT令牌返回给前端，存储在响应头 x-jwt-token 中
+	ctx.Header("x-jwt-token", tokenStr)
+	// 返回登录成功的响应
+	ctx.String(http.StatusOK, "登录成功")
 }
 
-// Edit 用户编辑个人信息接口（尚未实现）
+// Edit 用户编辑个人信息的接口（此接口目前未实现）
 func (c *UserHandler) Edit(ctx *gin.Context) {
-	// 这里可以实现用户编辑个人信息的逻辑
+	// 该方法为空，表示目前未实现用户编辑个人信息的功能
 }
 
-// Profile 获取用户个人信息接口（尚未实现）
+// Profile 用户查看个人信息接口
+// 该接口通过JWT令牌中的用户ID来查询当前用户的详细信息
 func (c *UserHandler) Profile(ctx *gin.Context) {
-	// 这里可以实现获取用户信息的逻辑
-	ctx.JSON(http.StatusOK, "这是测试信息。")
+	// 定义响应结构体，用于返回用户的邮箱信息
+	type Profile struct {
+		Email string // 用户的邮箱
+	}
+
+	// 从上下文中获取JWT中的用户信息（UserClaims），通过ctx.MustGet("user")来获取
+	// 该操作会返回UserClaims对象，其中包含用户的ID
+	uc := ctx.MustGet("user").(UserClaims)
+
+	// 调用服务层的Profile方法查询用户的详细信息
+	u, err := c.svc.Profile(ctx, uc.Id)
+	if err != nil {
+		// 如果查询出错，可能是系统问题，返回系统错误信息
+		ctx.String(http.StatusOK, "系统错误")
+		return
+	}
+
+	// 返回用户的邮箱信息，响应的格式是JSON
+	ctx.JSON(http.StatusOK, Profile{
+		Email: u.Email, // 返回用户的邮箱
+	})
 }

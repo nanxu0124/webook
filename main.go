@@ -11,6 +11,7 @@ import (
 	"webook/internal/repository/dao"
 	"webook/internal/service"
 	"webook/internal/web"
+	"webook/internal/web/middleware"
 )
 
 func main() {
@@ -55,8 +56,9 @@ func initWebServer() *gin.Engine {
 
 	// 使用CORS中间件配置，允许跨域请求
 	server.Use(cors.New(cors.Config{
-		AllowCredentials: true,                     // 允许客户端发送认证信息
-		AllowHeaders:     []string{"Content-Type"}, // 允许的请求头
+		AllowCredentials: true,                                      // 允许客户端发送认证信息
+		AllowHeaders:     []string{"Content-Type", "Authorization"}, // 允许的请求头
+		ExposeHeaders:    []string{"X-Jwt-Token"},
 		AllowOriginFunc: func(origin string) bool {
 			// 允许来自 localhost 和指定公司域名的请求
 			if strings.HasPrefix(origin, "http://localhost") {
@@ -67,8 +69,24 @@ func initWebServer() *gin.Engine {
 		MaxAge: 12 * time.Hour, // 设置CORS预检请求的缓存时间
 	}))
 
+	// 使用 JWT
+	usingJWT(server)
+
 	// 返回配置好的Web服务器实例
 	return server
+}
+
+// usingJWT 用于设置并启用JWT中间件
+// 它会在所有请求中应用JWT中间件，确保每个请求在访问需要认证的接口时
+// 都会检查JWT的有效性
+// 该函数会把JWT中间件（由JWTLoginMiddlewareBuilder构建）应用到传入的Gin服务器实例上
+func usingJWT(server *gin.Engine) {
+	// 创建一个JWTLoginMiddlewareBuilder实例，用于构建JWT中间件
+	mldBd := &middleware.JWTLoginMiddlewareBuilder{}
+
+	// 将JWT中间件添加到Gin的中间件链中
+	// 这意味着所有请求都会经过JWT中间件，除非被显式排除（例如在登录和注册接口中）
+	server.Use(mldBd.Build())
 }
 
 // initUser 初始化与用户相关的服务和路由
