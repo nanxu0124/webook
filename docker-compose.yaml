@@ -1,0 +1,13 @@
+services:
+  mysql8:
+    image: mysql:8.0.29  # 使用 MySQL 8.0.29 版本的镜像
+    restart: always  # 容器停止时自动重启
+    command: --default-authentication-plugin=mysql_native_password  # 设置 MySQL 使用default的身份验证插件，防止某些客户端连接失败
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # 设置 root 用户的密码为 root
+    volumes:
+      # 将本地 ./script/mysql/ 目录挂载到容器的 /docker-entrypoint-initdb.d/ 目录
+      # 这个目录下的所有脚本将在 MySQL 启动时执行，可以用来初始化数据库、创建表、导入数据等
+      - ./script/mysql/:/docker-entrypoint-initdb.d/
+    ports:
+      - "13316:3306"  # 将本地的 13316 端口映射到容器的 3306 端口（MySQL 默认端口）
