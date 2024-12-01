@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"strings"
@@ -12,6 +13,7 @@ import (
 	"webook/internal/service"
 	"webook/internal/web"
 	"webook/internal/web/middleware"
+	"webook/pkg/ginx/middleware/ratelimit"
 )
 
 func main() {
@@ -54,7 +56,18 @@ func initWebServer() *gin.Engine {
 	server := gin.Default()
 	gin.ForceConsoleColor()
 
-	// 使用CORS中间件配置，允许跨域请求
+	cmd := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       1,
+	})
+	// 使用滑动窗口限流中间件，设置时间窗口为 1 分钟，最大请求次数为 rate 次
+	// 这会限制每个客户端在 1 分钟内最多只能发送 rate 次请求
+	// 使用 redis 客户端创建限流中间件实例，并将其应用到 Web 服务器
+	server.Use(ratelimit.NewBuilder(cmd, time.Minute, 10).Build())
+
+	// 使用 CORS 中间件来允许跨域请求
+	// 配置允许客户端发送认证信息和特定请求头，同时控制允许的源（Origin）
 	server.Use(cors.New(cors.Config{
 		AllowCredentials: true,                                      // 允许客户端发送认证信息
 		AllowHeaders:     []string{"Content-Type", "Authorization"}, // 允许的请求头
@@ -66,10 +79,12 @@ func initWebServer() *gin.Engine {
 			}
 			return strings.Contains(origin, "baidu.com")
 		},
-		MaxAge: 12 * time.Hour, // 设置CORS预检请求的缓存时间
+		MaxAge: 12 * time.Hour, // 预检请求的缓存时间，12小时内不会再进行预检
 	}))
 
-	// 使用 JWT
+	// 使用 JWT 认证中间件
+	// 这个中间件会对每个请求进行验证，确保请求带有有效的 JWT token
+	// 如果没有 token 或 token 无效，请求会被中止
 	usingJWT(server)
 
 	// 返回配置好的Web服务器实例

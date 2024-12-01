@@ -148,7 +148,7 @@ func (c *UserHandler) Login(ctx *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{
 		Id: u.Id, // 用户ID
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute)), // 设置JWT过期时间
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 10)), // 设置JWT过期时间
 		},
 	})
 
