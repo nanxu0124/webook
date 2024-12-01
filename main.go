@@ -8,7 +8,9 @@ import (
 	"gorm.io/gorm"
 	"strings"
 	"time"
+	"webook/config"
 	"webook/internal/repository"
+	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
 	"webook/internal/service"
 	"webook/internal/web"
@@ -19,12 +21,12 @@ import (
 func main() {
 	// 初始化数据库连接
 	db := initDB()
-
+	redisCmd := initRedis()
 	// 初始化Web服务器
 	server := initWebServer()
 
 	// 初始化用户相关的服务、路由等
-	initUser(server, db)
+	initUser(server, db, redisCmd)
 
 	// 启动Web服务器，监听8080端口
 	server.Run(":8080")
@@ -33,7 +35,7 @@ func main() {
 // initDB 初始化数据库连接和表
 func initDB() *gorm.DB {
 	// 使用GORM的MySQL驱动，连接到数据库
-	db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:13316)/webook"))
+	db, err := gorm.Open(mysql.Open(config.Config.DB.DSN))
 	if err != nil {
 		// 如果连接失败，panic并输出错误信息
 		panic(err)
@@ -105,12 +107,15 @@ func usingJWT(server *gin.Engine) {
 }
 
 // initUser 初始化与用户相关的服务和路由
-func initUser(server *gin.Engine, db *gorm.DB) {
+func initUser(server *gin.Engine, db *gorm.DB, cmd redis.Cmdable) {
 	// 创建UserDAO实例，传入数据库连接
 	ud := dao.NewUserDAO(db)
 
-	// 创建UserRepository实例，传入UserDAO
-	ur := repository.NewUserRepository(ud)
+	// 创建UserCache实例，传入缓存连接
+	uc := cache.NewUserCache(cmd)
+
+	// 创建UserRepository实例
+	ur := repository.NewUserRepository(ud, uc)
 
 	// 创建UserService实例，传入UserRepository
 	us := service.NewUserService(ur)
@@ -120,4 +125,14 @@ func initUser(server *gin.Engine, db *gorm.DB) {
 
 	// 注册与用户相关的路由
 	c.RegisterRoutes(server)
+}
+
+func initRedis() redis.Cmdable {
+	rCfg := config.Config.Redis
+	cmd := redis.NewClient(&redis.Options{
+		Addr:     rCfg.Addr,
+		Password: rCfg.Password,
+		DB:       rCfg.DB,
+	})
+	return cmd
 }
