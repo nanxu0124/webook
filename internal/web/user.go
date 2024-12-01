@@ -146,7 +146,8 @@ func (c *UserHandler) Login(ctx *gin.Context) {
 	// 登录成功，创建一个新的JWT令牌
 	// UserClaims中包含用户ID以及过期时间
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{
-		Id: u.Id, // 用户ID
+		Id:        u.Id, // 用户ID
+		UserAgent: ctx.GetHeader("User-Agent"),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 10)), // 设置JWT过期时间
 		},

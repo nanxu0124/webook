@@ -9,6 +9,10 @@ type UserClaims struct {
 	// 用户的唯一ID
 	Id int64
 
+	// 用户的 UserAgent（通常是浏览器或客户端的标识）
+	// 这个字段可以帮助记录发起请求的客户端类型或来源设备，通常用于日志分析或安全审计
+	UserAgent string
+
 	// jwt.RegisteredClaims 是一个结构体，包含JWT的标准字段
 	// 比如：过期时间（ExpiresAt）、发行者（Issuer）、受众（Audience）等
 	// 通过嵌入 RegisteredClaims，我们可以直接访问这些标准字段

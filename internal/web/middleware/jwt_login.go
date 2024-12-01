@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -73,18 +74,26 @@ func (j *JWTLoginMiddlewareBuilder) Build() gin.HandlerFunc {
 			return
 		}
 
-		// 每 10 秒刷新一次
-		//if expireTime.Sub(time.Now()) < time.Second*50 {
-		//	uc.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Minute))
-		//	newToken, err := token.SignedString(web.JWTKey)
-		//	if err != nil {
-		//		// 因为刷新这个事情，并不是一定要做的，所以这里可以考虑打印日志
-		//		// 暂时这样打印
-		//		log.Println(err)
-		//	} else {
-		//		ctx.Header("x-jwt-token", newToken)
-		//	}
-		//}
+		if ctx.GetHeader("User-Agent") != uc.UserAgent {
+			// 换了一个 User-Agent，可能是攻击者
+			ctx.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		// 刷新 token
+		if expireTime.Sub(time.Now()) < time.Second*50 {
+			// 如果距离过期时间小于 50 秒，进行 token 刷新
+			uc.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Minute)) // 设置新的过期时间为当前时间加一分钟
+			newToken, err := token.SignedString(web.JWTKey)                // 使用原来的 JWT 密钥对新的 claims 生成新的 token
+			if err != nil {
+				// 如果生成新的 token 出错，则打印错误日志
+				log.Println(err)
+			} else {
+				// 如果生成新 token 成功，则将新的 token 添加到响应头中
+				// 这里的 "x-jwt-token" 是自定义的 HTTP 响应头，客户端可以使用该 header 获取新的 token
+				ctx.Header("x-jwt-token", newToken)
+			}
+		}
 
 		// 如果token有效且未过期，则将token中的用户信息（claims）存放到Gin的上下文中
 		// 这样后续的请求可以通过ctx.Get("user")来获取用户信息，避免重复解析token
