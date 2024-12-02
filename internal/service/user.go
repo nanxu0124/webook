@@ -9,7 +9,7 @@ import (
 )
 
 // ErrUserDuplicateEmail 定义一个常量ErrUserDuplicateEmail，指代用户重复邮件错误，来自于repository层
-var ErrUserDuplicateEmail = repository.ErrUserDuplicateEmail
+var ErrUserDuplicateEmail = repository.ErrUserDuplicate
 var ErrInvalidUserOrPassword = errors.New("邮箱或者密码不正确")
 
 // UserService 结构体，表示用户相关的业务逻辑服务
@@ -42,10 +42,30 @@ func (svc *UserService) Signup(ctx context.Context, u domain.User) error {
 	return svc.repo.Create(ctx, u)
 }
 
+// FindOrCreate 如果手机号不存在，那么会初始化一个用户
+func (svc *UserService) FindOrCreate(ctx context.Context, phone string) (domain.User, error) {
+	// 这是一种优化写法
+	// 大部分人会命中这个分支
+	u, err := svc.repo.FindByPhone(ctx, phone)       // 从数据库中查找用户
+	if !errors.Is(err, repository.ErrUserNotFound) { // 如果用户已经存在，则直接返回
+		return u, err
+	}
+	// 如果找不到用户，则执行用户注册操作
+	err = svc.repo.Create(ctx, domain.User{
+		Phone: phone, // 创建新用户时只需要手机号
+	})
+	// 注册过程中，如果发生了非手机号码冲突的错误，说明是系统错误
+	if err != nil && !errors.Is(err, repository.ErrUserDuplicate) {
+		return domain.User{}, err // 返回错误，表示用户创建失败
+	}
+	// 如果注册成功或者是重复注册（用户已经存在），从数据库重新查询该手机号的用户
+	return svc.repo.FindByPhone(ctx, phone) // 返回用户
+}
+
 func (svc *UserService) Login(ctx context.Context,
 	email, password string) (domain.User, error) {
 	u, err := svc.repo.FindByEmail(ctx, email)
-	if err == repository.ErrUserNotFound {
+	if errors.Is(err, repository.ErrUserNotFound) {
 		return domain.User{}, ErrInvalidUserOrPassword
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))

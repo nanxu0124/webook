@@ -4,6 +4,9 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
+	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
+	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
+	tencentSMS "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/sms/v20210111"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"strings"
@@ -13,6 +16,8 @@ import (
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
 	"webook/internal/service"
+	"webook/internal/service/sms"
+	"webook/internal/service/sms/tencent"
 	"webook/internal/web"
 	"webook/internal/web/middleware"
 	"webook/pkg/ginx/middleware/ratelimit"
@@ -22,11 +27,12 @@ func main() {
 	// 初始化数据库连接
 	db := initDB()
 	redisCmd := initRedis()
-	// 初始化Web服务器
-	server := initWebServer()
 
-	// 初始化用户相关的服务、路由等
-	initUser(server, db, redisCmd)
+	smsSvc := initSMSSvc()
+	codeSvc := initCode(smsSvc, redisCmd)
+	userSvc := initUserSvc(db, redisCmd)
+
+	server := initWebServer(codeSvc, userSvc)
 
 	// 启动Web服务器，监听8080端口
 	server.Run(":8080")
@@ -53,7 +59,7 @@ func initDB() *gorm.DB {
 }
 
 // initWebServer 初始化Web服务器和中间件
-func initWebServer() *gin.Engine {
+func initWebServer(codeSvc *service.CodeService, userSvc *service.UserService) *gin.Engine {
 	// 创建Gin默认的Web服务器
 	server := gin.Default()
 	gin.ForceConsoleColor()
@@ -89,6 +95,10 @@ func initWebServer() *gin.Engine {
 	// 如果没有 token 或 token 无效，请求会被中止
 	usingJWT(server)
 
+	// 注册路由
+	userHdl := web.NewUserHandler(userSvc, codeSvc)
+	userHdl.RegisterRoutes(server)
+
 	// 返回配置好的Web服务器实例
 	return server
 }
@@ -106,25 +116,27 @@ func usingJWT(server *gin.Engine) {
 	server.Use(mldBd.Build())
 }
 
-// initUser 初始化与用户相关的服务和路由
-func initUser(server *gin.Engine, db *gorm.DB, cmd redis.Cmdable) {
-	// 创建UserDAO实例，传入数据库连接
+func initUserSvc(db *gorm.DB, cmd redis.Cmdable) *service.UserService {
 	ud := dao.NewUserDAO(db)
-
-	// 创建UserCache实例，传入缓存连接
 	uc := cache.NewUserCache(cmd)
-
-	// 创建UserRepository实例
 	ur := repository.NewUserRepository(ud, uc)
-
-	// 创建UserService实例，传入UserRepository
 	us := service.NewUserService(ur)
+	return us
+}
 
-	// 创建UserHandler实例，传入UserService
-	c := web.NewUserHandler(us)
+func initCode(smsSvc sms.Service, rdb redis.Cmdable) *service.CodeService {
+	repo := repository.NewCodeRepository(cache.NewCodeCache(rdb))
+	return service.NewCodeService(smsSvc, repo)
+}
 
-	// 注册与用户相关的路由
-	c.RegisterRoutes(server)
+func initSMSSvc() *tencent.Service {
+	c, err := tencentSMS.NewClient(common.NewCredential("*****", "*****"),
+		"ap-guangzhou",
+		profile.NewClientProfile())
+	if err != nil {
+		panic(err)
+	}
+	return tencent.NewService(c, "1400952398", "*****")
 }
 
 func initRedis() redis.Cmdable {

@@ -30,7 +30,7 @@ func TestEmailPattern(t *testing.T) {
 		},
 	}
 
-	h := NewUserHandler(nil)
+	h := NewUserHandler(nil, nil)
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -69,7 +69,7 @@ func TestPasswordPattern(t *testing.T) {
 		},
 	}
 
-	h := NewUserHandler(nil)
+	h := NewUserHandler(nil, nil)
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {

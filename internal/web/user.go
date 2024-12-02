@@ -17,11 +17,17 @@ const (
 
 	// 用于密码格式验证的正则表达式
 	passwordRegexPattern = `^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$`
+
+	// 用于验证码登录
+	bizLogin = "login"
 )
+
+var _ handler = &UserHandler{}
 
 // UserHandler 结构体，用于处理用户相关的HTTP请求
 type UserHandler struct {
 	svc              *service.UserService // 引用service层的UserService，处理具体的业务逻辑
+	codeSvc          *service.CodeService // 引用service层的CodeService，处理短信服务
 	emailRegexExp    *regexp.Regexp       // 用于邮箱格式验证的正则表达式对象
 	passwordRegexExp *regexp.Regexp       // 用于密码格式验证的正则表达式对象
 
@@ -30,9 +36,10 @@ type UserHandler struct {
 
 // NewUserHandler 构造函数，创建并返回一个新的UserHandler实例
 // 接收一个service.UserService对象，用于处理注册、登录等请求
-func NewUserHandler(svc *service.UserService) *UserHandler {
+func NewUserHandler(svc *service.UserService, codeSvc *service.CodeService) *UserHandler {
 	return &UserHandler{
 		svc:              svc,
+		codeSvc:          codeSvc,
 		emailRegexExp:    regexp.MustCompile(emailRegexPattern, regexp.None),    // 编译邮箱格式正则
 		passwordRegexExp: regexp.MustCompile(passwordRegexPattern, regexp.None), // 编译密码格式正则
 	}
@@ -46,6 +53,67 @@ func (c *UserHandler) RegisterRoutes(server *gin.Engine) {
 	ug.POST("/login", c.Login)    // 用户登录
 	ug.POST("/edit", c.Edit)      // 用户信息编辑
 	ug.GET("/profile", c.Profile) // 获取用户信息
+
+	ug.POST("/login_sms/code/send", c.SendSMSLoginCode)
+	ug.POST("/login_sms", c.LoginSMS)
+}
+
+// LoginSMS 用户通过短信验证码进行登录
+func (c *UserHandler) LoginSMS(ctx *gin.Context) {
+	type Req struct {
+		Phone string `json:"phone"`
+		Code  string `json:"code"`
+	}
+	var req Req
+	if err := ctx.Bind(&req); err != nil {
+		return
+	}
+	ok, err := c.codeSvc.Verify(ctx, bizLogin, req.Phone, req.Code)
+	if err != nil {
+		ctx.JSON(http.StatusOK, Result{Code: 5, Msg: "系统异常"})
+		return
+	}
+	if !ok {
+		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "验证码错误"})
+		return
+	}
+
+	// 验证码是对的
+	// 登录或者注册用户
+	u, err := c.svc.FindOrCreate(ctx, req.Phone)
+	if err != nil {
+		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "系统错误"})
+		return
+	}
+	c.setJWTToken(ctx, u.Id)
+	ctx.JSON(http.StatusOK, Result{Msg: "登录成功"})
+}
+
+// SendSMSLoginCode 发送短信验证码
+func (c *UserHandler) SendSMSLoginCode(ctx *gin.Context) {
+	type Req struct {
+		Phone string `json:"phone"`
+	}
+	var req Req
+	if err := ctx.Bind(&req); err != nil {
+		return
+	}
+	// 你也可以用正则表达式校验是不是合法的手机号
+	if req.Phone == "" {
+		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "请输入手机号码"})
+		return
+	}
+	err := c.codeSvc.Send(ctx, bizLogin, req.Phone)
+	switch {
+	case err == nil:
+		ctx.JSON(http.StatusOK, Result{Msg: "发送成功"})
+	case errors.Is(err, service.ErrCodeSendTooMany):
+		ctx.JSON(http.StatusOK, Result{Msg: "短信发送太频繁，请稍后再试"})
+	default:
+		ctx.JSON(http.StatusOK, Result{Code: 5, Msg: "系统错误"})
+		// 要打印日志
+		return
+	}
 }
 
 // SignUp 用户注册接口
@@ -143,28 +211,30 @@ func (c *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	// 登录成功，创建一个新的JWT令牌
-	// UserClaims中包含用户ID以及过期时间
+	c.setJWTToken(ctx, u.Id)
+	// 返回登录成功的响应
+	ctx.String(http.StatusOK, "登录成功")
+}
+
+func (c *UserHandler) setJWTToken(ctx *gin.Context, uid int64) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{
-		Id:        u.Id, // 用户ID
-		UserAgent: ctx.GetHeader("User-Agent"),
+		Id:        uid,                         // 用户 ID
+		UserAgent: ctx.GetHeader("User-Agent"), // 从请求头中获取 User-Agent
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 10)), // 设置JWT过期时间
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 30)), // 设置过期时间为 30 分钟
 		},
 	})
 
-	// 使用密钥对生成的JWT令牌进行签名
+	// 使用 JWTKey 对 token 进行签名
 	tokenStr, err := token.SignedString(JWTKey)
 	if err != nil {
-		// 如果签名失败，返回系统异常
+		// 如果签名过程中出错，返回系统异常信息
 		ctx.String(http.StatusOK, "系统异常")
 		return
 	}
 
-	// 将生成的JWT令牌返回给前端，存储在响应头 x-jwt-token 中
+	// 将生成的 token 添加到响应头部，使用 x-jwt-token 作为 header 名
 	ctx.Header("x-jwt-token", tokenStr)
-	// 返回登录成功的响应
-	ctx.String(http.StatusOK, "登录成功")
 }
 
 // Edit 用户编辑个人信息的接口（此接口目前未实现）
@@ -178,6 +248,7 @@ func (c *UserHandler) Profile(ctx *gin.Context) {
 	// 定义响应结构体，用于返回用户的邮箱信息
 	type Profile struct {
 		Email string // 用户的邮箱
+		Phone string
 	}
 
 	// 从上下文中获取JWT中的用户信息（UserClaims），通过ctx.MustGet("user")来获取
@@ -195,5 +266,6 @@ func (c *UserHandler) Profile(ctx *gin.Context) {
 	// 返回用户的邮箱信息，响应的格式是JSON
 	ctx.JSON(http.StatusOK, Profile{
 		Email: u.Email, // 返回用户的邮箱
+		Phone: u.Phone,
 	})
 }

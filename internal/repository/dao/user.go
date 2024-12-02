@@ -2,14 +2,15 @@ package dao
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 	"time"
 )
 
-// ErrUserDuplicateEmail 表示用户邮箱冲突错误
-var ErrUserDuplicateEmail = errors.New("邮件冲突")
+// ErrUserDuplicate 表示用户邮箱或者手机号冲突错误
+var ErrUserDuplicate = errors.New("用户邮箱或者手机号冲突")
 
 // ErrDataNotFound 通用的数据没找到错误（即Gorm的记录未找到）
 var ErrDataNotFound = gorm.ErrRecordNotFound
@@ -28,7 +29,7 @@ func NewUserDAO(db *gorm.DB) *UserDAO {
 }
 
 // Insert 将用户数据插入到数据库中
-// 如果出现唯一约束冲突（例如邮箱重复），则返回自定义的 ErrUserDuplicateEmail 错误
+// 如果出现唯一约束冲突（例如邮箱重复），则返回自定义的 ErrUserDuplicate 错误
 func (ud *UserDAO) Insert(ctx context.Context, u User) error {
 	// 获取当前时间戳，用于设置用户的创建时间和更新时间
 	now := time.Now().UnixMilli()
@@ -41,8 +42,8 @@ func (ud *UserDAO) Insert(ctx context.Context, u User) error {
 	if me, ok := err.(*mysql.MySQLError); ok {
 		const uniqueIndexErrNo uint16 = 1062 // 唯一索引冲突错误码
 		if me.Number == uniqueIndexErrNo {
-			// 如果是唯一索引冲突，返回自定义的 ErrUserDuplicateEmail 错误
-			return ErrUserDuplicateEmail
+			// 如果是唯一索引冲突，返回自定义的 ErrUserDuplicate 错误
+			return ErrUserDuplicate
 		}
 	}
 	return err // 如果是其他错误，直接返回
@@ -53,6 +54,14 @@ func (ud *UserDAO) Insert(ctx context.Context, u User) error {
 func (ud *UserDAO) FindByEmail(ctx context.Context, email string) (User, error) {
 	var u User
 	err := ud.db.WithContext(ctx).First(&u, "email = ?", email).Error
+	return u, err
+}
+
+// FindByPhone 根据用户手机号查找用户
+// 如果用户存在，返回用户数据；如果没有找到用户，返回 ErrDataNotFound 错误
+func (ud *UserDAO) FindByPhone(ctx context.Context, phone string) (User, error) {
+	var u User
+	err := ud.db.WithContext(ctx).First(&u, "phone = ?", phone).Error
 	return u, err
 }
 
@@ -69,8 +78,11 @@ func (ud *UserDAO) FindById(ctx context.Context, id int64) (User, error) {
 type User struct {
 	Id int64 `gorm:"primaryKey,autoIncrement"` // 主键，自动递增
 	// 设置邮箱字段为唯一索引
-	Email    string `gorm:"unique"`
-	Password string // 用户密码
+	Email    sql.NullString `gorm:"unique"`
+	Password string         // 用户密码
+
+	//Phone *string
+	Phone sql.NullString `gorm:"unique"`
 
 	// 创建时间戳字段
 	Ctime int64 // 创建时间

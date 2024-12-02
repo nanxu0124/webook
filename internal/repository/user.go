@@ -2,13 +2,14 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"webook/internal/domain" // 引入domain包，定义了User等业务模型
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao" // 引入dao包，进行与数据库交互的操作
 )
 
-// ErrUserDuplicateEmail 定义一个常量ErrUserDuplicateEmail，指代数据库层返回的重复邮件错误
-var ErrUserDuplicateEmail = dao.ErrUserDuplicateEmail
+// ErrUserDuplicate 指代数据库层返回的重复错误
+var ErrUserDuplicate = dao.ErrUserDuplicate
 
 var ErrUserNotFound = dao.ErrDataNotFound
 
@@ -28,27 +29,31 @@ func NewUserRepository(d *dao.UserDAO, c *cache.UserCache) *UserRepository {
 }
 
 // Create 方法用于创建一个新的用户
-// 参数ctx为上下文，用于控制操作的生命周期；u为要创建的用户信息，包含Email和Password
 // 该方法将用户数据传递给dao层的Insert方法，完成用户的创建操作
 func (ur *UserRepository) Create(ctx context.Context, u domain.User) error {
-	// 调用dao层的Insert方法，将User对象插入数据库
-	err := ur.dao.Insert(ctx, dao.User{
-		Email:    u.Email,    // 从传入的domain.User中获取Email字段
-		Password: u.Password, // 从传入的domain.User中获取Password字段
+	return ur.dao.Insert(ctx, dao.User{
+		Email: sql.NullString{
+			String: u.Email,
+			Valid:  u.Email != "",
+		},
+		Phone: sql.NullString{
+			String: u.Phone,
+			Valid:  u.Phone != "",
+		},
+		Password: u.Password,
 	})
-	// 返回dao层Insert方法的错误，若插入成功，err为nil
-	return err
+}
+
+func (ur *UserRepository) FindByPhone(ctx context.Context,
+	phone string) (domain.User, error) {
+	u, err := ur.dao.FindByPhone(ctx, phone)
+	return ur.entityToDomain(u), err
 }
 
 func (ur *UserRepository) FindByEmail(ctx context.Context,
 	email string) (domain.User, error) {
 	u, err := ur.dao.FindByEmail(ctx, email)
-
-	return domain.User{
-		Id:       u.Id,
-		Email:    u.Email,
-		Password: u.Password,
-	}, err
+	return ur.entityToDomain(u), err
 }
 
 // FindById 根据用户 ID 从缓存或数据库中查找用户信息
@@ -71,11 +76,7 @@ func (ur *UserRepository) FindById(ctx context.Context, id int64) (domain.User, 
 			return domain.User{}, err
 		}
 		// 构造用户数据
-		u = domain.User{
-			Id:       ue.Id,
-			Email:    ue.Email,
-			Password: ue.Password,
-		}
+		u = ur.entityToDomain(ue)
 		// 将用户数据存入缓存
 		_ = ur.cache.Set(ctx, u)
 
@@ -85,5 +86,18 @@ func (ur *UserRepository) FindById(ctx context.Context, id int64) (domain.User, 
 	// 如果其他错误发生，返回该错误
 	default:
 		return domain.User{}, err
+	}
+}
+
+// entityToDomain 将数据库实体（dao.User）转换为领域模型（domain.User）
+// 该方法的目的是将数据访问层（DAO）中的实体对象转换为领域模型对象
+// 领域模型对象用于业务逻辑层处理，通常领域模型中包含的字段与数据库实体可能有所不同
+func (ur *UserRepository) entityToDomain(ue dao.User) domain.User {
+	// 从数据库实体（dao.User）构建领域模型（domain.User）
+	return domain.User{
+		Id:       ue.Id,           // 用户 ID
+		Email:    ue.Email.String, // 用户邮箱（确保处理数据库 NULL 值）
+		Password: ue.Password,     // 用户密码
+		Phone:    ue.Phone.String, // 用户手机号（确保处理数据库 NULL 值）
 	}
 }

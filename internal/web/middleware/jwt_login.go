@@ -20,7 +20,9 @@ func (j *JWTLoginMiddlewareBuilder) Build() gin.HandlerFunc {
 		// 如果请求的路径是用户注册（/users/signup）或登录（/users/login）
 		// 这些接口不需要JWT验证，直接放行
 		if ctx.Request.URL.Path == "/users/signup" ||
-			ctx.Request.URL.Path == "/users/login" {
+			ctx.Request.URL.Path == "/users/login" ||
+			ctx.Request.URL.Path == "/users/login_sms/code/send" ||
+			ctx.Request.URL.Path == "/users/login_sms" {
 			return
 		}
 
