@@ -22,21 +22,21 @@ const (
 	bizLogin = "login"
 )
 
-var _ handler = &UserHandler{}
+//  var _ handler = &UserHandler{}
 
 // UserHandler 结构体，用于处理用户相关的HTTP请求
 type UserHandler struct {
-	svc              *service.UserService // 引用service层的UserService，处理具体的业务逻辑
-	codeSvc          *service.CodeService // 引用service层的CodeService，处理短信服务
-	emailRegexExp    *regexp.Regexp       // 用于邮箱格式验证的正则表达式对象
-	passwordRegexExp *regexp.Regexp       // 用于密码格式验证的正则表达式对象
+	svc              service.UserService // 引用service层的UserService，处理具体的业务逻辑
+	codeSvc          service.CodeService // 引用service层的CodeService，处理短信服务
+	emailRegexExp    *regexp.Regexp      // 用于邮箱格式验证的正则表达式对象
+	passwordRegexExp *regexp.Regexp      // 用于密码格式验证的正则表达式对象
 
 	jwtKey string // 用于 JWT 鉴权登录
 }
 
 // NewUserHandler 构造函数，创建并返回一个新的UserHandler实例
 // 接收一个service.UserService对象，用于处理注册、登录等请求
-func NewUserHandler(svc *service.UserService, codeSvc *service.CodeService) *UserHandler {
+func NewUserHandler(svc service.UserService, codeSvc service.CodeService) *UserHandler {
 	return &UserHandler{
 		svc:              svc,
 		codeSvc:          codeSvc,

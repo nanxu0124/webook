@@ -8,27 +8,34 @@ import (
 	"webook/internal/repository"
 )
 
-// ErrUserDuplicateEmail 定义一个常量ErrUserDuplicateEmail，指代用户重复邮件错误，来自于repository层
-var ErrUserDuplicateEmail = repository.ErrUserDuplicate
-var ErrInvalidUserOrPassword = errors.New("邮箱或者密码不正确")
+var (
+	ErrUserDuplicateEmail    = repository.ErrUserDuplicate
+	ErrInvalidUserOrPassword = errors.New("邮箱或者密码不正确")
+)
 
-// UserService 结构体，表示用户相关的业务逻辑服务
-type UserService struct {
-	repo *repository.UserRepository // 引用repository层的UserRepository对象，用于数据访问
+type UserService interface {
+	Signup(ctx context.Context, u domain.User) error
+	FindOrCreate(ctx context.Context, phone string) (domain.User, error)
+	Login(ctx context.Context, email, password string) (domain.User, error)
+	Profile(ctx context.Context, id int64) (domain.User, error)
 }
 
-// NewUserService 函数，创建并返回一个新的UserService实例
-// 该函数接收一个*repository.UserRepository类型的参数repo，用于初始化UserService的repo字段
-func NewUserService(repo *repository.UserRepository) *UserService {
-	return &UserService{
-		repo: repo, // 将传入的repository.UserRepository对象赋值给UserService的repo字段
+// UserService 结构体，表示用户相关的业务逻辑服务
+type userService struct {
+	repo repository.UserRepository // 引用repository层的UserRepository对象，用于数据访问
+}
+
+// NewUserService 实现 UserService 接口
+func NewUserService(repo repository.UserRepository) UserService {
+	return &userService{
+		repo: repo,
 	}
 }
 
 // Signup 方法用于用户注册
 // 参数ctx为上下文，用于控制操作的生命周期；u为要注册的用户信息，包含Email和Password字段
 // 该方法首先对用户密码进行加密，然后将加密后的密码保存到数据库
-func (svc *UserService) Signup(ctx context.Context, u domain.User) error {
+func (svc *userService) Signup(ctx context.Context, u domain.User) error {
 	// 使用bcrypt生成加密后的密码
 	// bcrypt 会自动为每个密码生成一个随机的盐值，并将其与密码一起存储在最终的哈希值中，不需要手动生成或存储盐值
 	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
@@ -43,7 +50,7 @@ func (svc *UserService) Signup(ctx context.Context, u domain.User) error {
 }
 
 // FindOrCreate 如果手机号不存在，那么会初始化一个用户
-func (svc *UserService) FindOrCreate(ctx context.Context, phone string) (domain.User, error) {
+func (svc *userService) FindOrCreate(ctx context.Context, phone string) (domain.User, error) {
 	// 这是一种优化写法
 	// 大部分人会命中这个分支
 	u, err := svc.repo.FindByPhone(ctx, phone)       // 从数据库中查找用户
@@ -62,20 +69,27 @@ func (svc *UserService) FindOrCreate(ctx context.Context, phone string) (domain.
 	return svc.repo.FindByPhone(ctx, phone) // 返回用户
 }
 
-func (svc *UserService) Login(ctx context.Context,
-	email, password string) (domain.User, error) {
+func (svc *userService) Login(ctx context.Context, email, password string) (domain.User, error) {
+	// 查找数据库中是否存在该邮箱的用户
 	u, err := svc.repo.FindByEmail(ctx, email)
 	if errors.Is(err, repository.ErrUserNotFound) {
+		// 如果用户没有找到，返回一个“用户或密码错误”的错误
 		return domain.User{}, ErrInvalidUserOrPassword
 	}
+
+	// 使用 bcrypt 的 CompareHashAndPassword 方法来验证用户输入的密码
+	// 将数据库中的密码哈希和用户输入的密码进行比较
 	err = bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 	if err != nil {
+		// 如果密码不匹配，返回一个“用户或密码错误”的错误
 		return domain.User{}, ErrInvalidUserOrPassword
 	}
+
+	// 密码验证通过，返回用户信息
 	return u, err
 }
 
-func (svc *UserService) Profile(ctx context.Context,
+func (svc *userService) Profile(ctx context.Context,
 	id int64) (domain.User, error) {
 	return svc.repo.FindById(ctx, id)
 }

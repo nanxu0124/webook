@@ -18,12 +18,40 @@ var (
 	ErrCodeVerifyTooManyTimes = errors.New("验证次数太多")
 )
 
-type CodeCache struct {
+// CodeCache 是用于存储和验证验证码的接口
+type CodeCache interface {
+
+	// Set 用于存储验证码到缓存
+	// 该方法将验证码与手机号和业务标识 (biz) 关联，并设置缓存过期时间
+	// 参数:
+	//   - ctx: 上下文，用于控制请求的生命周期
+	//   - biz: 业务标识，用于区分不同的验证码用途 (例如，登录、注册等)
+	//   - phone: 用户的手机号码，用于唯一标识验证码的存储
+	//   - code: 要存储的验证码
+	// 返回:
+	//   - error: 如果出现错误，返回错误信息；否则返回 nil
+	Set(ctx context.Context, biz string, phone string, code string) error
+
+	// Verify 用于验证输入的验证码是否与存储的验证码匹配
+	// 如果验证码有效且未过期，返回 true，否则返回 false
+	// 参数:
+	//   - ctx: 上下文，用于控制请求的生命周期
+	//   - biz: 业务标识，用于查找相应的验证码
+	//   - phone: 用户的手机号码，用于定位验证码
+	//   - inputCode: 用户输入的验证码，用于与缓存中的验证码进行对比
+	// 返回:
+	//   - bool: 如果验证码正确且有效，返回 true；否则返回 false
+	//   - error: 如果发生错误，返回错误信息；如果没有错误发生，则返回 nil
+	Verify(ctx context.Context, biz string, phone string, inputCode string) (bool, error)
+}
+
+// RedisCodeCache 实现 CodeCache 接口
+type RedisCodeCache struct {
 	redis redis.Cmdable
 }
 
-func NewCodeCache(cmd redis.Cmdable) *CodeCache {
-	return &CodeCache{
+func NewRedisCodeCache(cmd redis.Cmdable) CodeCache {
+	return &RedisCodeCache{
 		redis: cmd,
 	}
 }
@@ -34,7 +62,7 @@ func NewCodeCache(cmd redis.Cmdable) *CodeCache {
 // - 如果已发送验证码且超过一分钟，允许重新发送验证码。
 // - 如果验证码没有过期且不到一分钟，拒绝发送验证码。
 // - 验证码有效期为 10 分钟。
-func (c *CodeCache) Set(ctx context.Context, biz string, phone string, code string) error {
+func (c *RedisCodeCache) Set(ctx context.Context, biz string, phone string, code string) error {
 	// 使用 Redis 执行 Lua 脚本，设置验证码
 	// `luaSetCode` 是设置验证码的 Lua 脚本字符串，`c.key(biz, phone)` 是生成存储验证码的 Redis 键，`code` 是验证码值
 	res, err := c.redis.Eval(ctx, luaSetCode, []string{c.key(biz, phone)}, code).Int()
@@ -64,7 +92,7 @@ func (c *CodeCache) Set(ctx context.Context, biz string, phone string, code stri
 // - biz：业务标识，用于区分不同业务场景的验证码。
 // - phone：用户的手机号码，用于唯一标识验证码。
 // - inputCode：用户输入的验证码。
-func (c *CodeCache) Verify(ctx context.Context, biz string, phone string, inputCode string) (bool, error) {
+func (c *RedisCodeCache) Verify(ctx context.Context, biz string, phone string, inputCode string) (bool, error) {
 	// 使用 Redis 执行 Lua 脚本验证验证码
 	// `luaVerifyCode` 是一个 Lua 脚本字符串，负责验证验证码的有效性。
 	// `c.key(biz, phone)` 是生成存储验证码的 Redis 键。
@@ -91,6 +119,6 @@ func (c *CodeCache) Verify(ctx context.Context, biz string, phone string, inputC
 	}
 }
 
-func (c *CodeCache) key(biz string, phone string) string {
+func (c *RedisCodeCache) key(biz string, phone string) string {
 	return fmt.Sprintf("phone_code:%s:%s", biz, phone)
 }

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"github.com/ecodeclub/ekit/set"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"log"
@@ -12,17 +13,27 @@ import (
 
 // JWTLoginMiddlewareBuilder 是一个中间件构建器，用于验证用户请求中的JWT令牌。
 type JWTLoginMiddlewareBuilder struct {
+	publicPaths set.Set[string]
+}
+
+func NewJWTLoginMiddlewareBuilder() *JWTLoginMiddlewareBuilder {
+	s := set.NewMapSet[string](5)
+	// 如果请求的路径是用户注册（/users/signup）或登录（/users/login）
+	// 这些接口不需要JWT验证，直接放行
+	s.Add("/users/signup")
+	s.Add("/users/login_sms/code/send")
+	s.Add("/users/login_sms")
+	s.Add("/users/login")
+	return &JWTLoginMiddlewareBuilder{
+		publicPaths: s,
+	}
 }
 
 // Build 方法创建并返回一个Gin的中间件，负责JWT的验证。
 func (j *JWTLoginMiddlewareBuilder) Build() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		// 如果请求的路径是用户注册（/users/signup）或登录（/users/login）
-		// 这些接口不需要JWT验证，直接放行
-		if ctx.Request.URL.Path == "/users/signup" ||
-			ctx.Request.URL.Path == "/users/login" ||
-			ctx.Request.URL.Path == "/users/login_sms/code/send" ||
-			ctx.Request.URL.Path == "/users/login_sms" {
+		// 不需要校验
+		if j.publicPaths.Exist(ctx.Request.URL.Path) {
 			return
 		}
 

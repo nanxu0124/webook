@@ -9,28 +9,69 @@ import (
 	"time"
 )
 
-// ErrUserDuplicate 表示用户邮箱或者手机号冲突错误
-var ErrUserDuplicate = errors.New("用户邮箱或者手机号冲突")
+var (
+	// ErrUserDuplicate 表示用户邮箱或者手机号冲突错误
+	ErrUserDuplicate = errors.New("用户邮箱或者手机号冲突")
 
-// ErrDataNotFound 通用的数据没找到错误（即Gorm的记录未找到）
-var ErrDataNotFound = gorm.ErrRecordNotFound
+	// ErrDataNotFound 通用的数据没找到错误（即Gorm的记录未找到）
+	ErrDataNotFound = gorm.ErrRecordNotFound
+)
 
-// UserDAO 是与用户相关的数据访问对象，它封装了与用户数据表交互的所有操作
-type UserDAO struct {
+// UserDAO 定义了操作用户数据的接口，通常用于与数据库进行交互
+// DAO（Data Access Object）层的主要职责是与数据源（如数据库、文件系统等）进行交互
+// 提供持久化相关的操作。这个接口包含了用户数据的常见操作，如插入、查找等
+type UserDAO interface {
+
+	// Insert 插入新的用户记录
+	// 参数:
+	//   - ctx: 上下文，用于控制请求的生命周期，便于实现超时或取消操作
+	//   - u: 要插入的用户数据，包含用户的基本信息（如 id、email、password 等）
+	// 返回:
+	//   - error: 如果插入成功，返回 nil；如果插入失败，返回相应的错误信息
+	Insert(ctx context.Context, u User) error
+
+	// FindByPhone 根据手机号码查找用户
+	// 参数:
+	//   - ctx: 上下文，用于控制请求的生命周期
+	//   - phone: 用户的手机号码
+	// 返回:
+	//   - User: 匹配的用户数据
+	//   - error: 如果查询成功，返回用户信息；如果查询失败（如没有该用户），返回错误信息
+	FindByPhone(ctx context.Context, phone string) (User, error)
+
+	// FindByEmail 根据邮箱查找用户
+	// 参数:
+	//   - ctx: 上下文，用于控制请求的生命周期
+	//   - email: 用户的电子邮件地址
+	// 返回:
+	//   - User: 匹配的用户数据
+	//   - error: 如果查询成功，返回用户信息；如果查询失败（如没有该用户），返回错误信息
+	FindByEmail(ctx context.Context, email string) (User, error)
+
+	// FindById 根据用户的 ID 查找用户
+	// 参数:
+	//   - ctx: 上下文，用于控制请求的生命周期
+	//   - id: 用户的唯一 ID
+	// 返回:
+	//   - User: 匹配的用户数据
+	//   - error: 如果查询成功，返回用户信息；如果查询失败（如没有该用户），返回错误信息
+	FindById(ctx context.Context, id int64) (User, error)
+}
+
+// GormUserDAO 是与用户相关的数据访问对象，它封装了与用户数据表交互的所有操作
+type GormUserDAO struct {
 	db *gorm.DB // Gorm DB 实例，用于与数据库交互
 }
 
-// NewUserDAO 创建并返回一个新的 UserDAO 实例
+// NewGormUserDAO 创建并返回一个新的 UserDAO 实例
 // 参数 db 是已经初始化好的 Gorm DB 实例
-func NewUserDAO(db *gorm.DB) *UserDAO {
-	return &UserDAO{
+func NewGormUserDAO(db *gorm.DB) UserDAO {
+	return &GormUserDAO{
 		db: db,
 	}
 }
 
-// Insert 将用户数据插入到数据库中
-// 如果出现唯一约束冲突（例如邮箱重复），则返回自定义的 ErrUserDuplicate 错误
-func (ud *UserDAO) Insert(ctx context.Context, u User) error {
+func (ud *GormUserDAO) Insert(ctx context.Context, u User) error {
 	// 获取当前时间戳，用于设置用户的创建时间和更新时间
 	now := time.Now().UnixMilli()
 	u.Ctime = now
@@ -39,7 +80,8 @@ func (ud *UserDAO) Insert(ctx context.Context, u User) error {
 	// 使用Gorm的Create方法将用户数据插入到数据库
 	// 如果插入时出现错误，检查是否是由于邮箱唯一索引冲突导致的
 	err := ud.db.WithContext(ctx).Create(&u).Error
-	if me, ok := err.(*mysql.MySQLError); ok {
+	var me *mysql.MySQLError
+	if errors.As(err, &me) {
 		const uniqueIndexErrNo uint16 = 1062 // 唯一索引冲突错误码
 		if me.Number == uniqueIndexErrNo {
 			// 如果是唯一索引冲突，返回自定义的 ErrUserDuplicate 错误
@@ -49,25 +91,19 @@ func (ud *UserDAO) Insert(ctx context.Context, u User) error {
 	return err // 如果是其他错误，直接返回
 }
 
-// FindByEmail 根据用户邮箱查找用户
-// 如果用户存在，返回用户数据；如果没有找到用户，返回 ErrDataNotFound 错误
-func (ud *UserDAO) FindByEmail(ctx context.Context, email string) (User, error) {
+func (ud *GormUserDAO) FindByEmail(ctx context.Context, email string) (User, error) {
 	var u User
 	err := ud.db.WithContext(ctx).First(&u, "email = ?", email).Error
 	return u, err
 }
 
-// FindByPhone 根据用户手机号查找用户
-// 如果用户存在，返回用户数据；如果没有找到用户，返回 ErrDataNotFound 错误
-func (ud *UserDAO) FindByPhone(ctx context.Context, phone string) (User, error) {
+func (ud *GormUserDAO) FindByPhone(ctx context.Context, phone string) (User, error) {
 	var u User
 	err := ud.db.WithContext(ctx).First(&u, "phone = ?", phone).Error
 	return u, err
 }
 
-// FindById 根据用户ID查找用户
-// 如果用户存在，返回用户数据；如果没有找到用户，返回 ErrDataNotFound 错误
-func (ud *UserDAO) FindById(ctx context.Context, id int64) (User, error) {
+func (ud *GormUserDAO) FindById(ctx context.Context, id int64) (User, error) {
 	var u User
 	err := ud.db.WithContext(ctx).First(&u, "id = ?", id).Error
 	return u, err
