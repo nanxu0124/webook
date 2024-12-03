@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"time"
 	"webook/internal/domain" // 引入domain包，定义了User等业务模型
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao" // 引入dao包，进行与数据库交互的操作
@@ -131,5 +132,6 @@ func (ur *CachedUserRepository) entityToDomain(ue dao.User) domain.User {
 		Email:    ue.Email.String, // 用户邮箱（确保处理数据库 NULL 值）
 		Password: ue.Password,     // 用户密码
 		Phone:    ue.Phone.String, // 用户手机号（确保处理数据库 NULL 值）
+		Ctime:    time.UnixMilli(ue.Ctime),
 	}
 }
