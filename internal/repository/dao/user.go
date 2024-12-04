@@ -21,41 +21,11 @@ var (
 // DAO（Data Access Object）层的主要职责是与数据源（如数据库、文件系统等）进行交互
 // 提供持久化相关的操作。这个接口包含了用户数据的常见操作，如插入、查找等
 type UserDAO interface {
-
-	// Insert 插入新的用户记录
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期，便于实现超时或取消操作
-	//   - u: 要插入的用户数据，包含用户的基本信息（如 id、email、password 等）
-	// 返回:
-	//   - error: 如果插入成功，返回 nil；如果插入失败，返回相应的错误信息
 	Insert(ctx context.Context, u User) error
-
-	// FindByPhone 根据手机号码查找用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - phone: 用户的手机号码
-	// 返回:
-	//   - User: 匹配的用户数据
-	//   - error: 如果查询成功，返回用户信息；如果查询失败（如没有该用户），返回错误信息
 	FindByPhone(ctx context.Context, phone string) (User, error)
-
-	// FindByEmail 根据邮箱查找用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - email: 用户的电子邮件地址
-	// 返回:
-	//   - User: 匹配的用户数据
-	//   - error: 如果查询成功，返回用户信息；如果查询失败（如没有该用户），返回错误信息
 	FindByEmail(ctx context.Context, email string) (User, error)
-
-	// FindById 根据用户的 ID 查找用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - id: 用户的唯一 ID
-	// 返回:
-	//   - User: 匹配的用户数据
-	//   - error: 如果查询成功，返回用户信息；如果查询失败（如没有该用户），返回错误信息
 	FindById(ctx context.Context, id int64) (User, error)
+	UpdateNonZeroFields(ctx context.Context, u User) error
 }
 
 // GormUserDAO 是与用户相关的数据访问对象，它封装了与用户数据表交互的所有操作
@@ -109,6 +79,15 @@ func (ud *GormUserDAO) FindById(ctx context.Context, id int64) (User, error) {
 	return u, err
 }
 
+func (ud *GormUserDAO) UpdateNonZeroFields(ctx context.Context, u User) error {
+	// 这种写法是很不清晰的，因为它依赖了 gorm 的两个默认语义
+	// 会使用 ID 来作为 WHERE 条件
+	// 会使用非零值来更新
+	// 另外一种做法是显式指定只更新必要的字段，
+	// 那么这意味着 DAO 和 service 中非敏感字段语义耦合了
+	return ud.db.Updates(&u).Error
+}
+
 // User 表示用户的数据模型，映射到数据库中的用户表
 // 通过Gorm的标签来定义字段属性，比如主键、唯一索引等
 type User struct {
@@ -119,6 +98,21 @@ type User struct {
 
 	//Phone *string
 	Phone sql.NullString `gorm:"unique"`
+
+	// 这三个字段表达为 sql.NullXXX 的意思，
+	// 就是希望使用的人直到，这些字段在数据库中是可以为 NULL 的
+	// 这种做法好处是看到这个定义就知道数据库中可以为 NULL，坏处就是用起来没那么方便
+	// 大部分公司不推荐使用 NULL 的列
+	// 所以你也可以直接使用 string, int64，那么对应的意思是零值就是每填写
+	// 这种做法的好处是用起来好用，但是看代码的话要小心空字符串的问题
+	// 生日 毫秒数
+	Birthday sql.NullInt64
+	// 昵称
+	Nickname sql.NullString
+	// 自我介绍
+	// 指定是 varchar 这个类型，并且长度是 1024
+	// 因此你可以看到在 web 里面有这个校验
+	AboutMe sql.NullString `gorm:"type=varchar(1024)"`
 
 	// 创建时间戳字段
 	Ctime int64 // 创建时间

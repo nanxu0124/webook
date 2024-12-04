@@ -18,41 +18,12 @@ var (
 // UserRepository 是一个用于操作用户数据的接口，主要包括用户的创建、查找等操作
 // 该接口提供了一些常见的用户管理功能，与数据库交互
 type UserRepository interface {
-
-	// Create 用于在数据存储中创建一个新的用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期，支持超时、取消操作等
-	//   - u: 用户对象，包含了要创建的新用户的详细信息（如姓名、手机号、邮箱等）
-	// 返回:
-	//   - error: 如果创建成功返回 nil；如果创建失败（例如数据库操作失败）则返回错误信息
 	Create(ctx context.Context, u domain.User) error
-
-	// FindByPhone 根据用户的手机号码查找用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - phone: 用户的手机号，唯一标识用户身份
-	// 返回:
-	//   - domain.User: 查找到的用户对象。如果未找到，返回空用户对象
-	//   - error: 查找过程中的错误。如果没有找到对应的用户，通常会返回 `ErrDataNotFound`
 	FindByPhone(ctx context.Context, phone string) (domain.User, error)
-
-	// FindByEmail 根据用户的邮箱地址查找用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - email: 用户的邮箱地址，唯一标识用户身份
-	// 返回:
-	//   - domain.User: 查找到的用户对象。如果未找到，返回空用户对象
-	//   - error: 查找过程中的错误。如果没有找到对应的用户，通常会返回 `ErrDataNotFound`
 	FindByEmail(ctx context.Context, email string) (domain.User, error)
-
-	// FindById 根据用户的 ID 查找用户
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - id: 用户的唯一标识符（ID）
-	// 返回:
-	//   - domain.User: 查找到的用户对象。如果未找到，返回空用户对象
-	//   - error: 查找过程中的错误。如果没有找到对应的用户，通常会返回 `ErrDataNotFound`
 	FindById(ctx context.Context, id int64) (domain.User, error)
+	// Update 更新数据，只有非 0 值才会更新
+	Update(ctx context.Context, u domain.User) error
 }
 
 // CachedUserRepository 实现 UserRepository 接口
@@ -122,16 +93,59 @@ func (ur *CachedUserRepository) FindById(ctx context.Context, id int64) (domain.
 	}
 }
 
+func (ur *CachedUserRepository) Update(ctx context.Context, u domain.User) error {
+	err := ur.dao.UpdateNonZeroFields(ctx, ur.domainToEntity(u))
+	if err != nil {
+		return err
+	}
+	return ur.cache.Delete(ctx, u.Id)
+}
+
+// domainToEntity 将领域模型（domain.User）转换为数据库实体（dao.User）
+func (ur *CachedUserRepository) domainToEntity(u domain.User) dao.User {
+	return dao.User{
+		Id: u.Id,
+		Email: sql.NullString{
+			String: u.Email,
+			Valid:  u.Email != "",
+		},
+		Phone: sql.NullString{
+			String: u.Phone,
+			Valid:  u.Phone != "",
+		},
+		Birthday: sql.NullInt64{
+			Int64: u.Birthday.UnixMilli(),
+			Valid: !u.Birthday.IsZero(),
+		},
+		Nickname: sql.NullString{
+			String: u.Nickname,
+			Valid:  u.Nickname != "",
+		},
+		AboutMe: sql.NullString{
+			String: u.AboutMe,
+			Valid:  u.AboutMe != "",
+		},
+		Password: u.Password,
+	}
+}
+
 // entityToDomain 将数据库实体（dao.User）转换为领域模型（domain.User）
 // 该方法的目的是将数据访问层（DAO）中的实体对象转换为领域模型对象
 // 领域模型对象用于业务逻辑层处理，通常领域模型中包含的字段与数据库实体可能有所不同
 func (ur *CachedUserRepository) entityToDomain(ue dao.User) domain.User {
 	// 从数据库实体（dao.User）构建领域模型（domain.User）
+	var birthday time.Time
+	if ue.Birthday.Valid {
+		birthday = time.UnixMilli(ue.Birthday.Int64)
+	}
 	return domain.User{
 		Id:       ue.Id,           // 用户 ID
 		Email:    ue.Email.String, // 用户邮箱（确保处理数据库 NULL 值）
 		Password: ue.Password,     // 用户密码
 		Phone:    ue.Phone.String, // 用户手机号（确保处理数据库 NULL 值）
+		Nickname: ue.Nickname.String,
+		AboutMe:  ue.AboutMe.String,
+		Birthday: birthday,
 		Ctime:    time.UnixMilli(ue.Ctime),
 	}
 }

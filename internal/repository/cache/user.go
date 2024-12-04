@@ -17,23 +17,9 @@ var ErrKeyNotExist = redis.Nil
 // UserCache 的实现通常会选择 Redis 或内存缓存作为底层存储
 // 以提高频繁访问的用户数据的查询速度，并减少数据库的压力
 type UserCache interface {
-
-	// Get 从缓存中获取用户信息
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - id: 用户的唯一标识 ID
-	// 返回:
-	//   - domain.User: 缓存中存储的用户信息
-	//   - error: 如果缓存中没有该用户信息或发生错误，返回错误信息
 	Get(ctx context.Context, id int64) (domain.User, error)
-
-	// Set 将用户信息存储到缓存中
-	// 参数:
-	//   - ctx: 上下文，用于控制请求的生命周期
-	//   - u: 用户信息，包含用户的基本信息（如 ID、邮箱等）
-	// 返回:
-	//   - error: 如果存储过程中发生错误，返回错误信息；如果存储成功，返回 nil
 	Set(ctx context.Context, u domain.User) error
+	Delete(ctx context.Context, id int64) error
 }
 
 // RedisUserCache 实现 UserCache 接口，封装了对 Redis 的操作
@@ -47,6 +33,10 @@ func NewRedisUserCache(cmd redis.Cmdable) UserCache {
 		cmd:        cmd,
 		expiration: time.Minute * 15, // 设置缓存过期时间为 15 分钟
 	}
+}
+
+func (cache *RedisUserCache) Delete(ctx context.Context, id int64) error {
+	return cache.cmd.Del(ctx, cache.key(id)).Err()
 }
 
 func (cache *RedisUserCache) Get(ctx context.Context, id int64) (domain.User, error) {

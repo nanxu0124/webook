@@ -237,9 +237,45 @@ func (c *UserHandler) setJWTToken(ctx *gin.Context, uid int64) {
 	ctx.Header("x-jwt-token", tokenStr)
 }
 
-// Edit 用户编辑个人信息的接口（此接口目前未实现）
+// Edit 用户编译信息
 func (c *UserHandler) Edit(ctx *gin.Context) {
-	// 该方法为空，表示目前未实现用户编辑个人信息的功能
+	type Req struct {
+		Nickname string `json:"nickname"`
+		Birthday string `json:"birthday"`
+		AboutMe  string `json:"aboutMe"`
+	}
+
+	var req Req
+	if err := ctx.Bind(&req); err != nil {
+		return
+	}
+	if req.Nickname == "" {
+		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "昵称不能为空"})
+		return
+	}
+
+	if len(req.AboutMe) > 1024 {
+		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "AboutMe过长"})
+		return
+	}
+	birthday, err := time.Parse(time.DateOnly, req.Birthday)
+	if err != nil {
+		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "日期格式不对"})
+		return
+	}
+
+	uc := ctx.MustGet("user").(UserClaims)
+	err = c.svc.UpdateNonSensitiveInfo(ctx, domain.User{
+		Id:       uc.Id,
+		Nickname: req.Nickname,
+		AboutMe:  req.AboutMe,
+		Birthday: birthday,
+	})
+	if err != nil {
+		ctx.JSON(http.StatusOK, Result{Code: 5, Msg: "系统错误"})
+		return
+	}
+	ctx.JSON(http.StatusOK, Result{Msg: "OK"})
 }
 
 // Profile 用户查看个人信息接口
@@ -247,8 +283,11 @@ func (c *UserHandler) Edit(ctx *gin.Context) {
 func (c *UserHandler) Profile(ctx *gin.Context) {
 	// 定义响应结构体，用于返回用户的邮箱信息
 	type Profile struct {
-		Email string // 用户的邮箱
-		Phone string
+		Email    string // 用户的邮箱
+		Phone    string
+		Nickname string
+		Birthday string
+		AboutMe  string
 	}
 
 	// 从上下文中获取JWT中的用户信息（UserClaims），通过ctx.MustGet("user")来获取
@@ -265,7 +304,10 @@ func (c *UserHandler) Profile(ctx *gin.Context) {
 
 	// 返回用户的邮箱信息，响应的格式是JSON
 	ctx.JSON(http.StatusOK, Profile{
-		Email: u.Email, // 返回用户的邮箱
-		Phone: u.Phone,
+		Email:    u.Email, // 返回用户的邮箱
+		Phone:    u.Phone,
+		Nickname: u.Nickname,
+		Birthday: u.Birthday.Format(time.DateOnly),
+		AboutMe:  u.AboutMe,
 	})
 }

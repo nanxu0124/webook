@@ -18,6 +18,8 @@ type UserService interface {
 	FindOrCreate(ctx context.Context, phone string) (domain.User, error)
 	Login(ctx context.Context, email, password string) (domain.User, error)
 	Profile(ctx context.Context, id int64) (domain.User, error)
+	// UpdateNonSensitiveInfo 更新非敏感数据
+	UpdateNonSensitiveInfo(ctx context.Context, user domain.User) error
 }
 
 // UserService 结构体，表示用户相关的业务逻辑服务
@@ -87,6 +89,15 @@ func (svc *userService) Login(ctx context.Context, email, password string) (doma
 
 	// 密码验证通过，返回用户信息
 	return u, err
+}
+
+func (svc *userService) UpdateNonSensitiveInfo(ctx context.Context, user domain.User) error {
+	// 依赖于 repository 中更新会忽略 0 值
+	// 这个转换的意义在于，在 service 层面上维护住了什么是敏感字段这个语义
+	user.Email = ""
+	user.Phone = ""
+	user.Password = ""
+	return svc.repo.Update(ctx, user)
 }
 
 func (svc *userService) Profile(ctx context.Context,
