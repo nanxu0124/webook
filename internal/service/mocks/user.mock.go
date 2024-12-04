@@ -99,3 +99,17 @@ func (mr *MockUserServiceMockRecorder) Signup(ctx, u any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Signup", reflect.TypeOf((*MockUserService)(nil).Signup), ctx, u)
 }
+
+// UpdateNonSensitiveInfo mocks base method.
+func (m *MockUserService) UpdateNonSensitiveInfo(ctx context.Context, user domain.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateNonSensitiveInfo", ctx, user)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateNonSensitiveInfo indicates an expected call of UpdateNonSensitiveInfo.
+func (mr *MockUserServiceMockRecorder) UpdateNonSensitiveInfo(ctx, user any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNonSensitiveInfo", reflect.TypeOf((*MockUserService)(nil).UpdateNonSensitiveInfo), ctx, user)
+}

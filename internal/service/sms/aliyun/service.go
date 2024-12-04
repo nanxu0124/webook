@@ -20,7 +20,7 @@ func NewService(client *dysmsapi.Client, signName string) *Service {
 	}
 }
 
-func (s *Service) Send(ctx context.Context, tpl string, param []string, numbers []string) error {
+func (s *Service) Send(ctx context.Context, tpl string, param []string, numbers ...string) error {
 	// ali云要求最多一次发1000个
 	if len(numbers) > 1000 {
 		return fmt.Errorf("phone numbers 超过1000")

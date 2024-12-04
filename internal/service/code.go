@@ -63,6 +63,7 @@ func (c *SMSCodeService) Send(ctx context.Context, biz string, phone string) err
 	}
 	// 发送验证码短信
 	err = c.sms.Send(ctx, codeTplId, []string{code}, phone)
+	// TODO 这里考虑返回 err 之后是否要删除 redis 里边的验证码
 	return err // 返回发送短信的错误
 }
 

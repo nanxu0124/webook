@@ -21,10 +21,9 @@ type Service struct {
 func NewService(c *sms.Client, appId string,
 	signName string) *Service {
 	return &Service{
-		client: c,
-		appId:  ekit.ToPtr[string](appId),
-		//signName: ekit.ToPtr[string](signName),
-		signName: ekit.ToPtr[string]("南絮0124公众号"),
+		client:   c,
+		appId:    ekit.ToPtr[string](appId),
+		signName: ekit.ToPtr[string](signName),
 	}
 }
 

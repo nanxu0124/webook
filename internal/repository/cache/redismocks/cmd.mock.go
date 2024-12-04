@@ -14,7 +14,7 @@ import (
 	reflect "reflect"
 	time "time"
 
-	v9 "github.com/redis/go-redis/v9"
+	redis "github.com/redis/go-redis/v9"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -43,14 +43,14 @@ func (m *MockCmdable) EXPECT() *MockCmdableMockRecorder {
 }
 
 // ACLDryRun mocks base method.
-func (m *MockCmdable) ACLDryRun(ctx context.Context, username string, command ...any) *v9.StringCmd {
+func (m *MockCmdable) ACLDryRun(ctx context.Context, username string, command ...any) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, username}
 	for _, a := range command {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ACLDryRun", varargs...)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -62,10 +62,10 @@ func (mr *MockCmdableMockRecorder) ACLDryRun(ctx, username any, command ...any) 
 }
 
 // ACLLog mocks base method.
-func (m *MockCmdable) ACLLog(ctx context.Context, count int64) *v9.ACLLogCmd {
+func (m *MockCmdable) ACLLog(ctx context.Context, count int64) *redis.ACLLogCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ACLLog", ctx, count)
-	ret0, _ := ret[0].(*v9.ACLLogCmd)
+	ret0, _ := ret[0].(*redis.ACLLogCmd)
 	return ret0
 }
 
@@ -76,10 +76,10 @@ func (mr *MockCmdableMockRecorder) ACLLog(ctx, count any) *gomock.Call {
 }
 
 // ACLLogReset mocks base method.
-func (m *MockCmdable) ACLLogReset(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ACLLogReset(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ACLLogReset", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -90,10 +90,10 @@ func (mr *MockCmdableMockRecorder) ACLLogReset(ctx any) *gomock.Call {
 }
 
 // Append mocks base method.
-func (m *MockCmdable) Append(ctx context.Context, key, value string) *v9.IntCmd {
+func (m *MockCmdable) Append(ctx context.Context, key, value string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Append", ctx, key, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -104,10 +104,10 @@ func (mr *MockCmdableMockRecorder) Append(ctx, key, value any) *gomock.Call {
 }
 
 // BFAdd mocks base method.
-func (m *MockCmdable) BFAdd(ctx context.Context, key string, element any) *v9.BoolCmd {
+func (m *MockCmdable) BFAdd(ctx context.Context, key string, element any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFAdd", ctx, key, element)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -118,10 +118,10 @@ func (mr *MockCmdableMockRecorder) BFAdd(ctx, key, element any) *gomock.Call {
 }
 
 // BFCard mocks base method.
-func (m *MockCmdable) BFCard(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) BFCard(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFCard", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -132,10 +132,10 @@ func (mr *MockCmdableMockRecorder) BFCard(ctx, key any) *gomock.Call {
 }
 
 // BFExists mocks base method.
-func (m *MockCmdable) BFExists(ctx context.Context, key string, element any) *v9.BoolCmd {
+func (m *MockCmdable) BFExists(ctx context.Context, key string, element any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFExists", ctx, key, element)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -146,10 +146,10 @@ func (mr *MockCmdableMockRecorder) BFExists(ctx, key, element any) *gomock.Call 
 }
 
 // BFInfo mocks base method.
-func (m *MockCmdable) BFInfo(ctx context.Context, key string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfo(ctx context.Context, key string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfo", ctx, key)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -160,10 +160,10 @@ func (mr *MockCmdableMockRecorder) BFInfo(ctx, key any) *gomock.Call {
 }
 
 // BFInfoArg mocks base method.
-func (m *MockCmdable) BFInfoArg(ctx context.Context, key, option string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfoArg(ctx context.Context, key, option string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfoArg", ctx, key, option)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -174,10 +174,10 @@ func (mr *MockCmdableMockRecorder) BFInfoArg(ctx, key, option any) *gomock.Call 
 }
 
 // BFInfoCapacity mocks base method.
-func (m *MockCmdable) BFInfoCapacity(ctx context.Context, key string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfoCapacity(ctx context.Context, key string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfoCapacity", ctx, key)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -188,10 +188,10 @@ func (mr *MockCmdableMockRecorder) BFInfoCapacity(ctx, key any) *gomock.Call {
 }
 
 // BFInfoExpansion mocks base method.
-func (m *MockCmdable) BFInfoExpansion(ctx context.Context, key string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfoExpansion(ctx context.Context, key string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfoExpansion", ctx, key)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -202,10 +202,10 @@ func (mr *MockCmdableMockRecorder) BFInfoExpansion(ctx, key any) *gomock.Call {
 }
 
 // BFInfoFilters mocks base method.
-func (m *MockCmdable) BFInfoFilters(ctx context.Context, key string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfoFilters(ctx context.Context, key string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfoFilters", ctx, key)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -216,10 +216,10 @@ func (mr *MockCmdableMockRecorder) BFInfoFilters(ctx, key any) *gomock.Call {
 }
 
 // BFInfoItems mocks base method.
-func (m *MockCmdable) BFInfoItems(ctx context.Context, key string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfoItems(ctx context.Context, key string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfoItems", ctx, key)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -230,10 +230,10 @@ func (mr *MockCmdableMockRecorder) BFInfoItems(ctx, key any) *gomock.Call {
 }
 
 // BFInfoSize mocks base method.
-func (m *MockCmdable) BFInfoSize(ctx context.Context, key string) *v9.BFInfoCmd {
+func (m *MockCmdable) BFInfoSize(ctx context.Context, key string) *redis.BFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFInfoSize", ctx, key)
-	ret0, _ := ret[0].(*v9.BFInfoCmd)
+	ret0, _ := ret[0].(*redis.BFInfoCmd)
 	return ret0
 }
 
@@ -244,14 +244,14 @@ func (mr *MockCmdableMockRecorder) BFInfoSize(ctx, key any) *gomock.Call {
 }
 
 // BFInsert mocks base method.
-func (m *MockCmdable) BFInsert(ctx context.Context, key string, options *v9.BFInsertOptions, elements ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) BFInsert(ctx context.Context, key string, options *redis.BFInsertOptions, elements ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, options}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BFInsert", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -263,10 +263,10 @@ func (mr *MockCmdableMockRecorder) BFInsert(ctx, key, options any, elements ...a
 }
 
 // BFLoadChunk mocks base method.
-func (m *MockCmdable) BFLoadChunk(ctx context.Context, key string, iterator int64, data any) *v9.StatusCmd {
+func (m *MockCmdable) BFLoadChunk(ctx context.Context, key string, iterator int64, data any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFLoadChunk", ctx, key, iterator, data)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -277,14 +277,14 @@ func (mr *MockCmdableMockRecorder) BFLoadChunk(ctx, key, iterator, data any) *go
 }
 
 // BFMAdd mocks base method.
-func (m *MockCmdable) BFMAdd(ctx context.Context, key string, elements ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) BFMAdd(ctx context.Context, key string, elements ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BFMAdd", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -296,14 +296,14 @@ func (mr *MockCmdableMockRecorder) BFMAdd(ctx, key any, elements ...any) *gomock
 }
 
 // BFMExists mocks base method.
-func (m *MockCmdable) BFMExists(ctx context.Context, key string, elements ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) BFMExists(ctx context.Context, key string, elements ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BFMExists", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -315,10 +315,10 @@ func (mr *MockCmdableMockRecorder) BFMExists(ctx, key any, elements ...any) *gom
 }
 
 // BFReserve mocks base method.
-func (m *MockCmdable) BFReserve(ctx context.Context, key string, errorRate float64, capacity int64) *v9.StatusCmd {
+func (m *MockCmdable) BFReserve(ctx context.Context, key string, errorRate float64, capacity int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFReserve", ctx, key, errorRate, capacity)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -329,10 +329,10 @@ func (mr *MockCmdableMockRecorder) BFReserve(ctx, key, errorRate, capacity any) 
 }
 
 // BFReserveExpansion mocks base method.
-func (m *MockCmdable) BFReserveExpansion(ctx context.Context, key string, errorRate float64, capacity, expansion int64) *v9.StatusCmd {
+func (m *MockCmdable) BFReserveExpansion(ctx context.Context, key string, errorRate float64, capacity, expansion int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFReserveExpansion", ctx, key, errorRate, capacity, expansion)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -343,10 +343,10 @@ func (mr *MockCmdableMockRecorder) BFReserveExpansion(ctx, key, errorRate, capac
 }
 
 // BFReserveNonScaling mocks base method.
-func (m *MockCmdable) BFReserveNonScaling(ctx context.Context, key string, errorRate float64, capacity int64) *v9.StatusCmd {
+func (m *MockCmdable) BFReserveNonScaling(ctx context.Context, key string, errorRate float64, capacity int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFReserveNonScaling", ctx, key, errorRate, capacity)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -357,10 +357,10 @@ func (mr *MockCmdableMockRecorder) BFReserveNonScaling(ctx, key, errorRate, capa
 }
 
 // BFReserveWithArgs mocks base method.
-func (m *MockCmdable) BFReserveWithArgs(ctx context.Context, key string, options *v9.BFReserveOptions) *v9.StatusCmd {
+func (m *MockCmdable) BFReserveWithArgs(ctx context.Context, key string, options *redis.BFReserveOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFReserveWithArgs", ctx, key, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -371,10 +371,10 @@ func (mr *MockCmdableMockRecorder) BFReserveWithArgs(ctx, key, options any) *gom
 }
 
 // BFScanDump mocks base method.
-func (m *MockCmdable) BFScanDump(ctx context.Context, key string, iterator int64) *v9.ScanDumpCmd {
+func (m *MockCmdable) BFScanDump(ctx context.Context, key string, iterator int64) *redis.ScanDumpCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BFScanDump", ctx, key, iterator)
-	ret0, _ := ret[0].(*v9.ScanDumpCmd)
+	ret0, _ := ret[0].(*redis.ScanDumpCmd)
 	return ret0
 }
 
@@ -385,14 +385,14 @@ func (mr *MockCmdableMockRecorder) BFScanDump(ctx, key, iterator any) *gomock.Ca
 }
 
 // BLMPop mocks base method.
-func (m *MockCmdable) BLMPop(ctx context.Context, timeout time.Duration, direction string, count int64, keys ...string) *v9.KeyValuesCmd {
+func (m *MockCmdable) BLMPop(ctx context.Context, timeout time.Duration, direction string, count int64, keys ...string) *redis.KeyValuesCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, timeout, direction, count}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BLMPop", varargs...)
-	ret0, _ := ret[0].(*v9.KeyValuesCmd)
+	ret0, _ := ret[0].(*redis.KeyValuesCmd)
 	return ret0
 }
 
@@ -404,10 +404,10 @@ func (mr *MockCmdableMockRecorder) BLMPop(ctx, timeout, direction, count any, ke
 }
 
 // BLMove mocks base method.
-func (m *MockCmdable) BLMove(ctx context.Context, source, destination, srcpos, destpos string, timeout time.Duration) *v9.StringCmd {
+func (m *MockCmdable) BLMove(ctx context.Context, source, destination, srcpos, destpos string, timeout time.Duration) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BLMove", ctx, source, destination, srcpos, destpos, timeout)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -418,14 +418,14 @@ func (mr *MockCmdableMockRecorder) BLMove(ctx, source, destination, srcpos, dest
 }
 
 // BLPop mocks base method.
-func (m *MockCmdable) BLPop(ctx context.Context, timeout time.Duration, keys ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) BLPop(ctx context.Context, timeout time.Duration, keys ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, timeout}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BLPop", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -437,14 +437,14 @@ func (mr *MockCmdableMockRecorder) BLPop(ctx, timeout any, keys ...any) *gomock.
 }
 
 // BRPop mocks base method.
-func (m *MockCmdable) BRPop(ctx context.Context, timeout time.Duration, keys ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) BRPop(ctx context.Context, timeout time.Duration, keys ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, timeout}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BRPop", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -456,10 +456,10 @@ func (mr *MockCmdableMockRecorder) BRPop(ctx, timeout any, keys ...any) *gomock.
 }
 
 // BRPopLPush mocks base method.
-func (m *MockCmdable) BRPopLPush(ctx context.Context, source, destination string, timeout time.Duration) *v9.StringCmd {
+func (m *MockCmdable) BRPopLPush(ctx context.Context, source, destination string, timeout time.Duration) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BRPopLPush", ctx, source, destination, timeout)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -470,14 +470,14 @@ func (mr *MockCmdableMockRecorder) BRPopLPush(ctx, source, destination, timeout 
 }
 
 // BZMPop mocks base method.
-func (m *MockCmdable) BZMPop(ctx context.Context, timeout time.Duration, order string, count int64, keys ...string) *v9.ZSliceWithKeyCmd {
+func (m *MockCmdable) BZMPop(ctx context.Context, timeout time.Duration, order string, count int64, keys ...string) *redis.ZSliceWithKeyCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, timeout, order, count}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BZMPop", varargs...)
-	ret0, _ := ret[0].(*v9.ZSliceWithKeyCmd)
+	ret0, _ := ret[0].(*redis.ZSliceWithKeyCmd)
 	return ret0
 }
 
@@ -489,14 +489,14 @@ func (mr *MockCmdableMockRecorder) BZMPop(ctx, timeout, order, count any, keys .
 }
 
 // BZPopMax mocks base method.
-func (m *MockCmdable) BZPopMax(ctx context.Context, timeout time.Duration, keys ...string) *v9.ZWithKeyCmd {
+func (m *MockCmdable) BZPopMax(ctx context.Context, timeout time.Duration, keys ...string) *redis.ZWithKeyCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, timeout}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BZPopMax", varargs...)
-	ret0, _ := ret[0].(*v9.ZWithKeyCmd)
+	ret0, _ := ret[0].(*redis.ZWithKeyCmd)
 	return ret0
 }
 
@@ -508,14 +508,14 @@ func (mr *MockCmdableMockRecorder) BZPopMax(ctx, timeout any, keys ...any) *gomo
 }
 
 // BZPopMin mocks base method.
-func (m *MockCmdable) BZPopMin(ctx context.Context, timeout time.Duration, keys ...string) *v9.ZWithKeyCmd {
+func (m *MockCmdable) BZPopMin(ctx context.Context, timeout time.Duration, keys ...string) *redis.ZWithKeyCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, timeout}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BZPopMin", varargs...)
-	ret0, _ := ret[0].(*v9.ZWithKeyCmd)
+	ret0, _ := ret[0].(*redis.ZWithKeyCmd)
 	return ret0
 }
 
@@ -527,10 +527,10 @@ func (mr *MockCmdableMockRecorder) BZPopMin(ctx, timeout any, keys ...any) *gomo
 }
 
 // BgRewriteAOF mocks base method.
-func (m *MockCmdable) BgRewriteAOF(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) BgRewriteAOF(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BgRewriteAOF", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -541,10 +541,10 @@ func (mr *MockCmdableMockRecorder) BgRewriteAOF(ctx any) *gomock.Call {
 }
 
 // BgSave mocks base method.
-func (m *MockCmdable) BgSave(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) BgSave(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BgSave", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -555,10 +555,10 @@ func (mr *MockCmdableMockRecorder) BgSave(ctx any) *gomock.Call {
 }
 
 // BitCount mocks base method.
-func (m *MockCmdable) BitCount(ctx context.Context, key string, bitCount *v9.BitCount) *v9.IntCmd {
+func (m *MockCmdable) BitCount(ctx context.Context, key string, bitCount *redis.BitCount) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BitCount", ctx, key, bitCount)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -569,14 +569,14 @@ func (mr *MockCmdableMockRecorder) BitCount(ctx, key, bitCount any) *gomock.Call
 }
 
 // BitField mocks base method.
-func (m *MockCmdable) BitField(ctx context.Context, key string, values ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) BitField(ctx context.Context, key string, values ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BitField", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -588,14 +588,14 @@ func (mr *MockCmdableMockRecorder) BitField(ctx, key any, values ...any) *gomock
 }
 
 // BitFieldRO mocks base method.
-func (m *MockCmdable) BitFieldRO(ctx context.Context, key string, values ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) BitFieldRO(ctx context.Context, key string, values ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BitFieldRO", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -607,14 +607,14 @@ func (mr *MockCmdableMockRecorder) BitFieldRO(ctx, key any, values ...any) *gomo
 }
 
 // BitOpAnd mocks base method.
-func (m *MockCmdable) BitOpAnd(ctx context.Context, destKey string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) BitOpAnd(ctx context.Context, destKey string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destKey}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BitOpAnd", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -626,10 +626,10 @@ func (mr *MockCmdableMockRecorder) BitOpAnd(ctx, destKey any, keys ...any) *gomo
 }
 
 // BitOpNot mocks base method.
-func (m *MockCmdable) BitOpNot(ctx context.Context, destKey, key string) *v9.IntCmd {
+func (m *MockCmdable) BitOpNot(ctx context.Context, destKey, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BitOpNot", ctx, destKey, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -640,14 +640,14 @@ func (mr *MockCmdableMockRecorder) BitOpNot(ctx, destKey, key any) *gomock.Call 
 }
 
 // BitOpOr mocks base method.
-func (m *MockCmdable) BitOpOr(ctx context.Context, destKey string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) BitOpOr(ctx context.Context, destKey string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destKey}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BitOpOr", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -659,14 +659,14 @@ func (mr *MockCmdableMockRecorder) BitOpOr(ctx, destKey any, keys ...any) *gomoc
 }
 
 // BitOpXor mocks base method.
-func (m *MockCmdable) BitOpXor(ctx context.Context, destKey string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) BitOpXor(ctx context.Context, destKey string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destKey}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BitOpXor", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -678,14 +678,14 @@ func (mr *MockCmdableMockRecorder) BitOpXor(ctx, destKey any, keys ...any) *gomo
 }
 
 // BitPos mocks base method.
-func (m *MockCmdable) BitPos(ctx context.Context, key string, bit int64, pos ...int64) *v9.IntCmd {
+func (m *MockCmdable) BitPos(ctx context.Context, key string, bit int64, pos ...int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, bit}
 	for _, a := range pos {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BitPos", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -697,10 +697,10 @@ func (mr *MockCmdableMockRecorder) BitPos(ctx, key, bit any, pos ...any) *gomock
 }
 
 // BitPosSpan mocks base method.
-func (m *MockCmdable) BitPosSpan(ctx context.Context, key string, bit int8, start, end int64, span string) *v9.IntCmd {
+func (m *MockCmdable) BitPosSpan(ctx context.Context, key string, bit int8, start, end int64, span string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BitPosSpan", ctx, key, bit, start, end, span)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -711,10 +711,10 @@ func (mr *MockCmdableMockRecorder) BitPosSpan(ctx, key, bit, start, end, span an
 }
 
 // CFAdd mocks base method.
-func (m *MockCmdable) CFAdd(ctx context.Context, key string, element any) *v9.BoolCmd {
+func (m *MockCmdable) CFAdd(ctx context.Context, key string, element any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFAdd", ctx, key, element)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -725,10 +725,10 @@ func (mr *MockCmdableMockRecorder) CFAdd(ctx, key, element any) *gomock.Call {
 }
 
 // CFAddNX mocks base method.
-func (m *MockCmdable) CFAddNX(ctx context.Context, key string, element any) *v9.BoolCmd {
+func (m *MockCmdable) CFAddNX(ctx context.Context, key string, element any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFAddNX", ctx, key, element)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -739,10 +739,10 @@ func (mr *MockCmdableMockRecorder) CFAddNX(ctx, key, element any) *gomock.Call {
 }
 
 // CFCount mocks base method.
-func (m *MockCmdable) CFCount(ctx context.Context, key string, element any) *v9.IntCmd {
+func (m *MockCmdable) CFCount(ctx context.Context, key string, element any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFCount", ctx, key, element)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -753,10 +753,10 @@ func (mr *MockCmdableMockRecorder) CFCount(ctx, key, element any) *gomock.Call {
 }
 
 // CFDel mocks base method.
-func (m *MockCmdable) CFDel(ctx context.Context, key string, element any) *v9.BoolCmd {
+func (m *MockCmdable) CFDel(ctx context.Context, key string, element any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFDel", ctx, key, element)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -767,10 +767,10 @@ func (mr *MockCmdableMockRecorder) CFDel(ctx, key, element any) *gomock.Call {
 }
 
 // CFExists mocks base method.
-func (m *MockCmdable) CFExists(ctx context.Context, key string, element any) *v9.BoolCmd {
+func (m *MockCmdable) CFExists(ctx context.Context, key string, element any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFExists", ctx, key, element)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -781,10 +781,10 @@ func (mr *MockCmdableMockRecorder) CFExists(ctx, key, element any) *gomock.Call 
 }
 
 // CFInfo mocks base method.
-func (m *MockCmdable) CFInfo(ctx context.Context, key string) *v9.CFInfoCmd {
+func (m *MockCmdable) CFInfo(ctx context.Context, key string) *redis.CFInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFInfo", ctx, key)
-	ret0, _ := ret[0].(*v9.CFInfoCmd)
+	ret0, _ := ret[0].(*redis.CFInfoCmd)
 	return ret0
 }
 
@@ -795,14 +795,14 @@ func (mr *MockCmdableMockRecorder) CFInfo(ctx, key any) *gomock.Call {
 }
 
 // CFInsert mocks base method.
-func (m *MockCmdable) CFInsert(ctx context.Context, key string, options *v9.CFInsertOptions, elements ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) CFInsert(ctx context.Context, key string, options *redis.CFInsertOptions, elements ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, options}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CFInsert", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -814,14 +814,14 @@ func (mr *MockCmdableMockRecorder) CFInsert(ctx, key, options any, elements ...a
 }
 
 // CFInsertNX mocks base method.
-func (m *MockCmdable) CFInsertNX(ctx context.Context, key string, options *v9.CFInsertOptions, elements ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) CFInsertNX(ctx context.Context, key string, options *redis.CFInsertOptions, elements ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, options}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CFInsertNX", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -833,10 +833,10 @@ func (mr *MockCmdableMockRecorder) CFInsertNX(ctx, key, options any, elements ..
 }
 
 // CFLoadChunk mocks base method.
-func (m *MockCmdable) CFLoadChunk(ctx context.Context, key string, iterator int64, data any) *v9.StatusCmd {
+func (m *MockCmdable) CFLoadChunk(ctx context.Context, key string, iterator int64, data any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFLoadChunk", ctx, key, iterator, data)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -847,14 +847,14 @@ func (mr *MockCmdableMockRecorder) CFLoadChunk(ctx, key, iterator, data any) *go
 }
 
 // CFMExists mocks base method.
-func (m *MockCmdable) CFMExists(ctx context.Context, key string, elements ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) CFMExists(ctx context.Context, key string, elements ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CFMExists", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -866,10 +866,10 @@ func (mr *MockCmdableMockRecorder) CFMExists(ctx, key any, elements ...any) *gom
 }
 
 // CFReserve mocks base method.
-func (m *MockCmdable) CFReserve(ctx context.Context, key string, capacity int64) *v9.StatusCmd {
+func (m *MockCmdable) CFReserve(ctx context.Context, key string, capacity int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFReserve", ctx, key, capacity)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -880,10 +880,10 @@ func (mr *MockCmdableMockRecorder) CFReserve(ctx, key, capacity any) *gomock.Cal
 }
 
 // CFReserveBucketSize mocks base method.
-func (m *MockCmdable) CFReserveBucketSize(ctx context.Context, key string, capacity, bucketsize int64) *v9.StatusCmd {
+func (m *MockCmdable) CFReserveBucketSize(ctx context.Context, key string, capacity, bucketsize int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFReserveBucketSize", ctx, key, capacity, bucketsize)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -894,10 +894,10 @@ func (mr *MockCmdableMockRecorder) CFReserveBucketSize(ctx, key, capacity, bucke
 }
 
 // CFReserveExpansion mocks base method.
-func (m *MockCmdable) CFReserveExpansion(ctx context.Context, key string, capacity, expansion int64) *v9.StatusCmd {
+func (m *MockCmdable) CFReserveExpansion(ctx context.Context, key string, capacity, expansion int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFReserveExpansion", ctx, key, capacity, expansion)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -908,10 +908,10 @@ func (mr *MockCmdableMockRecorder) CFReserveExpansion(ctx, key, capacity, expans
 }
 
 // CFReserveMaxIterations mocks base method.
-func (m *MockCmdable) CFReserveMaxIterations(ctx context.Context, key string, capacity, maxiterations int64) *v9.StatusCmd {
+func (m *MockCmdable) CFReserveMaxIterations(ctx context.Context, key string, capacity, maxiterations int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFReserveMaxIterations", ctx, key, capacity, maxiterations)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -922,10 +922,10 @@ func (mr *MockCmdableMockRecorder) CFReserveMaxIterations(ctx, key, capacity, ma
 }
 
 // CFReserveWithArgs mocks base method.
-func (m *MockCmdable) CFReserveWithArgs(ctx context.Context, key string, options *v9.CFReserveOptions) *v9.StatusCmd {
+func (m *MockCmdable) CFReserveWithArgs(ctx context.Context, key string, options *redis.CFReserveOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFReserveWithArgs", ctx, key, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -936,10 +936,10 @@ func (mr *MockCmdableMockRecorder) CFReserveWithArgs(ctx, key, options any) *gom
 }
 
 // CFScanDump mocks base method.
-func (m *MockCmdable) CFScanDump(ctx context.Context, key string, iterator int64) *v9.ScanDumpCmd {
+func (m *MockCmdable) CFScanDump(ctx context.Context, key string, iterator int64) *redis.ScanDumpCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CFScanDump", ctx, key, iterator)
-	ret0, _ := ret[0].(*v9.ScanDumpCmd)
+	ret0, _ := ret[0].(*redis.ScanDumpCmd)
 	return ret0
 }
 
@@ -950,14 +950,14 @@ func (mr *MockCmdableMockRecorder) CFScanDump(ctx, key, iterator any) *gomock.Ca
 }
 
 // CMSIncrBy mocks base method.
-func (m *MockCmdable) CMSIncrBy(ctx context.Context, key string, elements ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) CMSIncrBy(ctx context.Context, key string, elements ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CMSIncrBy", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -969,10 +969,10 @@ func (mr *MockCmdableMockRecorder) CMSIncrBy(ctx, key any, elements ...any) *gom
 }
 
 // CMSInfo mocks base method.
-func (m *MockCmdable) CMSInfo(ctx context.Context, key string) *v9.CMSInfoCmd {
+func (m *MockCmdable) CMSInfo(ctx context.Context, key string) *redis.CMSInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CMSInfo", ctx, key)
-	ret0, _ := ret[0].(*v9.CMSInfoCmd)
+	ret0, _ := ret[0].(*redis.CMSInfoCmd)
 	return ret0
 }
 
@@ -983,10 +983,10 @@ func (mr *MockCmdableMockRecorder) CMSInfo(ctx, key any) *gomock.Call {
 }
 
 // CMSInitByDim mocks base method.
-func (m *MockCmdable) CMSInitByDim(ctx context.Context, key string, width, height int64) *v9.StatusCmd {
+func (m *MockCmdable) CMSInitByDim(ctx context.Context, key string, width, height int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CMSInitByDim", ctx, key, width, height)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -997,10 +997,10 @@ func (mr *MockCmdableMockRecorder) CMSInitByDim(ctx, key, width, height any) *go
 }
 
 // CMSInitByProb mocks base method.
-func (m *MockCmdable) CMSInitByProb(ctx context.Context, key string, errorRate, probability float64) *v9.StatusCmd {
+func (m *MockCmdable) CMSInitByProb(ctx context.Context, key string, errorRate, probability float64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CMSInitByProb", ctx, key, errorRate, probability)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1011,14 +1011,14 @@ func (mr *MockCmdableMockRecorder) CMSInitByProb(ctx, key, errorRate, probabilit
 }
 
 // CMSMerge mocks base method.
-func (m *MockCmdable) CMSMerge(ctx context.Context, destKey string, sourceKeys ...string) *v9.StatusCmd {
+func (m *MockCmdable) CMSMerge(ctx context.Context, destKey string, sourceKeys ...string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destKey}
 	for _, a := range sourceKeys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CMSMerge", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1030,10 +1030,10 @@ func (mr *MockCmdableMockRecorder) CMSMerge(ctx, destKey any, sourceKeys ...any)
 }
 
 // CMSMergeWithWeight mocks base method.
-func (m *MockCmdable) CMSMergeWithWeight(ctx context.Context, destKey string, sourceKeys map[string]int64) *v9.StatusCmd {
+func (m *MockCmdable) CMSMergeWithWeight(ctx context.Context, destKey string, sourceKeys map[string]int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CMSMergeWithWeight", ctx, destKey, sourceKeys)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1044,14 +1044,14 @@ func (mr *MockCmdableMockRecorder) CMSMergeWithWeight(ctx, destKey, sourceKeys a
 }
 
 // CMSQuery mocks base method.
-func (m *MockCmdable) CMSQuery(ctx context.Context, key string, elements ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) CMSQuery(ctx context.Context, key string, elements ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CMSQuery", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -1063,10 +1063,10 @@ func (mr *MockCmdableMockRecorder) CMSQuery(ctx, key any, elements ...any) *gomo
 }
 
 // ClientGetName mocks base method.
-func (m *MockCmdable) ClientGetName(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) ClientGetName(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientGetName", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1077,10 +1077,10 @@ func (mr *MockCmdableMockRecorder) ClientGetName(ctx any) *gomock.Call {
 }
 
 // ClientID mocks base method.
-func (m *MockCmdable) ClientID(ctx context.Context) *v9.IntCmd {
+func (m *MockCmdable) ClientID(ctx context.Context) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientID", ctx)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1091,10 +1091,10 @@ func (mr *MockCmdableMockRecorder) ClientID(ctx any) *gomock.Call {
 }
 
 // ClientInfo mocks base method.
-func (m *MockCmdable) ClientInfo(ctx context.Context) *v9.ClientInfoCmd {
+func (m *MockCmdable) ClientInfo(ctx context.Context) *redis.ClientInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientInfo", ctx)
-	ret0, _ := ret[0].(*v9.ClientInfoCmd)
+	ret0, _ := ret[0].(*redis.ClientInfoCmd)
 	return ret0
 }
 
@@ -1105,10 +1105,10 @@ func (mr *MockCmdableMockRecorder) ClientInfo(ctx any) *gomock.Call {
 }
 
 // ClientKill mocks base method.
-func (m *MockCmdable) ClientKill(ctx context.Context, ipPort string) *v9.StatusCmd {
+func (m *MockCmdable) ClientKill(ctx context.Context, ipPort string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientKill", ctx, ipPort)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1119,14 +1119,14 @@ func (mr *MockCmdableMockRecorder) ClientKill(ctx, ipPort any) *gomock.Call {
 }
 
 // ClientKillByFilter mocks base method.
-func (m *MockCmdable) ClientKillByFilter(ctx context.Context, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) ClientKillByFilter(ctx context.Context, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ClientKillByFilter", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1138,10 +1138,10 @@ func (mr *MockCmdableMockRecorder) ClientKillByFilter(ctx any, keys ...any) *gom
 }
 
 // ClientList mocks base method.
-func (m *MockCmdable) ClientList(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) ClientList(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientList", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1152,10 +1152,10 @@ func (mr *MockCmdableMockRecorder) ClientList(ctx any) *gomock.Call {
 }
 
 // ClientPause mocks base method.
-func (m *MockCmdable) ClientPause(ctx context.Context, dur time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) ClientPause(ctx context.Context, dur time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientPause", ctx, dur)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1166,10 +1166,10 @@ func (mr *MockCmdableMockRecorder) ClientPause(ctx, dur any) *gomock.Call {
 }
 
 // ClientUnblock mocks base method.
-func (m *MockCmdable) ClientUnblock(ctx context.Context, id int64) *v9.IntCmd {
+func (m *MockCmdable) ClientUnblock(ctx context.Context, id int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientUnblock", ctx, id)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1180,10 +1180,10 @@ func (mr *MockCmdableMockRecorder) ClientUnblock(ctx, id any) *gomock.Call {
 }
 
 // ClientUnblockWithError mocks base method.
-func (m *MockCmdable) ClientUnblockWithError(ctx context.Context, id int64) *v9.IntCmd {
+func (m *MockCmdable) ClientUnblockWithError(ctx context.Context, id int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientUnblockWithError", ctx, id)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1194,10 +1194,10 @@ func (mr *MockCmdableMockRecorder) ClientUnblockWithError(ctx, id any) *gomock.C
 }
 
 // ClientUnpause mocks base method.
-func (m *MockCmdable) ClientUnpause(ctx context.Context) *v9.BoolCmd {
+func (m *MockCmdable) ClientUnpause(ctx context.Context) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClientUnpause", ctx)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1208,14 +1208,14 @@ func (mr *MockCmdableMockRecorder) ClientUnpause(ctx any) *gomock.Call {
 }
 
 // ClusterAddSlots mocks base method.
-func (m *MockCmdable) ClusterAddSlots(ctx context.Context, slots ...int) *v9.StatusCmd {
+func (m *MockCmdable) ClusterAddSlots(ctx context.Context, slots ...int) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range slots {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ClusterAddSlots", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1227,10 +1227,10 @@ func (mr *MockCmdableMockRecorder) ClusterAddSlots(ctx any, slots ...any) *gomoc
 }
 
 // ClusterAddSlotsRange mocks base method.
-func (m *MockCmdable) ClusterAddSlotsRange(ctx context.Context, min, max int) *v9.StatusCmd {
+func (m *MockCmdable) ClusterAddSlotsRange(ctx context.Context, min, max int) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterAddSlotsRange", ctx, min, max)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1241,10 +1241,10 @@ func (mr *MockCmdableMockRecorder) ClusterAddSlotsRange(ctx, min, max any) *gomo
 }
 
 // ClusterCountFailureReports mocks base method.
-func (m *MockCmdable) ClusterCountFailureReports(ctx context.Context, nodeID string) *v9.IntCmd {
+func (m *MockCmdable) ClusterCountFailureReports(ctx context.Context, nodeID string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterCountFailureReports", ctx, nodeID)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1255,10 +1255,10 @@ func (mr *MockCmdableMockRecorder) ClusterCountFailureReports(ctx, nodeID any) *
 }
 
 // ClusterCountKeysInSlot mocks base method.
-func (m *MockCmdable) ClusterCountKeysInSlot(ctx context.Context, slot int) *v9.IntCmd {
+func (m *MockCmdable) ClusterCountKeysInSlot(ctx context.Context, slot int) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterCountKeysInSlot", ctx, slot)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1269,14 +1269,14 @@ func (mr *MockCmdableMockRecorder) ClusterCountKeysInSlot(ctx, slot any) *gomock
 }
 
 // ClusterDelSlots mocks base method.
-func (m *MockCmdable) ClusterDelSlots(ctx context.Context, slots ...int) *v9.StatusCmd {
+func (m *MockCmdable) ClusterDelSlots(ctx context.Context, slots ...int) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range slots {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ClusterDelSlots", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1288,10 +1288,10 @@ func (mr *MockCmdableMockRecorder) ClusterDelSlots(ctx any, slots ...any) *gomoc
 }
 
 // ClusterDelSlotsRange mocks base method.
-func (m *MockCmdable) ClusterDelSlotsRange(ctx context.Context, min, max int) *v9.StatusCmd {
+func (m *MockCmdable) ClusterDelSlotsRange(ctx context.Context, min, max int) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterDelSlotsRange", ctx, min, max)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1302,10 +1302,10 @@ func (mr *MockCmdableMockRecorder) ClusterDelSlotsRange(ctx, min, max any) *gomo
 }
 
 // ClusterFailover mocks base method.
-func (m *MockCmdable) ClusterFailover(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ClusterFailover(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterFailover", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1316,10 +1316,10 @@ func (mr *MockCmdableMockRecorder) ClusterFailover(ctx any) *gomock.Call {
 }
 
 // ClusterForget mocks base method.
-func (m *MockCmdable) ClusterForget(ctx context.Context, nodeID string) *v9.StatusCmd {
+func (m *MockCmdable) ClusterForget(ctx context.Context, nodeID string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterForget", ctx, nodeID)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1330,10 +1330,10 @@ func (mr *MockCmdableMockRecorder) ClusterForget(ctx, nodeID any) *gomock.Call {
 }
 
 // ClusterGetKeysInSlot mocks base method.
-func (m *MockCmdable) ClusterGetKeysInSlot(ctx context.Context, slot, count int) *v9.StringSliceCmd {
+func (m *MockCmdable) ClusterGetKeysInSlot(ctx context.Context, slot, count int) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterGetKeysInSlot", ctx, slot, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -1344,10 +1344,10 @@ func (mr *MockCmdableMockRecorder) ClusterGetKeysInSlot(ctx, slot, count any) *g
 }
 
 // ClusterInfo mocks base method.
-func (m *MockCmdable) ClusterInfo(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) ClusterInfo(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterInfo", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1358,10 +1358,10 @@ func (mr *MockCmdableMockRecorder) ClusterInfo(ctx any) *gomock.Call {
 }
 
 // ClusterKeySlot mocks base method.
-func (m *MockCmdable) ClusterKeySlot(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) ClusterKeySlot(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterKeySlot", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1372,10 +1372,10 @@ func (mr *MockCmdableMockRecorder) ClusterKeySlot(ctx, key any) *gomock.Call {
 }
 
 // ClusterLinks mocks base method.
-func (m *MockCmdable) ClusterLinks(ctx context.Context) *v9.ClusterLinksCmd {
+func (m *MockCmdable) ClusterLinks(ctx context.Context) *redis.ClusterLinksCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterLinks", ctx)
-	ret0, _ := ret[0].(*v9.ClusterLinksCmd)
+	ret0, _ := ret[0].(*redis.ClusterLinksCmd)
 	return ret0
 }
 
@@ -1386,10 +1386,10 @@ func (mr *MockCmdableMockRecorder) ClusterLinks(ctx any) *gomock.Call {
 }
 
 // ClusterMeet mocks base method.
-func (m *MockCmdable) ClusterMeet(ctx context.Context, host, port string) *v9.StatusCmd {
+func (m *MockCmdable) ClusterMeet(ctx context.Context, host, port string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterMeet", ctx, host, port)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1400,10 +1400,10 @@ func (mr *MockCmdableMockRecorder) ClusterMeet(ctx, host, port any) *gomock.Call
 }
 
 // ClusterMyShardID mocks base method.
-func (m *MockCmdable) ClusterMyShardID(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) ClusterMyShardID(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterMyShardID", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1414,10 +1414,10 @@ func (mr *MockCmdableMockRecorder) ClusterMyShardID(ctx any) *gomock.Call {
 }
 
 // ClusterNodes mocks base method.
-func (m *MockCmdable) ClusterNodes(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) ClusterNodes(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterNodes", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1428,10 +1428,10 @@ func (mr *MockCmdableMockRecorder) ClusterNodes(ctx any) *gomock.Call {
 }
 
 // ClusterReplicate mocks base method.
-func (m *MockCmdable) ClusterReplicate(ctx context.Context, nodeID string) *v9.StatusCmd {
+func (m *MockCmdable) ClusterReplicate(ctx context.Context, nodeID string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterReplicate", ctx, nodeID)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1442,10 +1442,10 @@ func (mr *MockCmdableMockRecorder) ClusterReplicate(ctx, nodeID any) *gomock.Cal
 }
 
 // ClusterResetHard mocks base method.
-func (m *MockCmdable) ClusterResetHard(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ClusterResetHard(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterResetHard", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1456,10 +1456,10 @@ func (mr *MockCmdableMockRecorder) ClusterResetHard(ctx any) *gomock.Call {
 }
 
 // ClusterResetSoft mocks base method.
-func (m *MockCmdable) ClusterResetSoft(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ClusterResetSoft(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterResetSoft", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1470,10 +1470,10 @@ func (mr *MockCmdableMockRecorder) ClusterResetSoft(ctx any) *gomock.Call {
 }
 
 // ClusterSaveConfig mocks base method.
-func (m *MockCmdable) ClusterSaveConfig(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ClusterSaveConfig(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterSaveConfig", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1484,10 +1484,10 @@ func (mr *MockCmdableMockRecorder) ClusterSaveConfig(ctx any) *gomock.Call {
 }
 
 // ClusterShards mocks base method.
-func (m *MockCmdable) ClusterShards(ctx context.Context) *v9.ClusterShardsCmd {
+func (m *MockCmdable) ClusterShards(ctx context.Context) *redis.ClusterShardsCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterShards", ctx)
-	ret0, _ := ret[0].(*v9.ClusterShardsCmd)
+	ret0, _ := ret[0].(*redis.ClusterShardsCmd)
 	return ret0
 }
 
@@ -1498,10 +1498,10 @@ func (mr *MockCmdableMockRecorder) ClusterShards(ctx any) *gomock.Call {
 }
 
 // ClusterSlaves mocks base method.
-func (m *MockCmdable) ClusterSlaves(ctx context.Context, nodeID string) *v9.StringSliceCmd {
+func (m *MockCmdable) ClusterSlaves(ctx context.Context, nodeID string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterSlaves", ctx, nodeID)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -1512,10 +1512,10 @@ func (mr *MockCmdableMockRecorder) ClusterSlaves(ctx, nodeID any) *gomock.Call {
 }
 
 // ClusterSlots mocks base method.
-func (m *MockCmdable) ClusterSlots(ctx context.Context) *v9.ClusterSlotsCmd {
+func (m *MockCmdable) ClusterSlots(ctx context.Context) *redis.ClusterSlotsCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ClusterSlots", ctx)
-	ret0, _ := ret[0].(*v9.ClusterSlotsCmd)
+	ret0, _ := ret[0].(*redis.ClusterSlotsCmd)
 	return ret0
 }
 
@@ -1526,10 +1526,10 @@ func (mr *MockCmdableMockRecorder) ClusterSlots(ctx any) *gomock.Call {
 }
 
 // Command mocks base method.
-func (m *MockCmdable) Command(ctx context.Context) *v9.CommandsInfoCmd {
+func (m *MockCmdable) Command(ctx context.Context) *redis.CommandsInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Command", ctx)
-	ret0, _ := ret[0].(*v9.CommandsInfoCmd)
+	ret0, _ := ret[0].(*redis.CommandsInfoCmd)
 	return ret0
 }
 
@@ -1540,14 +1540,14 @@ func (mr *MockCmdableMockRecorder) Command(ctx any) *gomock.Call {
 }
 
 // CommandGetKeys mocks base method.
-func (m *MockCmdable) CommandGetKeys(ctx context.Context, commands ...any) *v9.StringSliceCmd {
+func (m *MockCmdable) CommandGetKeys(ctx context.Context, commands ...any) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range commands {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CommandGetKeys", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -1559,14 +1559,14 @@ func (mr *MockCmdableMockRecorder) CommandGetKeys(ctx any, commands ...any) *gom
 }
 
 // CommandGetKeysAndFlags mocks base method.
-func (m *MockCmdable) CommandGetKeysAndFlags(ctx context.Context, commands ...any) *v9.KeyFlagsCmd {
+func (m *MockCmdable) CommandGetKeysAndFlags(ctx context.Context, commands ...any) *redis.KeyFlagsCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range commands {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CommandGetKeysAndFlags", varargs...)
-	ret0, _ := ret[0].(*v9.KeyFlagsCmd)
+	ret0, _ := ret[0].(*redis.KeyFlagsCmd)
 	return ret0
 }
 
@@ -1578,10 +1578,10 @@ func (mr *MockCmdableMockRecorder) CommandGetKeysAndFlags(ctx any, commands ...a
 }
 
 // CommandList mocks base method.
-func (m *MockCmdable) CommandList(ctx context.Context, filter *v9.FilterBy) *v9.StringSliceCmd {
+func (m *MockCmdable) CommandList(ctx context.Context, filter *redis.FilterBy) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CommandList", ctx, filter)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -1592,10 +1592,10 @@ func (mr *MockCmdableMockRecorder) CommandList(ctx, filter any) *gomock.Call {
 }
 
 // ConfigGet mocks base method.
-func (m *MockCmdable) ConfigGet(ctx context.Context, parameter string) *v9.MapStringStringCmd {
+func (m *MockCmdable) ConfigGet(ctx context.Context, parameter string) *redis.MapStringStringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ConfigGet", ctx, parameter)
-	ret0, _ := ret[0].(*v9.MapStringStringCmd)
+	ret0, _ := ret[0].(*redis.MapStringStringCmd)
 	return ret0
 }
 
@@ -1606,10 +1606,10 @@ func (mr *MockCmdableMockRecorder) ConfigGet(ctx, parameter any) *gomock.Call {
 }
 
 // ConfigResetStat mocks base method.
-func (m *MockCmdable) ConfigResetStat(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ConfigResetStat(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ConfigResetStat", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1620,10 +1620,10 @@ func (mr *MockCmdableMockRecorder) ConfigResetStat(ctx any) *gomock.Call {
 }
 
 // ConfigRewrite mocks base method.
-func (m *MockCmdable) ConfigRewrite(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ConfigRewrite(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ConfigRewrite", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1634,10 +1634,10 @@ func (mr *MockCmdableMockRecorder) ConfigRewrite(ctx any) *gomock.Call {
 }
 
 // ConfigSet mocks base method.
-func (m *MockCmdable) ConfigSet(ctx context.Context, parameter, value string) *v9.StatusCmd {
+func (m *MockCmdable) ConfigSet(ctx context.Context, parameter, value string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ConfigSet", ctx, parameter, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -1648,10 +1648,10 @@ func (mr *MockCmdableMockRecorder) ConfigSet(ctx, parameter, value any) *gomock.
 }
 
 // Copy mocks base method.
-func (m *MockCmdable) Copy(ctx context.Context, sourceKey, destKey string, db int, replace bool) *v9.IntCmd {
+func (m *MockCmdable) Copy(ctx context.Context, sourceKey, destKey string, db int, replace bool) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Copy", ctx, sourceKey, destKey, db, replace)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1662,10 +1662,10 @@ func (mr *MockCmdableMockRecorder) Copy(ctx, sourceKey, destKey, db, replace any
 }
 
 // DBSize mocks base method.
-func (m *MockCmdable) DBSize(ctx context.Context) *v9.IntCmd {
+func (m *MockCmdable) DBSize(ctx context.Context) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DBSize", ctx)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1676,10 +1676,10 @@ func (mr *MockCmdableMockRecorder) DBSize(ctx any) *gomock.Call {
 }
 
 // DebugObject mocks base method.
-func (m *MockCmdable) DebugObject(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) DebugObject(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DebugObject", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1690,10 +1690,10 @@ func (mr *MockCmdableMockRecorder) DebugObject(ctx, key any) *gomock.Call {
 }
 
 // Decr mocks base method.
-func (m *MockCmdable) Decr(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) Decr(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Decr", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1704,10 +1704,10 @@ func (mr *MockCmdableMockRecorder) Decr(ctx, key any) *gomock.Call {
 }
 
 // DecrBy mocks base method.
-func (m *MockCmdable) DecrBy(ctx context.Context, key string, decrement int64) *v9.IntCmd {
+func (m *MockCmdable) DecrBy(ctx context.Context, key string, decrement int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DecrBy", ctx, key, decrement)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1718,14 +1718,14 @@ func (mr *MockCmdableMockRecorder) DecrBy(ctx, key, decrement any) *gomock.Call 
 }
 
 // Del mocks base method.
-func (m *MockCmdable) Del(ctx context.Context, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) Del(ctx context.Context, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Del", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1737,10 +1737,10 @@ func (mr *MockCmdableMockRecorder) Del(ctx any, keys ...any) *gomock.Call {
 }
 
 // Dump mocks base method.
-func (m *MockCmdable) Dump(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) Dump(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Dump", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1751,10 +1751,10 @@ func (mr *MockCmdableMockRecorder) Dump(ctx, key any) *gomock.Call {
 }
 
 // Echo mocks base method.
-func (m *MockCmdable) Echo(ctx context.Context, message any) *v9.StringCmd {
+func (m *MockCmdable) Echo(ctx context.Context, message any) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Echo", ctx, message)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -1765,14 +1765,14 @@ func (mr *MockCmdableMockRecorder) Echo(ctx, message any) *gomock.Call {
 }
 
 // Eval mocks base method.
-func (m *MockCmdable) Eval(ctx context.Context, script string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) Eval(ctx context.Context, script string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, script, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Eval", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -1784,14 +1784,14 @@ func (mr *MockCmdableMockRecorder) Eval(ctx, script, keys any, args ...any) *gom
 }
 
 // EvalRO mocks base method.
-func (m *MockCmdable) EvalRO(ctx context.Context, script string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) EvalRO(ctx context.Context, script string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, script, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "EvalRO", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -1803,14 +1803,14 @@ func (mr *MockCmdableMockRecorder) EvalRO(ctx, script, keys any, args ...any) *g
 }
 
 // EvalSha mocks base method.
-func (m *MockCmdable) EvalSha(ctx context.Context, sha1 string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) EvalSha(ctx context.Context, sha1 string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, sha1, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "EvalSha", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -1822,14 +1822,14 @@ func (mr *MockCmdableMockRecorder) EvalSha(ctx, sha1, keys any, args ...any) *go
 }
 
 // EvalShaRO mocks base method.
-func (m *MockCmdable) EvalShaRO(ctx context.Context, sha1 string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) EvalShaRO(ctx context.Context, sha1 string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, sha1, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "EvalShaRO", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -1841,14 +1841,14 @@ func (mr *MockCmdableMockRecorder) EvalShaRO(ctx, sha1, keys any, args ...any) *
 }
 
 // Exists mocks base method.
-func (m *MockCmdable) Exists(ctx context.Context, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) Exists(ctx context.Context, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Exists", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -1860,10 +1860,10 @@ func (mr *MockCmdableMockRecorder) Exists(ctx any, keys ...any) *gomock.Call {
 }
 
 // Expire mocks base method.
-func (m *MockCmdable) Expire(ctx context.Context, key string, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) Expire(ctx context.Context, key string, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Expire", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1874,10 +1874,10 @@ func (mr *MockCmdableMockRecorder) Expire(ctx, key, expiration any) *gomock.Call
 }
 
 // ExpireAt mocks base method.
-func (m *MockCmdable) ExpireAt(ctx context.Context, key string, tm time.Time) *v9.BoolCmd {
+func (m *MockCmdable) ExpireAt(ctx context.Context, key string, tm time.Time) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireAt", ctx, key, tm)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1888,10 +1888,10 @@ func (mr *MockCmdableMockRecorder) ExpireAt(ctx, key, tm any) *gomock.Call {
 }
 
 // ExpireGT mocks base method.
-func (m *MockCmdable) ExpireGT(ctx context.Context, key string, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) ExpireGT(ctx context.Context, key string, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireGT", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1902,10 +1902,10 @@ func (mr *MockCmdableMockRecorder) ExpireGT(ctx, key, expiration any) *gomock.Ca
 }
 
 // ExpireLT mocks base method.
-func (m *MockCmdable) ExpireLT(ctx context.Context, key string, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) ExpireLT(ctx context.Context, key string, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireLT", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1916,10 +1916,10 @@ func (mr *MockCmdableMockRecorder) ExpireLT(ctx, key, expiration any) *gomock.Ca
 }
 
 // ExpireNX mocks base method.
-func (m *MockCmdable) ExpireNX(ctx context.Context, key string, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) ExpireNX(ctx context.Context, key string, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireNX", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1930,10 +1930,10 @@ func (mr *MockCmdableMockRecorder) ExpireNX(ctx, key, expiration any) *gomock.Ca
 }
 
 // ExpireTime mocks base method.
-func (m *MockCmdable) ExpireTime(ctx context.Context, key string) *v9.DurationCmd {
+func (m *MockCmdable) ExpireTime(ctx context.Context, key string) *redis.DurationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireTime", ctx, key)
-	ret0, _ := ret[0].(*v9.DurationCmd)
+	ret0, _ := ret[0].(*redis.DurationCmd)
 	return ret0
 }
 
@@ -1944,10 +1944,10 @@ func (mr *MockCmdableMockRecorder) ExpireTime(ctx, key any) *gomock.Call {
 }
 
 // ExpireXX mocks base method.
-func (m *MockCmdable) ExpireXX(ctx context.Context, key string, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) ExpireXX(ctx context.Context, key string, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireXX", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -1958,14 +1958,14 @@ func (mr *MockCmdableMockRecorder) ExpireXX(ctx, key, expiration any) *gomock.Ca
 }
 
 // FCall mocks base method.
-func (m *MockCmdable) FCall(ctx context.Context, function string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) FCall(ctx context.Context, function string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, function, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FCall", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -1977,14 +1977,14 @@ func (mr *MockCmdableMockRecorder) FCall(ctx, function, keys any, args ...any) *
 }
 
 // FCallRO mocks base method.
-func (m *MockCmdable) FCallRO(ctx context.Context, function string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) FCallRO(ctx context.Context, function string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, function, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FCallRO", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -1996,14 +1996,14 @@ func (mr *MockCmdableMockRecorder) FCallRO(ctx, function, keys any, args ...any)
 }
 
 // FCallRo mocks base method.
-func (m *MockCmdable) FCallRo(ctx context.Context, function string, keys []string, args ...any) *v9.Cmd {
+func (m *MockCmdable) FCallRo(ctx context.Context, function string, keys []string, args ...any) *redis.Cmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, function, keys}
 	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FCallRo", varargs...)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -2015,10 +2015,10 @@ func (mr *MockCmdableMockRecorder) FCallRo(ctx, function, keys any, args ...any)
 }
 
 // FTAggregate mocks base method.
-func (m *MockCmdable) FTAggregate(ctx context.Context, index, query string) *v9.MapStringInterfaceCmd {
+func (m *MockCmdable) FTAggregate(ctx context.Context, index, query string) *redis.MapStringInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTAggregate", ctx, index, query)
-	ret0, _ := ret[0].(*v9.MapStringInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringInterfaceCmd)
 	return ret0
 }
 
@@ -2029,10 +2029,10 @@ func (mr *MockCmdableMockRecorder) FTAggregate(ctx, index, query any) *gomock.Ca
 }
 
 // FTAggregateWithArgs mocks base method.
-func (m *MockCmdable) FTAggregateWithArgs(ctx context.Context, index, query string, options *v9.FTAggregateOptions) *v9.AggregateCmd {
+func (m *MockCmdable) FTAggregateWithArgs(ctx context.Context, index, query string, options *redis.FTAggregateOptions) *redis.AggregateCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTAggregateWithArgs", ctx, index, query, options)
-	ret0, _ := ret[0].(*v9.AggregateCmd)
+	ret0, _ := ret[0].(*redis.AggregateCmd)
 	return ret0
 }
 
@@ -2043,10 +2043,10 @@ func (mr *MockCmdableMockRecorder) FTAggregateWithArgs(ctx, index, query, option
 }
 
 // FTAliasAdd mocks base method.
-func (m *MockCmdable) FTAliasAdd(ctx context.Context, index, alias string) *v9.StatusCmd {
+func (m *MockCmdable) FTAliasAdd(ctx context.Context, index, alias string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTAliasAdd", ctx, index, alias)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2057,10 +2057,10 @@ func (mr *MockCmdableMockRecorder) FTAliasAdd(ctx, index, alias any) *gomock.Cal
 }
 
 // FTAliasDel mocks base method.
-func (m *MockCmdable) FTAliasDel(ctx context.Context, alias string) *v9.StatusCmd {
+func (m *MockCmdable) FTAliasDel(ctx context.Context, alias string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTAliasDel", ctx, alias)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2071,10 +2071,10 @@ func (mr *MockCmdableMockRecorder) FTAliasDel(ctx, alias any) *gomock.Call {
 }
 
 // FTAliasUpdate mocks base method.
-func (m *MockCmdable) FTAliasUpdate(ctx context.Context, index, alias string) *v9.StatusCmd {
+func (m *MockCmdable) FTAliasUpdate(ctx context.Context, index, alias string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTAliasUpdate", ctx, index, alias)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2085,10 +2085,10 @@ func (mr *MockCmdableMockRecorder) FTAliasUpdate(ctx, index, alias any) *gomock.
 }
 
 // FTAlter mocks base method.
-func (m *MockCmdable) FTAlter(ctx context.Context, index string, skipInitialScan bool, definition []any) *v9.StatusCmd {
+func (m *MockCmdable) FTAlter(ctx context.Context, index string, skipInitialScan bool, definition []any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTAlter", ctx, index, skipInitialScan, definition)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2099,10 +2099,10 @@ func (mr *MockCmdableMockRecorder) FTAlter(ctx, index, skipInitialScan, definiti
 }
 
 // FTConfigGet mocks base method.
-func (m *MockCmdable) FTConfigGet(ctx context.Context, option string) *v9.MapMapStringInterfaceCmd {
+func (m *MockCmdable) FTConfigGet(ctx context.Context, option string) *redis.MapMapStringInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTConfigGet", ctx, option)
-	ret0, _ := ret[0].(*v9.MapMapStringInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapMapStringInterfaceCmd)
 	return ret0
 }
 
@@ -2113,10 +2113,10 @@ func (mr *MockCmdableMockRecorder) FTConfigGet(ctx, option any) *gomock.Call {
 }
 
 // FTConfigSet mocks base method.
-func (m *MockCmdable) FTConfigSet(ctx context.Context, option string, value any) *v9.StatusCmd {
+func (m *MockCmdable) FTConfigSet(ctx context.Context, option string, value any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTConfigSet", ctx, option, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2127,14 +2127,14 @@ func (mr *MockCmdableMockRecorder) FTConfigSet(ctx, option, value any) *gomock.C
 }
 
 // FTCreate mocks base method.
-func (m *MockCmdable) FTCreate(ctx context.Context, index string, options *v9.FTCreateOptions, schema ...*v9.FieldSchema) *v9.StatusCmd {
+func (m *MockCmdable) FTCreate(ctx context.Context, index string, options *redis.FTCreateOptions, schema ...*redis.FieldSchema) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, index, options}
 	for _, a := range schema {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FTCreate", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2146,10 +2146,10 @@ func (mr *MockCmdableMockRecorder) FTCreate(ctx, index, options any, schema ...a
 }
 
 // FTCursorDel mocks base method.
-func (m *MockCmdable) FTCursorDel(ctx context.Context, index string, cursorId int) *v9.StatusCmd {
+func (m *MockCmdable) FTCursorDel(ctx context.Context, index string, cursorId int) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTCursorDel", ctx, index, cursorId)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2160,10 +2160,10 @@ func (mr *MockCmdableMockRecorder) FTCursorDel(ctx, index, cursorId any) *gomock
 }
 
 // FTCursorRead mocks base method.
-func (m *MockCmdable) FTCursorRead(ctx context.Context, index string, cursorId, count int) *v9.MapStringInterfaceCmd {
+func (m *MockCmdable) FTCursorRead(ctx context.Context, index string, cursorId, count int) *redis.MapStringInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTCursorRead", ctx, index, cursorId, count)
-	ret0, _ := ret[0].(*v9.MapStringInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringInterfaceCmd)
 	return ret0
 }
 
@@ -2174,14 +2174,14 @@ func (mr *MockCmdableMockRecorder) FTCursorRead(ctx, index, cursorId, count any)
 }
 
 // FTDictAdd mocks base method.
-func (m *MockCmdable) FTDictAdd(ctx context.Context, dict string, term ...any) *v9.IntCmd {
+func (m *MockCmdable) FTDictAdd(ctx context.Context, dict string, term ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, dict}
 	for _, a := range term {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FTDictAdd", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2193,14 +2193,14 @@ func (mr *MockCmdableMockRecorder) FTDictAdd(ctx, dict any, term ...any) *gomock
 }
 
 // FTDictDel mocks base method.
-func (m *MockCmdable) FTDictDel(ctx context.Context, dict string, term ...any) *v9.IntCmd {
+func (m *MockCmdable) FTDictDel(ctx context.Context, dict string, term ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, dict}
 	for _, a := range term {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FTDictDel", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2212,10 +2212,10 @@ func (mr *MockCmdableMockRecorder) FTDictDel(ctx, dict any, term ...any) *gomock
 }
 
 // FTDictDump mocks base method.
-func (m *MockCmdable) FTDictDump(ctx context.Context, dict string) *v9.StringSliceCmd {
+func (m *MockCmdable) FTDictDump(ctx context.Context, dict string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTDictDump", ctx, dict)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -2226,10 +2226,10 @@ func (mr *MockCmdableMockRecorder) FTDictDump(ctx, dict any) *gomock.Call {
 }
 
 // FTDropIndex mocks base method.
-func (m *MockCmdable) FTDropIndex(ctx context.Context, index string) *v9.StatusCmd {
+func (m *MockCmdable) FTDropIndex(ctx context.Context, index string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTDropIndex", ctx, index)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2240,10 +2240,10 @@ func (mr *MockCmdableMockRecorder) FTDropIndex(ctx, index any) *gomock.Call {
 }
 
 // FTDropIndexWithArgs mocks base method.
-func (m *MockCmdable) FTDropIndexWithArgs(ctx context.Context, index string, options *v9.FTDropIndexOptions) *v9.StatusCmd {
+func (m *MockCmdable) FTDropIndexWithArgs(ctx context.Context, index string, options *redis.FTDropIndexOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTDropIndexWithArgs", ctx, index, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2254,10 +2254,10 @@ func (mr *MockCmdableMockRecorder) FTDropIndexWithArgs(ctx, index, options any) 
 }
 
 // FTExplain mocks base method.
-func (m *MockCmdable) FTExplain(ctx context.Context, index, query string) *v9.StringCmd {
+func (m *MockCmdable) FTExplain(ctx context.Context, index, query string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTExplain", ctx, index, query)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2268,10 +2268,10 @@ func (mr *MockCmdableMockRecorder) FTExplain(ctx, index, query any) *gomock.Call
 }
 
 // FTExplainWithArgs mocks base method.
-func (m *MockCmdable) FTExplainWithArgs(ctx context.Context, index, query string, options *v9.FTExplainOptions) *v9.StringCmd {
+func (m *MockCmdable) FTExplainWithArgs(ctx context.Context, index, query string, options *redis.FTExplainOptions) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTExplainWithArgs", ctx, index, query, options)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2282,10 +2282,10 @@ func (mr *MockCmdableMockRecorder) FTExplainWithArgs(ctx, index, query, options 
 }
 
 // FTInfo mocks base method.
-func (m *MockCmdable) FTInfo(ctx context.Context, index string) *v9.FTInfoCmd {
+func (m *MockCmdable) FTInfo(ctx context.Context, index string) *redis.FTInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTInfo", ctx, index)
-	ret0, _ := ret[0].(*v9.FTInfoCmd)
+	ret0, _ := ret[0].(*redis.FTInfoCmd)
 	return ret0
 }
 
@@ -2296,10 +2296,10 @@ func (mr *MockCmdableMockRecorder) FTInfo(ctx, index any) *gomock.Call {
 }
 
 // FTSearch mocks base method.
-func (m *MockCmdable) FTSearch(ctx context.Context, index, query string) *v9.FTSearchCmd {
+func (m *MockCmdable) FTSearch(ctx context.Context, index, query string) *redis.FTSearchCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSearch", ctx, index, query)
-	ret0, _ := ret[0].(*v9.FTSearchCmd)
+	ret0, _ := ret[0].(*redis.FTSearchCmd)
 	return ret0
 }
 
@@ -2310,10 +2310,10 @@ func (mr *MockCmdableMockRecorder) FTSearch(ctx, index, query any) *gomock.Call 
 }
 
 // FTSearchWithArgs mocks base method.
-func (m *MockCmdable) FTSearchWithArgs(ctx context.Context, index, query string, options *v9.FTSearchOptions) *v9.FTSearchCmd {
+func (m *MockCmdable) FTSearchWithArgs(ctx context.Context, index, query string, options *redis.FTSearchOptions) *redis.FTSearchCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSearchWithArgs", ctx, index, query, options)
-	ret0, _ := ret[0].(*v9.FTSearchCmd)
+	ret0, _ := ret[0].(*redis.FTSearchCmd)
 	return ret0
 }
 
@@ -2324,10 +2324,10 @@ func (mr *MockCmdableMockRecorder) FTSearchWithArgs(ctx, index, query, options a
 }
 
 // FTSpellCheck mocks base method.
-func (m *MockCmdable) FTSpellCheck(ctx context.Context, index, query string) *v9.FTSpellCheckCmd {
+func (m *MockCmdable) FTSpellCheck(ctx context.Context, index, query string) *redis.FTSpellCheckCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSpellCheck", ctx, index, query)
-	ret0, _ := ret[0].(*v9.FTSpellCheckCmd)
+	ret0, _ := ret[0].(*redis.FTSpellCheckCmd)
 	return ret0
 }
 
@@ -2338,10 +2338,10 @@ func (mr *MockCmdableMockRecorder) FTSpellCheck(ctx, index, query any) *gomock.C
 }
 
 // FTSpellCheckWithArgs mocks base method.
-func (m *MockCmdable) FTSpellCheckWithArgs(ctx context.Context, index, query string, options *v9.FTSpellCheckOptions) *v9.FTSpellCheckCmd {
+func (m *MockCmdable) FTSpellCheckWithArgs(ctx context.Context, index, query string, options *redis.FTSpellCheckOptions) *redis.FTSpellCheckCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSpellCheckWithArgs", ctx, index, query, options)
-	ret0, _ := ret[0].(*v9.FTSpellCheckCmd)
+	ret0, _ := ret[0].(*redis.FTSpellCheckCmd)
 	return ret0
 }
 
@@ -2352,10 +2352,10 @@ func (mr *MockCmdableMockRecorder) FTSpellCheckWithArgs(ctx, index, query, optio
 }
 
 // FTSynDump mocks base method.
-func (m *MockCmdable) FTSynDump(ctx context.Context, index string) *v9.FTSynDumpCmd {
+func (m *MockCmdable) FTSynDump(ctx context.Context, index string) *redis.FTSynDumpCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSynDump", ctx, index)
-	ret0, _ := ret[0].(*v9.FTSynDumpCmd)
+	ret0, _ := ret[0].(*redis.FTSynDumpCmd)
 	return ret0
 }
 
@@ -2366,10 +2366,10 @@ func (mr *MockCmdableMockRecorder) FTSynDump(ctx, index any) *gomock.Call {
 }
 
 // FTSynUpdate mocks base method.
-func (m *MockCmdable) FTSynUpdate(ctx context.Context, index string, synGroupId any, terms []any) *v9.StatusCmd {
+func (m *MockCmdable) FTSynUpdate(ctx context.Context, index string, synGroupId any, terms []any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSynUpdate", ctx, index, synGroupId, terms)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2380,10 +2380,10 @@ func (mr *MockCmdableMockRecorder) FTSynUpdate(ctx, index, synGroupId, terms any
 }
 
 // FTSynUpdateWithArgs mocks base method.
-func (m *MockCmdable) FTSynUpdateWithArgs(ctx context.Context, index string, synGroupId any, options *v9.FTSynUpdateOptions, terms []any) *v9.StatusCmd {
+func (m *MockCmdable) FTSynUpdateWithArgs(ctx context.Context, index string, synGroupId any, options *redis.FTSynUpdateOptions, terms []any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTSynUpdateWithArgs", ctx, index, synGroupId, options, terms)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2394,10 +2394,10 @@ func (mr *MockCmdableMockRecorder) FTSynUpdateWithArgs(ctx, index, synGroupId, o
 }
 
 // FTTagVals mocks base method.
-func (m *MockCmdable) FTTagVals(ctx context.Context, index, field string) *v9.StringSliceCmd {
+func (m *MockCmdable) FTTagVals(ctx context.Context, index, field string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FTTagVals", ctx, index, field)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -2408,10 +2408,10 @@ func (mr *MockCmdableMockRecorder) FTTagVals(ctx, index, field any) *gomock.Call
 }
 
 // FT_List mocks base method.
-func (m *MockCmdable) FT_List(ctx context.Context) *v9.StringSliceCmd {
+func (m *MockCmdable) FT_List(ctx context.Context) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FT_List", ctx)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -2422,10 +2422,10 @@ func (mr *MockCmdableMockRecorder) FT_List(ctx any) *gomock.Call {
 }
 
 // FlushAll mocks base method.
-func (m *MockCmdable) FlushAll(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) FlushAll(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FlushAll", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2436,10 +2436,10 @@ func (mr *MockCmdableMockRecorder) FlushAll(ctx any) *gomock.Call {
 }
 
 // FlushAllAsync mocks base method.
-func (m *MockCmdable) FlushAllAsync(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) FlushAllAsync(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FlushAllAsync", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2450,10 +2450,10 @@ func (mr *MockCmdableMockRecorder) FlushAllAsync(ctx any) *gomock.Call {
 }
 
 // FlushDB mocks base method.
-func (m *MockCmdable) FlushDB(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) FlushDB(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FlushDB", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2464,10 +2464,10 @@ func (mr *MockCmdableMockRecorder) FlushDB(ctx any) *gomock.Call {
 }
 
 // FlushDBAsync mocks base method.
-func (m *MockCmdable) FlushDBAsync(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) FlushDBAsync(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FlushDBAsync", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -2478,10 +2478,10 @@ func (mr *MockCmdableMockRecorder) FlushDBAsync(ctx any) *gomock.Call {
 }
 
 // FunctionDelete mocks base method.
-func (m *MockCmdable) FunctionDelete(ctx context.Context, libName string) *v9.StringCmd {
+func (m *MockCmdable) FunctionDelete(ctx context.Context, libName string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionDelete", ctx, libName)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2492,10 +2492,10 @@ func (mr *MockCmdableMockRecorder) FunctionDelete(ctx, libName any) *gomock.Call
 }
 
 // FunctionDump mocks base method.
-func (m *MockCmdable) FunctionDump(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) FunctionDump(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionDump", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2506,10 +2506,10 @@ func (mr *MockCmdableMockRecorder) FunctionDump(ctx any) *gomock.Call {
 }
 
 // FunctionFlush mocks base method.
-func (m *MockCmdable) FunctionFlush(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) FunctionFlush(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionFlush", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2520,10 +2520,10 @@ func (mr *MockCmdableMockRecorder) FunctionFlush(ctx any) *gomock.Call {
 }
 
 // FunctionFlushAsync mocks base method.
-func (m *MockCmdable) FunctionFlushAsync(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) FunctionFlushAsync(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionFlushAsync", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2534,10 +2534,10 @@ func (mr *MockCmdableMockRecorder) FunctionFlushAsync(ctx any) *gomock.Call {
 }
 
 // FunctionKill mocks base method.
-func (m *MockCmdable) FunctionKill(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) FunctionKill(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionKill", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2548,10 +2548,10 @@ func (mr *MockCmdableMockRecorder) FunctionKill(ctx any) *gomock.Call {
 }
 
 // FunctionList mocks base method.
-func (m *MockCmdable) FunctionList(ctx context.Context, q v9.FunctionListQuery) *v9.FunctionListCmd {
+func (m *MockCmdable) FunctionList(ctx context.Context, q redis.FunctionListQuery) *redis.FunctionListCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionList", ctx, q)
-	ret0, _ := ret[0].(*v9.FunctionListCmd)
+	ret0, _ := ret[0].(*redis.FunctionListCmd)
 	return ret0
 }
 
@@ -2562,10 +2562,10 @@ func (mr *MockCmdableMockRecorder) FunctionList(ctx, q any) *gomock.Call {
 }
 
 // FunctionLoad mocks base method.
-func (m *MockCmdable) FunctionLoad(ctx context.Context, code string) *v9.StringCmd {
+func (m *MockCmdable) FunctionLoad(ctx context.Context, code string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionLoad", ctx, code)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2576,10 +2576,10 @@ func (mr *MockCmdableMockRecorder) FunctionLoad(ctx, code any) *gomock.Call {
 }
 
 // FunctionLoadReplace mocks base method.
-func (m *MockCmdable) FunctionLoadReplace(ctx context.Context, code string) *v9.StringCmd {
+func (m *MockCmdable) FunctionLoadReplace(ctx context.Context, code string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionLoadReplace", ctx, code)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2590,10 +2590,10 @@ func (mr *MockCmdableMockRecorder) FunctionLoadReplace(ctx, code any) *gomock.Ca
 }
 
 // FunctionRestore mocks base method.
-func (m *MockCmdable) FunctionRestore(ctx context.Context, libDump string) *v9.StringCmd {
+func (m *MockCmdable) FunctionRestore(ctx context.Context, libDump string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionRestore", ctx, libDump)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2604,10 +2604,10 @@ func (mr *MockCmdableMockRecorder) FunctionRestore(ctx, libDump any) *gomock.Cal
 }
 
 // FunctionStats mocks base method.
-func (m *MockCmdable) FunctionStats(ctx context.Context) *v9.FunctionStatsCmd {
+func (m *MockCmdable) FunctionStats(ctx context.Context) *redis.FunctionStatsCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FunctionStats", ctx)
-	ret0, _ := ret[0].(*v9.FunctionStatsCmd)
+	ret0, _ := ret[0].(*redis.FunctionStatsCmd)
 	return ret0
 }
 
@@ -2618,14 +2618,14 @@ func (mr *MockCmdableMockRecorder) FunctionStats(ctx any) *gomock.Call {
 }
 
 // GeoAdd mocks base method.
-func (m *MockCmdable) GeoAdd(ctx context.Context, key string, geoLocation ...*v9.GeoLocation) *v9.IntCmd {
+func (m *MockCmdable) GeoAdd(ctx context.Context, key string, geoLocation ...*redis.GeoLocation) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range geoLocation {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GeoAdd", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2637,10 +2637,10 @@ func (mr *MockCmdableMockRecorder) GeoAdd(ctx, key any, geoLocation ...any) *gom
 }
 
 // GeoDist mocks base method.
-func (m *MockCmdable) GeoDist(ctx context.Context, key, member1, member2, unit string) *v9.FloatCmd {
+func (m *MockCmdable) GeoDist(ctx context.Context, key, member1, member2, unit string) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoDist", ctx, key, member1, member2, unit)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -2651,14 +2651,14 @@ func (mr *MockCmdableMockRecorder) GeoDist(ctx, key, member1, member2, unit any)
 }
 
 // GeoHash mocks base method.
-func (m *MockCmdable) GeoHash(ctx context.Context, key string, members ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) GeoHash(ctx context.Context, key string, members ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GeoHash", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -2670,14 +2670,14 @@ func (mr *MockCmdableMockRecorder) GeoHash(ctx, key any, members ...any) *gomock
 }
 
 // GeoPos mocks base method.
-func (m *MockCmdable) GeoPos(ctx context.Context, key string, members ...string) *v9.GeoPosCmd {
+func (m *MockCmdable) GeoPos(ctx context.Context, key string, members ...string) *redis.GeoPosCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GeoPos", varargs...)
-	ret0, _ := ret[0].(*v9.GeoPosCmd)
+	ret0, _ := ret[0].(*redis.GeoPosCmd)
 	return ret0
 }
 
@@ -2689,10 +2689,10 @@ func (mr *MockCmdableMockRecorder) GeoPos(ctx, key any, members ...any) *gomock.
 }
 
 // GeoRadius mocks base method.
-func (m *MockCmdable) GeoRadius(ctx context.Context, key string, longitude, latitude float64, query *v9.GeoRadiusQuery) *v9.GeoLocationCmd {
+func (m *MockCmdable) GeoRadius(ctx context.Context, key string, longitude, latitude float64, query *redis.GeoRadiusQuery) *redis.GeoLocationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoRadius", ctx, key, longitude, latitude, query)
-	ret0, _ := ret[0].(*v9.GeoLocationCmd)
+	ret0, _ := ret[0].(*redis.GeoLocationCmd)
 	return ret0
 }
 
@@ -2703,10 +2703,10 @@ func (mr *MockCmdableMockRecorder) GeoRadius(ctx, key, longitude, latitude, quer
 }
 
 // GeoRadiusByMember mocks base method.
-func (m *MockCmdable) GeoRadiusByMember(ctx context.Context, key, member string, query *v9.GeoRadiusQuery) *v9.GeoLocationCmd {
+func (m *MockCmdable) GeoRadiusByMember(ctx context.Context, key, member string, query *redis.GeoRadiusQuery) *redis.GeoLocationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoRadiusByMember", ctx, key, member, query)
-	ret0, _ := ret[0].(*v9.GeoLocationCmd)
+	ret0, _ := ret[0].(*redis.GeoLocationCmd)
 	return ret0
 }
 
@@ -2717,10 +2717,10 @@ func (mr *MockCmdableMockRecorder) GeoRadiusByMember(ctx, key, member, query any
 }
 
 // GeoRadiusByMemberStore mocks base method.
-func (m *MockCmdable) GeoRadiusByMemberStore(ctx context.Context, key, member string, query *v9.GeoRadiusQuery) *v9.IntCmd {
+func (m *MockCmdable) GeoRadiusByMemberStore(ctx context.Context, key, member string, query *redis.GeoRadiusQuery) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoRadiusByMemberStore", ctx, key, member, query)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2731,10 +2731,10 @@ func (mr *MockCmdableMockRecorder) GeoRadiusByMemberStore(ctx, key, member, quer
 }
 
 // GeoRadiusStore mocks base method.
-func (m *MockCmdable) GeoRadiusStore(ctx context.Context, key string, longitude, latitude float64, query *v9.GeoRadiusQuery) *v9.IntCmd {
+func (m *MockCmdable) GeoRadiusStore(ctx context.Context, key string, longitude, latitude float64, query *redis.GeoRadiusQuery) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoRadiusStore", ctx, key, longitude, latitude, query)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2745,10 +2745,10 @@ func (mr *MockCmdableMockRecorder) GeoRadiusStore(ctx, key, longitude, latitude,
 }
 
 // GeoSearch mocks base method.
-func (m *MockCmdable) GeoSearch(ctx context.Context, key string, q *v9.GeoSearchQuery) *v9.StringSliceCmd {
+func (m *MockCmdable) GeoSearch(ctx context.Context, key string, q *redis.GeoSearchQuery) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoSearch", ctx, key, q)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -2759,10 +2759,10 @@ func (mr *MockCmdableMockRecorder) GeoSearch(ctx, key, q any) *gomock.Call {
 }
 
 // GeoSearchLocation mocks base method.
-func (m *MockCmdable) GeoSearchLocation(ctx context.Context, key string, q *v9.GeoSearchLocationQuery) *v9.GeoSearchLocationCmd {
+func (m *MockCmdable) GeoSearchLocation(ctx context.Context, key string, q *redis.GeoSearchLocationQuery) *redis.GeoSearchLocationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoSearchLocation", ctx, key, q)
-	ret0, _ := ret[0].(*v9.GeoSearchLocationCmd)
+	ret0, _ := ret[0].(*redis.GeoSearchLocationCmd)
 	return ret0
 }
 
@@ -2773,10 +2773,10 @@ func (mr *MockCmdableMockRecorder) GeoSearchLocation(ctx, key, q any) *gomock.Ca
 }
 
 // GeoSearchStore mocks base method.
-func (m *MockCmdable) GeoSearchStore(ctx context.Context, key, store string, q *v9.GeoSearchStoreQuery) *v9.IntCmd {
+func (m *MockCmdable) GeoSearchStore(ctx context.Context, key, store string, q *redis.GeoSearchStoreQuery) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GeoSearchStore", ctx, key, store, q)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2787,10 +2787,10 @@ func (mr *MockCmdableMockRecorder) GeoSearchStore(ctx, key, store, q any) *gomoc
 }
 
 // Get mocks base method.
-func (m *MockCmdable) Get(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) Get(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2801,10 +2801,10 @@ func (mr *MockCmdableMockRecorder) Get(ctx, key any) *gomock.Call {
 }
 
 // GetBit mocks base method.
-func (m *MockCmdable) GetBit(ctx context.Context, key string, offset int64) *v9.IntCmd {
+func (m *MockCmdable) GetBit(ctx context.Context, key string, offset int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBit", ctx, key, offset)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2815,10 +2815,10 @@ func (mr *MockCmdableMockRecorder) GetBit(ctx, key, offset any) *gomock.Call {
 }
 
 // GetDel mocks base method.
-func (m *MockCmdable) GetDel(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) GetDel(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetDel", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2829,10 +2829,10 @@ func (mr *MockCmdableMockRecorder) GetDel(ctx, key any) *gomock.Call {
 }
 
 // GetEx mocks base method.
-func (m *MockCmdable) GetEx(ctx context.Context, key string, expiration time.Duration) *v9.StringCmd {
+func (m *MockCmdable) GetEx(ctx context.Context, key string, expiration time.Duration) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetEx", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2843,10 +2843,10 @@ func (mr *MockCmdableMockRecorder) GetEx(ctx, key, expiration any) *gomock.Call 
 }
 
 // GetRange mocks base method.
-func (m *MockCmdable) GetRange(ctx context.Context, key string, start, end int64) *v9.StringCmd {
+func (m *MockCmdable) GetRange(ctx context.Context, key string, start, end int64) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRange", ctx, key, start, end)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2857,10 +2857,10 @@ func (mr *MockCmdableMockRecorder) GetRange(ctx, key, start, end any) *gomock.Ca
 }
 
 // GetSet mocks base method.
-func (m *MockCmdable) GetSet(ctx context.Context, key string, value any) *v9.StringCmd {
+func (m *MockCmdable) GetSet(ctx context.Context, key string, value any) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSet", ctx, key, value)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -2871,14 +2871,14 @@ func (mr *MockCmdableMockRecorder) GetSet(ctx, key, value any) *gomock.Call {
 }
 
 // HDel mocks base method.
-func (m *MockCmdable) HDel(ctx context.Context, key string, fields ...string) *v9.IntCmd {
+func (m *MockCmdable) HDel(ctx context.Context, key string, fields ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HDel", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -2890,10 +2890,10 @@ func (mr *MockCmdableMockRecorder) HDel(ctx, key any, fields ...any) *gomock.Cal
 }
 
 // HExists mocks base method.
-func (m *MockCmdable) HExists(ctx context.Context, key, field string) *v9.BoolCmd {
+func (m *MockCmdable) HExists(ctx context.Context, key, field string) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HExists", ctx, key, field)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -2904,14 +2904,14 @@ func (mr *MockCmdableMockRecorder) HExists(ctx, key, field any) *gomock.Call {
 }
 
 // HExpire mocks base method.
-func (m *MockCmdable) HExpire(ctx context.Context, key string, expiration time.Duration, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HExpire(ctx context.Context, key string, expiration time.Duration, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, expiration}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HExpire", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -2923,14 +2923,14 @@ func (mr *MockCmdableMockRecorder) HExpire(ctx, key, expiration any, fields ...a
 }
 
 // HExpireAt mocks base method.
-func (m *MockCmdable) HExpireAt(ctx context.Context, key string, tm time.Time, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HExpireAt(ctx context.Context, key string, tm time.Time, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, tm}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HExpireAt", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -2942,14 +2942,14 @@ func (mr *MockCmdableMockRecorder) HExpireAt(ctx, key, tm any, fields ...any) *g
 }
 
 // HExpireAtWithArgs mocks base method.
-func (m *MockCmdable) HExpireAtWithArgs(ctx context.Context, key string, tm time.Time, expirationArgs v9.HExpireArgs, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HExpireAtWithArgs(ctx context.Context, key string, tm time.Time, expirationArgs redis.HExpireArgs, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, tm, expirationArgs}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HExpireAtWithArgs", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -2961,14 +2961,14 @@ func (mr *MockCmdableMockRecorder) HExpireAtWithArgs(ctx, key, tm, expirationArg
 }
 
 // HExpireTime mocks base method.
-func (m *MockCmdable) HExpireTime(ctx context.Context, key string, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HExpireTime(ctx context.Context, key string, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HExpireTime", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -2980,14 +2980,14 @@ func (mr *MockCmdableMockRecorder) HExpireTime(ctx, key any, fields ...any) *gom
 }
 
 // HExpireWithArgs mocks base method.
-func (m *MockCmdable) HExpireWithArgs(ctx context.Context, key string, expiration time.Duration, expirationArgs v9.HExpireArgs, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HExpireWithArgs(ctx context.Context, key string, expiration time.Duration, expirationArgs redis.HExpireArgs, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, expiration, expirationArgs}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HExpireWithArgs", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -2999,10 +2999,10 @@ func (mr *MockCmdableMockRecorder) HExpireWithArgs(ctx, key, expiration, expirat
 }
 
 // HGet mocks base method.
-func (m *MockCmdable) HGet(ctx context.Context, key, field string) *v9.StringCmd {
+func (m *MockCmdable) HGet(ctx context.Context, key, field string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HGet", ctx, key, field)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -3013,10 +3013,10 @@ func (mr *MockCmdableMockRecorder) HGet(ctx, key, field any) *gomock.Call {
 }
 
 // HGetAll mocks base method.
-func (m *MockCmdable) HGetAll(ctx context.Context, key string) *v9.MapStringStringCmd {
+func (m *MockCmdable) HGetAll(ctx context.Context, key string) *redis.MapStringStringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HGetAll", ctx, key)
-	ret0, _ := ret[0].(*v9.MapStringStringCmd)
+	ret0, _ := ret[0].(*redis.MapStringStringCmd)
 	return ret0
 }
 
@@ -3027,10 +3027,10 @@ func (mr *MockCmdableMockRecorder) HGetAll(ctx, key any) *gomock.Call {
 }
 
 // HIncrBy mocks base method.
-func (m *MockCmdable) HIncrBy(ctx context.Context, key, field string, incr int64) *v9.IntCmd {
+func (m *MockCmdable) HIncrBy(ctx context.Context, key, field string, incr int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HIncrBy", ctx, key, field, incr)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3041,10 +3041,10 @@ func (mr *MockCmdableMockRecorder) HIncrBy(ctx, key, field, incr any) *gomock.Ca
 }
 
 // HIncrByFloat mocks base method.
-func (m *MockCmdable) HIncrByFloat(ctx context.Context, key, field string, incr float64) *v9.FloatCmd {
+func (m *MockCmdable) HIncrByFloat(ctx context.Context, key, field string, incr float64) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HIncrByFloat", ctx, key, field, incr)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -3055,10 +3055,10 @@ func (mr *MockCmdableMockRecorder) HIncrByFloat(ctx, key, field, incr any) *gomo
 }
 
 // HKeys mocks base method.
-func (m *MockCmdable) HKeys(ctx context.Context, key string) *v9.StringSliceCmd {
+func (m *MockCmdable) HKeys(ctx context.Context, key string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HKeys", ctx, key)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -3069,10 +3069,10 @@ func (mr *MockCmdableMockRecorder) HKeys(ctx, key any) *gomock.Call {
 }
 
 // HLen mocks base method.
-func (m *MockCmdable) HLen(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) HLen(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HLen", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3083,14 +3083,14 @@ func (mr *MockCmdableMockRecorder) HLen(ctx, key any) *gomock.Call {
 }
 
 // HMGet mocks base method.
-func (m *MockCmdable) HMGet(ctx context.Context, key string, fields ...string) *v9.SliceCmd {
+func (m *MockCmdable) HMGet(ctx context.Context, key string, fields ...string) *redis.SliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HMGet", varargs...)
-	ret0, _ := ret[0].(*v9.SliceCmd)
+	ret0, _ := ret[0].(*redis.SliceCmd)
 	return ret0
 }
 
@@ -3102,14 +3102,14 @@ func (mr *MockCmdableMockRecorder) HMGet(ctx, key any, fields ...any) *gomock.Ca
 }
 
 // HMSet mocks base method.
-func (m *MockCmdable) HMSet(ctx context.Context, key string, values ...any) *v9.BoolCmd {
+func (m *MockCmdable) HMSet(ctx context.Context, key string, values ...any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HMSet", varargs...)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -3121,14 +3121,14 @@ func (mr *MockCmdableMockRecorder) HMSet(ctx, key any, values ...any) *gomock.Ca
 }
 
 // HPExpire mocks base method.
-func (m *MockCmdable) HPExpire(ctx context.Context, key string, expiration time.Duration, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPExpire(ctx context.Context, key string, expiration time.Duration, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, expiration}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPExpire", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3140,14 +3140,14 @@ func (mr *MockCmdableMockRecorder) HPExpire(ctx, key, expiration any, fields ...
 }
 
 // HPExpireAt mocks base method.
-func (m *MockCmdable) HPExpireAt(ctx context.Context, key string, tm time.Time, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPExpireAt(ctx context.Context, key string, tm time.Time, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, tm}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPExpireAt", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3159,14 +3159,14 @@ func (mr *MockCmdableMockRecorder) HPExpireAt(ctx, key, tm any, fields ...any) *
 }
 
 // HPExpireAtWithArgs mocks base method.
-func (m *MockCmdable) HPExpireAtWithArgs(ctx context.Context, key string, tm time.Time, expirationArgs v9.HExpireArgs, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPExpireAtWithArgs(ctx context.Context, key string, tm time.Time, expirationArgs redis.HExpireArgs, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, tm, expirationArgs}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPExpireAtWithArgs", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3178,14 +3178,14 @@ func (mr *MockCmdableMockRecorder) HPExpireAtWithArgs(ctx, key, tm, expirationAr
 }
 
 // HPExpireTime mocks base method.
-func (m *MockCmdable) HPExpireTime(ctx context.Context, key string, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPExpireTime(ctx context.Context, key string, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPExpireTime", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3197,14 +3197,14 @@ func (mr *MockCmdableMockRecorder) HPExpireTime(ctx, key any, fields ...any) *go
 }
 
 // HPExpireWithArgs mocks base method.
-func (m *MockCmdable) HPExpireWithArgs(ctx context.Context, key string, expiration time.Duration, expirationArgs v9.HExpireArgs, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPExpireWithArgs(ctx context.Context, key string, expiration time.Duration, expirationArgs redis.HExpireArgs, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, expiration, expirationArgs}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPExpireWithArgs", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3216,14 +3216,14 @@ func (mr *MockCmdableMockRecorder) HPExpireWithArgs(ctx, key, expiration, expira
 }
 
 // HPTTL mocks base method.
-func (m *MockCmdable) HPTTL(ctx context.Context, key string, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPTTL(ctx context.Context, key string, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPTTL", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3235,14 +3235,14 @@ func (mr *MockCmdableMockRecorder) HPTTL(ctx, key any, fields ...any) *gomock.Ca
 }
 
 // HPersist mocks base method.
-func (m *MockCmdable) HPersist(ctx context.Context, key string, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HPersist(ctx context.Context, key string, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HPersist", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3254,10 +3254,10 @@ func (mr *MockCmdableMockRecorder) HPersist(ctx, key any, fields ...any) *gomock
 }
 
 // HRandField mocks base method.
-func (m *MockCmdable) HRandField(ctx context.Context, key string, count int) *v9.StringSliceCmd {
+func (m *MockCmdable) HRandField(ctx context.Context, key string, count int) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HRandField", ctx, key, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -3268,10 +3268,10 @@ func (mr *MockCmdableMockRecorder) HRandField(ctx, key, count any) *gomock.Call 
 }
 
 // HRandFieldWithValues mocks base method.
-func (m *MockCmdable) HRandFieldWithValues(ctx context.Context, key string, count int) *v9.KeyValueSliceCmd {
+func (m *MockCmdable) HRandFieldWithValues(ctx context.Context, key string, count int) *redis.KeyValueSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HRandFieldWithValues", ctx, key, count)
-	ret0, _ := ret[0].(*v9.KeyValueSliceCmd)
+	ret0, _ := ret[0].(*redis.KeyValueSliceCmd)
 	return ret0
 }
 
@@ -3282,10 +3282,10 @@ func (mr *MockCmdableMockRecorder) HRandFieldWithValues(ctx, key, count any) *go
 }
 
 // HScan mocks base method.
-func (m *MockCmdable) HScan(ctx context.Context, key string, cursor uint64, match string, count int64) *v9.ScanCmd {
+func (m *MockCmdable) HScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HScan", ctx, key, cursor, match, count)
-	ret0, _ := ret[0].(*v9.ScanCmd)
+	ret0, _ := ret[0].(*redis.ScanCmd)
 	return ret0
 }
 
@@ -3296,10 +3296,10 @@ func (mr *MockCmdableMockRecorder) HScan(ctx, key, cursor, match, count any) *go
 }
 
 // HScanNoValues mocks base method.
-func (m *MockCmdable) HScanNoValues(ctx context.Context, key string, cursor uint64, match string, count int64) *v9.ScanCmd {
+func (m *MockCmdable) HScanNoValues(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HScanNoValues", ctx, key, cursor, match, count)
-	ret0, _ := ret[0].(*v9.ScanCmd)
+	ret0, _ := ret[0].(*redis.ScanCmd)
 	return ret0
 }
 
@@ -3310,14 +3310,14 @@ func (mr *MockCmdableMockRecorder) HScanNoValues(ctx, key, cursor, match, count 
 }
 
 // HSet mocks base method.
-func (m *MockCmdable) HSet(ctx context.Context, key string, values ...any) *v9.IntCmd {
+func (m *MockCmdable) HSet(ctx context.Context, key string, values ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HSet", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3329,10 +3329,10 @@ func (mr *MockCmdableMockRecorder) HSet(ctx, key any, values ...any) *gomock.Cal
 }
 
 // HSetNX mocks base method.
-func (m *MockCmdable) HSetNX(ctx context.Context, key, field string, value any) *v9.BoolCmd {
+func (m *MockCmdable) HSetNX(ctx context.Context, key, field string, value any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HSetNX", ctx, key, field, value)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -3343,14 +3343,14 @@ func (mr *MockCmdableMockRecorder) HSetNX(ctx, key, field, value any) *gomock.Ca
 }
 
 // HTTL mocks base method.
-func (m *MockCmdable) HTTL(ctx context.Context, key string, fields ...string) *v9.IntSliceCmd {
+func (m *MockCmdable) HTTL(ctx context.Context, key string, fields ...string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range fields {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "HTTL", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3362,10 +3362,10 @@ func (mr *MockCmdableMockRecorder) HTTL(ctx, key any, fields ...any) *gomock.Cal
 }
 
 // HVals mocks base method.
-func (m *MockCmdable) HVals(ctx context.Context, key string) *v9.StringSliceCmd {
+func (m *MockCmdable) HVals(ctx context.Context, key string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HVals", ctx, key)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -3376,10 +3376,10 @@ func (mr *MockCmdableMockRecorder) HVals(ctx, key any) *gomock.Call {
 }
 
 // Incr mocks base method.
-func (m *MockCmdable) Incr(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) Incr(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Incr", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3390,10 +3390,10 @@ func (mr *MockCmdableMockRecorder) Incr(ctx, key any) *gomock.Call {
 }
 
 // IncrBy mocks base method.
-func (m *MockCmdable) IncrBy(ctx context.Context, key string, value int64) *v9.IntCmd {
+func (m *MockCmdable) IncrBy(ctx context.Context, key string, value int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "IncrBy", ctx, key, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3404,10 +3404,10 @@ func (mr *MockCmdableMockRecorder) IncrBy(ctx, key, value any) *gomock.Call {
 }
 
 // IncrByFloat mocks base method.
-func (m *MockCmdable) IncrByFloat(ctx context.Context, key string, value float64) *v9.FloatCmd {
+func (m *MockCmdable) IncrByFloat(ctx context.Context, key string, value float64) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "IncrByFloat", ctx, key, value)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -3418,14 +3418,14 @@ func (mr *MockCmdableMockRecorder) IncrByFloat(ctx, key, value any) *gomock.Call
 }
 
 // Info mocks base method.
-func (m *MockCmdable) Info(ctx context.Context, section ...string) *v9.StringCmd {
+func (m *MockCmdable) Info(ctx context.Context, section ...string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range section {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Info", varargs...)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -3437,14 +3437,14 @@ func (mr *MockCmdableMockRecorder) Info(ctx any, section ...any) *gomock.Call {
 }
 
 // JSONArrAppend mocks base method.
-func (m *MockCmdable) JSONArrAppend(ctx context.Context, key, path string, values ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrAppend(ctx context.Context, key, path string, values ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, path}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONArrAppend", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3456,14 +3456,14 @@ func (mr *MockCmdableMockRecorder) JSONArrAppend(ctx, key, path any, values ...a
 }
 
 // JSONArrIndex mocks base method.
-func (m *MockCmdable) JSONArrIndex(ctx context.Context, key, path string, value ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrIndex(ctx context.Context, key, path string, value ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, path}
 	for _, a := range value {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONArrIndex", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3475,14 +3475,14 @@ func (mr *MockCmdableMockRecorder) JSONArrIndex(ctx, key, path any, value ...any
 }
 
 // JSONArrIndexWithArgs mocks base method.
-func (m *MockCmdable) JSONArrIndexWithArgs(ctx context.Context, key, path string, options *v9.JSONArrIndexArgs, value ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrIndexWithArgs(ctx context.Context, key, path string, options *redis.JSONArrIndexArgs, value ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, path, options}
 	for _, a := range value {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONArrIndexWithArgs", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3494,14 +3494,14 @@ func (mr *MockCmdableMockRecorder) JSONArrIndexWithArgs(ctx, key, path, options 
 }
 
 // JSONArrInsert mocks base method.
-func (m *MockCmdable) JSONArrInsert(ctx context.Context, key, path string, index int64, values ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrInsert(ctx context.Context, key, path string, index int64, values ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, path, index}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONArrInsert", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3513,10 +3513,10 @@ func (mr *MockCmdableMockRecorder) JSONArrInsert(ctx, key, path, index any, valu
 }
 
 // JSONArrLen mocks base method.
-func (m *MockCmdable) JSONArrLen(ctx context.Context, key, path string) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrLen(ctx context.Context, key, path string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONArrLen", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3527,10 +3527,10 @@ func (mr *MockCmdableMockRecorder) JSONArrLen(ctx, key, path any) *gomock.Call {
 }
 
 // JSONArrPop mocks base method.
-func (m *MockCmdable) JSONArrPop(ctx context.Context, key, path string, index int) *v9.StringSliceCmd {
+func (m *MockCmdable) JSONArrPop(ctx context.Context, key, path string, index int) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONArrPop", ctx, key, path, index)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -3541,10 +3541,10 @@ func (mr *MockCmdableMockRecorder) JSONArrPop(ctx, key, path, index any) *gomock
 }
 
 // JSONArrTrim mocks base method.
-func (m *MockCmdable) JSONArrTrim(ctx context.Context, key, path string) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrTrim(ctx context.Context, key, path string) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONArrTrim", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3555,10 +3555,10 @@ func (mr *MockCmdableMockRecorder) JSONArrTrim(ctx, key, path any) *gomock.Call 
 }
 
 // JSONArrTrimWithArgs mocks base method.
-func (m *MockCmdable) JSONArrTrimWithArgs(ctx context.Context, key, path string, options *v9.JSONArrTrimArgs) *v9.IntSliceCmd {
+func (m *MockCmdable) JSONArrTrimWithArgs(ctx context.Context, key, path string, options *redis.JSONArrTrimArgs) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONArrTrimWithArgs", ctx, key, path, options)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -3569,10 +3569,10 @@ func (mr *MockCmdableMockRecorder) JSONArrTrimWithArgs(ctx, key, path, options a
 }
 
 // JSONClear mocks base method.
-func (m *MockCmdable) JSONClear(ctx context.Context, key, path string) *v9.IntCmd {
+func (m *MockCmdable) JSONClear(ctx context.Context, key, path string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONClear", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3583,10 +3583,10 @@ func (mr *MockCmdableMockRecorder) JSONClear(ctx, key, path any) *gomock.Call {
 }
 
 // JSONDebugMemory mocks base method.
-func (m *MockCmdable) JSONDebugMemory(ctx context.Context, key, path string) *v9.IntCmd {
+func (m *MockCmdable) JSONDebugMemory(ctx context.Context, key, path string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONDebugMemory", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3597,10 +3597,10 @@ func (mr *MockCmdableMockRecorder) JSONDebugMemory(ctx, key, path any) *gomock.C
 }
 
 // JSONDel mocks base method.
-func (m *MockCmdable) JSONDel(ctx context.Context, key, path string) *v9.IntCmd {
+func (m *MockCmdable) JSONDel(ctx context.Context, key, path string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONDel", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3611,10 +3611,10 @@ func (mr *MockCmdableMockRecorder) JSONDel(ctx, key, path any) *gomock.Call {
 }
 
 // JSONForget mocks base method.
-func (m *MockCmdable) JSONForget(ctx context.Context, key, path string) *v9.IntCmd {
+func (m *MockCmdable) JSONForget(ctx context.Context, key, path string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONForget", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3625,14 +3625,14 @@ func (mr *MockCmdableMockRecorder) JSONForget(ctx, key, path any) *gomock.Call {
 }
 
 // JSONGet mocks base method.
-func (m *MockCmdable) JSONGet(ctx context.Context, key string, paths ...string) *v9.JSONCmd {
+func (m *MockCmdable) JSONGet(ctx context.Context, key string, paths ...string) *redis.JSONCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range paths {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONGet", varargs...)
-	ret0, _ := ret[0].(*v9.JSONCmd)
+	ret0, _ := ret[0].(*redis.JSONCmd)
 	return ret0
 }
 
@@ -3644,14 +3644,14 @@ func (mr *MockCmdableMockRecorder) JSONGet(ctx, key any, paths ...any) *gomock.C
 }
 
 // JSONGetWithArgs mocks base method.
-func (m *MockCmdable) JSONGetWithArgs(ctx context.Context, key string, options *v9.JSONGetArgs, paths ...string) *v9.JSONCmd {
+func (m *MockCmdable) JSONGetWithArgs(ctx context.Context, key string, options *redis.JSONGetArgs, paths ...string) *redis.JSONCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key, options}
 	for _, a := range paths {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONGetWithArgs", varargs...)
-	ret0, _ := ret[0].(*v9.JSONCmd)
+	ret0, _ := ret[0].(*redis.JSONCmd)
 	return ret0
 }
 
@@ -3663,14 +3663,14 @@ func (mr *MockCmdableMockRecorder) JSONGetWithArgs(ctx, key, options any, paths 
 }
 
 // JSONMGet mocks base method.
-func (m *MockCmdable) JSONMGet(ctx context.Context, path string, keys ...string) *v9.JSONSliceCmd {
+func (m *MockCmdable) JSONMGet(ctx context.Context, path string, keys ...string) *redis.JSONSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, path}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONMGet", varargs...)
-	ret0, _ := ret[0].(*v9.JSONSliceCmd)
+	ret0, _ := ret[0].(*redis.JSONSliceCmd)
 	return ret0
 }
 
@@ -3682,14 +3682,14 @@ func (mr *MockCmdableMockRecorder) JSONMGet(ctx, path any, keys ...any) *gomock.
 }
 
 // JSONMSet mocks base method.
-func (m *MockCmdable) JSONMSet(ctx context.Context, params ...any) *v9.StatusCmd {
+func (m *MockCmdable) JSONMSet(ctx context.Context, params ...any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range params {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "JSONMSet", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -3701,10 +3701,10 @@ func (mr *MockCmdableMockRecorder) JSONMSet(ctx any, params ...any) *gomock.Call
 }
 
 // JSONMSetArgs mocks base method.
-func (m *MockCmdable) JSONMSetArgs(ctx context.Context, docs []v9.JSONSetArgs) *v9.StatusCmd {
+func (m *MockCmdable) JSONMSetArgs(ctx context.Context, docs []redis.JSONSetArgs) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONMSetArgs", ctx, docs)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -3715,10 +3715,10 @@ func (mr *MockCmdableMockRecorder) JSONMSetArgs(ctx, docs any) *gomock.Call {
 }
 
 // JSONMerge mocks base method.
-func (m *MockCmdable) JSONMerge(ctx context.Context, key, path, value string) *v9.StatusCmd {
+func (m *MockCmdable) JSONMerge(ctx context.Context, key, path, value string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONMerge", ctx, key, path, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -3729,10 +3729,10 @@ func (mr *MockCmdableMockRecorder) JSONMerge(ctx, key, path, value any) *gomock.
 }
 
 // JSONNumIncrBy mocks base method.
-func (m *MockCmdable) JSONNumIncrBy(ctx context.Context, key, path string, value float64) *v9.JSONCmd {
+func (m *MockCmdable) JSONNumIncrBy(ctx context.Context, key, path string, value float64) *redis.JSONCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONNumIncrBy", ctx, key, path, value)
-	ret0, _ := ret[0].(*v9.JSONCmd)
+	ret0, _ := ret[0].(*redis.JSONCmd)
 	return ret0
 }
 
@@ -3743,10 +3743,10 @@ func (mr *MockCmdableMockRecorder) JSONNumIncrBy(ctx, key, path, value any) *gom
 }
 
 // JSONObjKeys mocks base method.
-func (m *MockCmdable) JSONObjKeys(ctx context.Context, key, path string) *v9.SliceCmd {
+func (m *MockCmdable) JSONObjKeys(ctx context.Context, key, path string) *redis.SliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONObjKeys", ctx, key, path)
-	ret0, _ := ret[0].(*v9.SliceCmd)
+	ret0, _ := ret[0].(*redis.SliceCmd)
 	return ret0
 }
 
@@ -3757,10 +3757,10 @@ func (mr *MockCmdableMockRecorder) JSONObjKeys(ctx, key, path any) *gomock.Call 
 }
 
 // JSONObjLen mocks base method.
-func (m *MockCmdable) JSONObjLen(ctx context.Context, key, path string) *v9.IntPointerSliceCmd {
+func (m *MockCmdable) JSONObjLen(ctx context.Context, key, path string) *redis.IntPointerSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONObjLen", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntPointerSliceCmd)
+	ret0, _ := ret[0].(*redis.IntPointerSliceCmd)
 	return ret0
 }
 
@@ -3771,10 +3771,10 @@ func (mr *MockCmdableMockRecorder) JSONObjLen(ctx, key, path any) *gomock.Call {
 }
 
 // JSONSet mocks base method.
-func (m *MockCmdable) JSONSet(ctx context.Context, key, path string, value any) *v9.StatusCmd {
+func (m *MockCmdable) JSONSet(ctx context.Context, key, path string, value any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONSet", ctx, key, path, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -3785,10 +3785,10 @@ func (mr *MockCmdableMockRecorder) JSONSet(ctx, key, path, value any) *gomock.Ca
 }
 
 // JSONSetMode mocks base method.
-func (m *MockCmdable) JSONSetMode(ctx context.Context, key, path string, value any, mode string) *v9.StatusCmd {
+func (m *MockCmdable) JSONSetMode(ctx context.Context, key, path string, value any, mode string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONSetMode", ctx, key, path, value, mode)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -3799,10 +3799,10 @@ func (mr *MockCmdableMockRecorder) JSONSetMode(ctx, key, path, value, mode any) 
 }
 
 // JSONStrAppend mocks base method.
-func (m *MockCmdable) JSONStrAppend(ctx context.Context, key, path, value string) *v9.IntPointerSliceCmd {
+func (m *MockCmdable) JSONStrAppend(ctx context.Context, key, path, value string) *redis.IntPointerSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONStrAppend", ctx, key, path, value)
-	ret0, _ := ret[0].(*v9.IntPointerSliceCmd)
+	ret0, _ := ret[0].(*redis.IntPointerSliceCmd)
 	return ret0
 }
 
@@ -3813,10 +3813,10 @@ func (mr *MockCmdableMockRecorder) JSONStrAppend(ctx, key, path, value any) *gom
 }
 
 // JSONStrLen mocks base method.
-func (m *MockCmdable) JSONStrLen(ctx context.Context, key, path string) *v9.IntPointerSliceCmd {
+func (m *MockCmdable) JSONStrLen(ctx context.Context, key, path string) *redis.IntPointerSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONStrLen", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntPointerSliceCmd)
+	ret0, _ := ret[0].(*redis.IntPointerSliceCmd)
 	return ret0
 }
 
@@ -3827,10 +3827,10 @@ func (mr *MockCmdableMockRecorder) JSONStrLen(ctx, key, path any) *gomock.Call {
 }
 
 // JSONToggle mocks base method.
-func (m *MockCmdable) JSONToggle(ctx context.Context, key, path string) *v9.IntPointerSliceCmd {
+func (m *MockCmdable) JSONToggle(ctx context.Context, key, path string) *redis.IntPointerSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONToggle", ctx, key, path)
-	ret0, _ := ret[0].(*v9.IntPointerSliceCmd)
+	ret0, _ := ret[0].(*redis.IntPointerSliceCmd)
 	return ret0
 }
 
@@ -3841,10 +3841,10 @@ func (mr *MockCmdableMockRecorder) JSONToggle(ctx, key, path any) *gomock.Call {
 }
 
 // JSONType mocks base method.
-func (m *MockCmdable) JSONType(ctx context.Context, key, path string) *v9.JSONSliceCmd {
+func (m *MockCmdable) JSONType(ctx context.Context, key, path string) *redis.JSONSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "JSONType", ctx, key, path)
-	ret0, _ := ret[0].(*v9.JSONSliceCmd)
+	ret0, _ := ret[0].(*redis.JSONSliceCmd)
 	return ret0
 }
 
@@ -3855,10 +3855,10 @@ func (mr *MockCmdableMockRecorder) JSONType(ctx, key, path any) *gomock.Call {
 }
 
 // Keys mocks base method.
-func (m *MockCmdable) Keys(ctx context.Context, pattern string) *v9.StringSliceCmd {
+func (m *MockCmdable) Keys(ctx context.Context, pattern string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Keys", ctx, pattern)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -3869,10 +3869,10 @@ func (mr *MockCmdableMockRecorder) Keys(ctx, pattern any) *gomock.Call {
 }
 
 // LCS mocks base method.
-func (m *MockCmdable) LCS(ctx context.Context, q *v9.LCSQuery) *v9.LCSCmd {
+func (m *MockCmdable) LCS(ctx context.Context, q *redis.LCSQuery) *redis.LCSCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LCS", ctx, q)
-	ret0, _ := ret[0].(*v9.LCSCmd)
+	ret0, _ := ret[0].(*redis.LCSCmd)
 	return ret0
 }
 
@@ -3883,10 +3883,10 @@ func (mr *MockCmdableMockRecorder) LCS(ctx, q any) *gomock.Call {
 }
 
 // LIndex mocks base method.
-func (m *MockCmdable) LIndex(ctx context.Context, key string, index int64) *v9.StringCmd {
+func (m *MockCmdable) LIndex(ctx context.Context, key string, index int64) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LIndex", ctx, key, index)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -3897,10 +3897,10 @@ func (mr *MockCmdableMockRecorder) LIndex(ctx, key, index any) *gomock.Call {
 }
 
 // LInsert mocks base method.
-func (m *MockCmdable) LInsert(ctx context.Context, key, op string, pivot, value any) *v9.IntCmd {
+func (m *MockCmdable) LInsert(ctx context.Context, key, op string, pivot, value any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LInsert", ctx, key, op, pivot, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3911,10 +3911,10 @@ func (mr *MockCmdableMockRecorder) LInsert(ctx, key, op, pivot, value any) *gomo
 }
 
 // LInsertAfter mocks base method.
-func (m *MockCmdable) LInsertAfter(ctx context.Context, key string, pivot, value any) *v9.IntCmd {
+func (m *MockCmdable) LInsertAfter(ctx context.Context, key string, pivot, value any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LInsertAfter", ctx, key, pivot, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3925,10 +3925,10 @@ func (mr *MockCmdableMockRecorder) LInsertAfter(ctx, key, pivot, value any) *gom
 }
 
 // LInsertBefore mocks base method.
-func (m *MockCmdable) LInsertBefore(ctx context.Context, key string, pivot, value any) *v9.IntCmd {
+func (m *MockCmdable) LInsertBefore(ctx context.Context, key string, pivot, value any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LInsertBefore", ctx, key, pivot, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3939,10 +3939,10 @@ func (mr *MockCmdableMockRecorder) LInsertBefore(ctx, key, pivot, value any) *go
 }
 
 // LLen mocks base method.
-func (m *MockCmdable) LLen(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) LLen(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LLen", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -3953,14 +3953,14 @@ func (mr *MockCmdableMockRecorder) LLen(ctx, key any) *gomock.Call {
 }
 
 // LMPop mocks base method.
-func (m *MockCmdable) LMPop(ctx context.Context, direction string, count int64, keys ...string) *v9.KeyValuesCmd {
+func (m *MockCmdable) LMPop(ctx context.Context, direction string, count int64, keys ...string) *redis.KeyValuesCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, direction, count}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "LMPop", varargs...)
-	ret0, _ := ret[0].(*v9.KeyValuesCmd)
+	ret0, _ := ret[0].(*redis.KeyValuesCmd)
 	return ret0
 }
 
@@ -3972,10 +3972,10 @@ func (mr *MockCmdableMockRecorder) LMPop(ctx, direction, count any, keys ...any)
 }
 
 // LMove mocks base method.
-func (m *MockCmdable) LMove(ctx context.Context, source, destination, srcpos, destpos string) *v9.StringCmd {
+func (m *MockCmdable) LMove(ctx context.Context, source, destination, srcpos, destpos string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LMove", ctx, source, destination, srcpos, destpos)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -3986,10 +3986,10 @@ func (mr *MockCmdableMockRecorder) LMove(ctx, source, destination, srcpos, destp
 }
 
 // LPop mocks base method.
-func (m *MockCmdable) LPop(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) LPop(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LPop", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4000,10 +4000,10 @@ func (mr *MockCmdableMockRecorder) LPop(ctx, key any) *gomock.Call {
 }
 
 // LPopCount mocks base method.
-func (m *MockCmdable) LPopCount(ctx context.Context, key string, count int) *v9.StringSliceCmd {
+func (m *MockCmdable) LPopCount(ctx context.Context, key string, count int) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LPopCount", ctx, key, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4014,10 +4014,10 @@ func (mr *MockCmdableMockRecorder) LPopCount(ctx, key, count any) *gomock.Call {
 }
 
 // LPos mocks base method.
-func (m *MockCmdable) LPos(ctx context.Context, key, value string, args v9.LPosArgs) *v9.IntCmd {
+func (m *MockCmdable) LPos(ctx context.Context, key, value string, args redis.LPosArgs) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LPos", ctx, key, value, args)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4028,10 +4028,10 @@ func (mr *MockCmdableMockRecorder) LPos(ctx, key, value, args any) *gomock.Call 
 }
 
 // LPosCount mocks base method.
-func (m *MockCmdable) LPosCount(ctx context.Context, key, value string, count int64, args v9.LPosArgs) *v9.IntSliceCmd {
+func (m *MockCmdable) LPosCount(ctx context.Context, key, value string, count int64, args redis.LPosArgs) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LPosCount", ctx, key, value, count, args)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -4042,14 +4042,14 @@ func (mr *MockCmdableMockRecorder) LPosCount(ctx, key, value, count, args any) *
 }
 
 // LPush mocks base method.
-func (m *MockCmdable) LPush(ctx context.Context, key string, values ...any) *v9.IntCmd {
+func (m *MockCmdable) LPush(ctx context.Context, key string, values ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "LPush", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4061,14 +4061,14 @@ func (mr *MockCmdableMockRecorder) LPush(ctx, key any, values ...any) *gomock.Ca
 }
 
 // LPushX mocks base method.
-func (m *MockCmdable) LPushX(ctx context.Context, key string, values ...any) *v9.IntCmd {
+func (m *MockCmdable) LPushX(ctx context.Context, key string, values ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "LPushX", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4080,10 +4080,10 @@ func (mr *MockCmdableMockRecorder) LPushX(ctx, key any, values ...any) *gomock.C
 }
 
 // LRange mocks base method.
-func (m *MockCmdable) LRange(ctx context.Context, key string, start, stop int64) *v9.StringSliceCmd {
+func (m *MockCmdable) LRange(ctx context.Context, key string, start, stop int64) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LRange", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4094,10 +4094,10 @@ func (mr *MockCmdableMockRecorder) LRange(ctx, key, start, stop any) *gomock.Cal
 }
 
 // LRem mocks base method.
-func (m *MockCmdable) LRem(ctx context.Context, key string, count int64, value any) *v9.IntCmd {
+func (m *MockCmdable) LRem(ctx context.Context, key string, count int64, value any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LRem", ctx, key, count, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4108,10 +4108,10 @@ func (mr *MockCmdableMockRecorder) LRem(ctx, key, count, value any) *gomock.Call
 }
 
 // LSet mocks base method.
-func (m *MockCmdable) LSet(ctx context.Context, key string, index int64, value any) *v9.StatusCmd {
+func (m *MockCmdable) LSet(ctx context.Context, key string, index int64, value any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LSet", ctx, key, index, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4122,10 +4122,10 @@ func (mr *MockCmdableMockRecorder) LSet(ctx, key, index, value any) *gomock.Call
 }
 
 // LTrim mocks base method.
-func (m *MockCmdable) LTrim(ctx context.Context, key string, start, stop int64) *v9.StatusCmd {
+func (m *MockCmdable) LTrim(ctx context.Context, key string, start, stop int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LTrim", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4136,10 +4136,10 @@ func (mr *MockCmdableMockRecorder) LTrim(ctx, key, start, stop any) *gomock.Call
 }
 
 // LastSave mocks base method.
-func (m *MockCmdable) LastSave(ctx context.Context) *v9.IntCmd {
+func (m *MockCmdable) LastSave(ctx context.Context) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LastSave", ctx)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4150,14 +4150,14 @@ func (mr *MockCmdableMockRecorder) LastSave(ctx any) *gomock.Call {
 }
 
 // MGet mocks base method.
-func (m *MockCmdable) MGet(ctx context.Context, keys ...string) *v9.SliceCmd {
+func (m *MockCmdable) MGet(ctx context.Context, keys ...string) *redis.SliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MGet", varargs...)
-	ret0, _ := ret[0].(*v9.SliceCmd)
+	ret0, _ := ret[0].(*redis.SliceCmd)
 	return ret0
 }
 
@@ -4169,14 +4169,14 @@ func (mr *MockCmdableMockRecorder) MGet(ctx any, keys ...any) *gomock.Call {
 }
 
 // MSet mocks base method.
-func (m *MockCmdable) MSet(ctx context.Context, values ...any) *v9.StatusCmd {
+func (m *MockCmdable) MSet(ctx context.Context, values ...any) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MSet", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4188,14 +4188,14 @@ func (mr *MockCmdableMockRecorder) MSet(ctx any, values ...any) *gomock.Call {
 }
 
 // MSetNX mocks base method.
-func (m *MockCmdable) MSetNX(ctx context.Context, values ...any) *v9.BoolCmd {
+func (m *MockCmdable) MSetNX(ctx context.Context, values ...any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MSetNX", varargs...)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4207,14 +4207,14 @@ func (mr *MockCmdableMockRecorder) MSetNX(ctx any, values ...any) *gomock.Call {
 }
 
 // MemoryUsage mocks base method.
-func (m *MockCmdable) MemoryUsage(ctx context.Context, key string, samples ...int) *v9.IntCmd {
+func (m *MockCmdable) MemoryUsage(ctx context.Context, key string, samples ...int) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range samples {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MemoryUsage", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4226,10 +4226,10 @@ func (mr *MockCmdableMockRecorder) MemoryUsage(ctx, key any, samples ...any) *go
 }
 
 // Migrate mocks base method.
-func (m *MockCmdable) Migrate(ctx context.Context, host, port, key string, db int, timeout time.Duration) *v9.StatusCmd {
+func (m *MockCmdable) Migrate(ctx context.Context, host, port, key string, db int, timeout time.Duration) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Migrate", ctx, host, port, key, db, timeout)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4240,10 +4240,10 @@ func (mr *MockCmdableMockRecorder) Migrate(ctx, host, port, key, db, timeout any
 }
 
 // ModuleLoadex mocks base method.
-func (m *MockCmdable) ModuleLoadex(ctx context.Context, conf *v9.ModuleLoadexConfig) *v9.StringCmd {
+func (m *MockCmdable) ModuleLoadex(ctx context.Context, conf *redis.ModuleLoadexConfig) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ModuleLoadex", ctx, conf)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4254,10 +4254,10 @@ func (mr *MockCmdableMockRecorder) ModuleLoadex(ctx, conf any) *gomock.Call {
 }
 
 // Move mocks base method.
-func (m *MockCmdable) Move(ctx context.Context, key string, db int) *v9.BoolCmd {
+func (m *MockCmdable) Move(ctx context.Context, key string, db int) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Move", ctx, key, db)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4268,10 +4268,10 @@ func (mr *MockCmdableMockRecorder) Move(ctx, key, db any) *gomock.Call {
 }
 
 // ObjectEncoding mocks base method.
-func (m *MockCmdable) ObjectEncoding(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) ObjectEncoding(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ObjectEncoding", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4282,10 +4282,10 @@ func (mr *MockCmdableMockRecorder) ObjectEncoding(ctx, key any) *gomock.Call {
 }
 
 // ObjectFreq mocks base method.
-func (m *MockCmdable) ObjectFreq(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) ObjectFreq(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ObjectFreq", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4296,10 +4296,10 @@ func (mr *MockCmdableMockRecorder) ObjectFreq(ctx, key any) *gomock.Call {
 }
 
 // ObjectIdleTime mocks base method.
-func (m *MockCmdable) ObjectIdleTime(ctx context.Context, key string) *v9.DurationCmd {
+func (m *MockCmdable) ObjectIdleTime(ctx context.Context, key string) *redis.DurationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ObjectIdleTime", ctx, key)
-	ret0, _ := ret[0].(*v9.DurationCmd)
+	ret0, _ := ret[0].(*redis.DurationCmd)
 	return ret0
 }
 
@@ -4310,10 +4310,10 @@ func (mr *MockCmdableMockRecorder) ObjectIdleTime(ctx, key any) *gomock.Call {
 }
 
 // ObjectRefCount mocks base method.
-func (m *MockCmdable) ObjectRefCount(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) ObjectRefCount(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ObjectRefCount", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4324,10 +4324,10 @@ func (mr *MockCmdableMockRecorder) ObjectRefCount(ctx, key any) *gomock.Call {
 }
 
 // PExpire mocks base method.
-func (m *MockCmdable) PExpire(ctx context.Context, key string, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) PExpire(ctx context.Context, key string, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PExpire", ctx, key, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4338,10 +4338,10 @@ func (mr *MockCmdableMockRecorder) PExpire(ctx, key, expiration any) *gomock.Cal
 }
 
 // PExpireAt mocks base method.
-func (m *MockCmdable) PExpireAt(ctx context.Context, key string, tm time.Time) *v9.BoolCmd {
+func (m *MockCmdable) PExpireAt(ctx context.Context, key string, tm time.Time) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PExpireAt", ctx, key, tm)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4352,10 +4352,10 @@ func (mr *MockCmdableMockRecorder) PExpireAt(ctx, key, tm any) *gomock.Call {
 }
 
 // PExpireTime mocks base method.
-func (m *MockCmdable) PExpireTime(ctx context.Context, key string) *v9.DurationCmd {
+func (m *MockCmdable) PExpireTime(ctx context.Context, key string) *redis.DurationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PExpireTime", ctx, key)
-	ret0, _ := ret[0].(*v9.DurationCmd)
+	ret0, _ := ret[0].(*redis.DurationCmd)
 	return ret0
 }
 
@@ -4366,14 +4366,14 @@ func (mr *MockCmdableMockRecorder) PExpireTime(ctx, key any) *gomock.Call {
 }
 
 // PFAdd mocks base method.
-func (m *MockCmdable) PFAdd(ctx context.Context, key string, els ...any) *v9.IntCmd {
+func (m *MockCmdable) PFAdd(ctx context.Context, key string, els ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range els {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PFAdd", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4385,14 +4385,14 @@ func (mr *MockCmdableMockRecorder) PFAdd(ctx, key any, els ...any) *gomock.Call 
 }
 
 // PFCount mocks base method.
-func (m *MockCmdable) PFCount(ctx context.Context, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) PFCount(ctx context.Context, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PFCount", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4404,14 +4404,14 @@ func (mr *MockCmdableMockRecorder) PFCount(ctx any, keys ...any) *gomock.Call {
 }
 
 // PFMerge mocks base method.
-func (m *MockCmdable) PFMerge(ctx context.Context, dest string, keys ...string) *v9.StatusCmd {
+func (m *MockCmdable) PFMerge(ctx context.Context, dest string, keys ...string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, dest}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PFMerge", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4423,10 +4423,10 @@ func (mr *MockCmdableMockRecorder) PFMerge(ctx, dest any, keys ...any) *gomock.C
 }
 
 // PTTL mocks base method.
-func (m *MockCmdable) PTTL(ctx context.Context, key string) *v9.DurationCmd {
+func (m *MockCmdable) PTTL(ctx context.Context, key string) *redis.DurationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PTTL", ctx, key)
-	ret0, _ := ret[0].(*v9.DurationCmd)
+	ret0, _ := ret[0].(*redis.DurationCmd)
 	return ret0
 }
 
@@ -4437,10 +4437,10 @@ func (mr *MockCmdableMockRecorder) PTTL(ctx, key any) *gomock.Call {
 }
 
 // Persist mocks base method.
-func (m *MockCmdable) Persist(ctx context.Context, key string) *v9.BoolCmd {
+func (m *MockCmdable) Persist(ctx context.Context, key string) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Persist", ctx, key)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4451,10 +4451,10 @@ func (mr *MockCmdableMockRecorder) Persist(ctx, key any) *gomock.Call {
 }
 
 // Ping mocks base method.
-func (m *MockCmdable) Ping(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) Ping(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Ping", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4465,10 +4465,10 @@ func (mr *MockCmdableMockRecorder) Ping(ctx any) *gomock.Call {
 }
 
 // Pipeline mocks base method.
-func (m *MockCmdable) Pipeline() v9.Pipeliner {
+func (m *MockCmdable) Pipeline() redis.Pipeliner {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Pipeline")
-	ret0, _ := ret[0].(v9.Pipeliner)
+	ret0, _ := ret[0].(redis.Pipeliner)
 	return ret0
 }
 
@@ -4479,10 +4479,10 @@ func (mr *MockCmdableMockRecorder) Pipeline() *gomock.Call {
 }
 
 // Pipelined mocks base method.
-func (m *MockCmdable) Pipelined(ctx context.Context, fn func(v9.Pipeliner) error) ([]v9.Cmder, error) {
+func (m *MockCmdable) Pipelined(ctx context.Context, fn func(redis.Pipeliner) error) ([]redis.Cmder, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Pipelined", ctx, fn)
-	ret0, _ := ret[0].([]v9.Cmder)
+	ret0, _ := ret[0].([]redis.Cmder)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -4494,10 +4494,10 @@ func (mr *MockCmdableMockRecorder) Pipelined(ctx, fn any) *gomock.Call {
 }
 
 // PubSubChannels mocks base method.
-func (m *MockCmdable) PubSubChannels(ctx context.Context, pattern string) *v9.StringSliceCmd {
+func (m *MockCmdable) PubSubChannels(ctx context.Context, pattern string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PubSubChannels", ctx, pattern)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4508,10 +4508,10 @@ func (mr *MockCmdableMockRecorder) PubSubChannels(ctx, pattern any) *gomock.Call
 }
 
 // PubSubNumPat mocks base method.
-func (m *MockCmdable) PubSubNumPat(ctx context.Context) *v9.IntCmd {
+func (m *MockCmdable) PubSubNumPat(ctx context.Context) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PubSubNumPat", ctx)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4522,14 +4522,14 @@ func (mr *MockCmdableMockRecorder) PubSubNumPat(ctx any) *gomock.Call {
 }
 
 // PubSubNumSub mocks base method.
-func (m *MockCmdable) PubSubNumSub(ctx context.Context, channels ...string) *v9.MapStringIntCmd {
+func (m *MockCmdable) PubSubNumSub(ctx context.Context, channels ...string) *redis.MapStringIntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range channels {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PubSubNumSub", varargs...)
-	ret0, _ := ret[0].(*v9.MapStringIntCmd)
+	ret0, _ := ret[0].(*redis.MapStringIntCmd)
 	return ret0
 }
 
@@ -4541,10 +4541,10 @@ func (mr *MockCmdableMockRecorder) PubSubNumSub(ctx any, channels ...any) *gomoc
 }
 
 // PubSubShardChannels mocks base method.
-func (m *MockCmdable) PubSubShardChannels(ctx context.Context, pattern string) *v9.StringSliceCmd {
+func (m *MockCmdable) PubSubShardChannels(ctx context.Context, pattern string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PubSubShardChannels", ctx, pattern)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4555,14 +4555,14 @@ func (mr *MockCmdableMockRecorder) PubSubShardChannels(ctx, pattern any) *gomock
 }
 
 // PubSubShardNumSub mocks base method.
-func (m *MockCmdable) PubSubShardNumSub(ctx context.Context, channels ...string) *v9.MapStringIntCmd {
+func (m *MockCmdable) PubSubShardNumSub(ctx context.Context, channels ...string) *redis.MapStringIntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range channels {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PubSubShardNumSub", varargs...)
-	ret0, _ := ret[0].(*v9.MapStringIntCmd)
+	ret0, _ := ret[0].(*redis.MapStringIntCmd)
 	return ret0
 }
 
@@ -4574,10 +4574,10 @@ func (mr *MockCmdableMockRecorder) PubSubShardNumSub(ctx any, channels ...any) *
 }
 
 // Publish mocks base method.
-func (m *MockCmdable) Publish(ctx context.Context, channel string, message any) *v9.IntCmd {
+func (m *MockCmdable) Publish(ctx context.Context, channel string, message any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Publish", ctx, channel, message)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4588,10 +4588,10 @@ func (mr *MockCmdableMockRecorder) Publish(ctx, channel, message any) *gomock.Ca
 }
 
 // Quit mocks base method.
-func (m *MockCmdable) Quit(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) Quit(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Quit", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4602,10 +4602,10 @@ func (mr *MockCmdableMockRecorder) Quit(ctx any) *gomock.Call {
 }
 
 // RPop mocks base method.
-func (m *MockCmdable) RPop(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) RPop(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RPop", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4616,10 +4616,10 @@ func (mr *MockCmdableMockRecorder) RPop(ctx, key any) *gomock.Call {
 }
 
 // RPopCount mocks base method.
-func (m *MockCmdable) RPopCount(ctx context.Context, key string, count int) *v9.StringSliceCmd {
+func (m *MockCmdable) RPopCount(ctx context.Context, key string, count int) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RPopCount", ctx, key, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4630,10 +4630,10 @@ func (mr *MockCmdableMockRecorder) RPopCount(ctx, key, count any) *gomock.Call {
 }
 
 // RPopLPush mocks base method.
-func (m *MockCmdable) RPopLPush(ctx context.Context, source, destination string) *v9.StringCmd {
+func (m *MockCmdable) RPopLPush(ctx context.Context, source, destination string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RPopLPush", ctx, source, destination)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4644,14 +4644,14 @@ func (mr *MockCmdableMockRecorder) RPopLPush(ctx, source, destination any) *gomo
 }
 
 // RPush mocks base method.
-func (m *MockCmdable) RPush(ctx context.Context, key string, values ...any) *v9.IntCmd {
+func (m *MockCmdable) RPush(ctx context.Context, key string, values ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RPush", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4663,14 +4663,14 @@ func (mr *MockCmdableMockRecorder) RPush(ctx, key any, values ...any) *gomock.Ca
 }
 
 // RPushX mocks base method.
-func (m *MockCmdable) RPushX(ctx context.Context, key string, values ...any) *v9.IntCmd {
+func (m *MockCmdable) RPushX(ctx context.Context, key string, values ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RPushX", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4682,10 +4682,10 @@ func (mr *MockCmdableMockRecorder) RPushX(ctx, key any, values ...any) *gomock.C
 }
 
 // RandomKey mocks base method.
-func (m *MockCmdable) RandomKey(ctx context.Context) *v9.StringCmd {
+func (m *MockCmdable) RandomKey(ctx context.Context) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RandomKey", ctx)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4696,10 +4696,10 @@ func (mr *MockCmdableMockRecorder) RandomKey(ctx any) *gomock.Call {
 }
 
 // ReadOnly mocks base method.
-func (m *MockCmdable) ReadOnly(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ReadOnly(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadOnly", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4710,10 +4710,10 @@ func (mr *MockCmdableMockRecorder) ReadOnly(ctx any) *gomock.Call {
 }
 
 // ReadWrite mocks base method.
-func (m *MockCmdable) ReadWrite(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ReadWrite(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadWrite", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4724,10 +4724,10 @@ func (mr *MockCmdableMockRecorder) ReadWrite(ctx any) *gomock.Call {
 }
 
 // Rename mocks base method.
-func (m *MockCmdable) Rename(ctx context.Context, key, newkey string) *v9.StatusCmd {
+func (m *MockCmdable) Rename(ctx context.Context, key, newkey string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Rename", ctx, key, newkey)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4738,10 +4738,10 @@ func (mr *MockCmdableMockRecorder) Rename(ctx, key, newkey any) *gomock.Call {
 }
 
 // RenameNX mocks base method.
-func (m *MockCmdable) RenameNX(ctx context.Context, key, newkey string) *v9.BoolCmd {
+func (m *MockCmdable) RenameNX(ctx context.Context, key, newkey string) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RenameNX", ctx, key, newkey)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4752,10 +4752,10 @@ func (mr *MockCmdableMockRecorder) RenameNX(ctx, key, newkey any) *gomock.Call {
 }
 
 // Restore mocks base method.
-func (m *MockCmdable) Restore(ctx context.Context, key string, ttl time.Duration, value string) *v9.StatusCmd {
+func (m *MockCmdable) Restore(ctx context.Context, key string, ttl time.Duration, value string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Restore", ctx, key, ttl, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4766,10 +4766,10 @@ func (mr *MockCmdableMockRecorder) Restore(ctx, key, ttl, value any) *gomock.Cal
 }
 
 // RestoreReplace mocks base method.
-func (m *MockCmdable) RestoreReplace(ctx context.Context, key string, ttl time.Duration, value string) *v9.StatusCmd {
+func (m *MockCmdable) RestoreReplace(ctx context.Context, key string, ttl time.Duration, value string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RestoreReplace", ctx, key, ttl, value)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -4780,14 +4780,14 @@ func (mr *MockCmdableMockRecorder) RestoreReplace(ctx, key, ttl, value any) *gom
 }
 
 // SAdd mocks base method.
-func (m *MockCmdable) SAdd(ctx context.Context, key string, members ...any) *v9.IntCmd {
+func (m *MockCmdable) SAdd(ctx context.Context, key string, members ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SAdd", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4799,10 +4799,10 @@ func (mr *MockCmdableMockRecorder) SAdd(ctx, key any, members ...any) *gomock.Ca
 }
 
 // SCard mocks base method.
-func (m *MockCmdable) SCard(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) SCard(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SCard", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4813,14 +4813,14 @@ func (mr *MockCmdableMockRecorder) SCard(ctx, key any) *gomock.Call {
 }
 
 // SDiff mocks base method.
-func (m *MockCmdable) SDiff(ctx context.Context, keys ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) SDiff(ctx context.Context, keys ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SDiff", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4832,14 +4832,14 @@ func (mr *MockCmdableMockRecorder) SDiff(ctx any, keys ...any) *gomock.Call {
 }
 
 // SDiffStore mocks base method.
-func (m *MockCmdable) SDiffStore(ctx context.Context, destination string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) SDiffStore(ctx context.Context, destination string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destination}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SDiffStore", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4851,14 +4851,14 @@ func (mr *MockCmdableMockRecorder) SDiffStore(ctx, destination any, keys ...any)
 }
 
 // SInter mocks base method.
-func (m *MockCmdable) SInter(ctx context.Context, keys ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) SInter(ctx context.Context, keys ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SInter", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4870,14 +4870,14 @@ func (mr *MockCmdableMockRecorder) SInter(ctx any, keys ...any) *gomock.Call {
 }
 
 // SInterCard mocks base method.
-func (m *MockCmdable) SInterCard(ctx context.Context, limit int64, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) SInterCard(ctx context.Context, limit int64, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, limit}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SInterCard", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4889,14 +4889,14 @@ func (mr *MockCmdableMockRecorder) SInterCard(ctx, limit any, keys ...any) *gomo
 }
 
 // SInterStore mocks base method.
-func (m *MockCmdable) SInterStore(ctx context.Context, destination string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) SInterStore(ctx context.Context, destination string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destination}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SInterStore", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -4908,10 +4908,10 @@ func (mr *MockCmdableMockRecorder) SInterStore(ctx, destination any, keys ...any
 }
 
 // SIsMember mocks base method.
-func (m *MockCmdable) SIsMember(ctx context.Context, key string, member any) *v9.BoolCmd {
+func (m *MockCmdable) SIsMember(ctx context.Context, key string, member any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SIsMember", ctx, key, member)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4922,14 +4922,14 @@ func (mr *MockCmdableMockRecorder) SIsMember(ctx, key, member any) *gomock.Call 
 }
 
 // SMIsMember mocks base method.
-func (m *MockCmdable) SMIsMember(ctx context.Context, key string, members ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) SMIsMember(ctx context.Context, key string, members ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SMIsMember", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -4941,10 +4941,10 @@ func (mr *MockCmdableMockRecorder) SMIsMember(ctx, key any, members ...any) *gom
 }
 
 // SMembers mocks base method.
-func (m *MockCmdable) SMembers(ctx context.Context, key string) *v9.StringSliceCmd {
+func (m *MockCmdable) SMembers(ctx context.Context, key string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SMembers", ctx, key)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -4955,10 +4955,10 @@ func (mr *MockCmdableMockRecorder) SMembers(ctx, key any) *gomock.Call {
 }
 
 // SMembersMap mocks base method.
-func (m *MockCmdable) SMembersMap(ctx context.Context, key string) *v9.StringStructMapCmd {
+func (m *MockCmdable) SMembersMap(ctx context.Context, key string) *redis.StringStructMapCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SMembersMap", ctx, key)
-	ret0, _ := ret[0].(*v9.StringStructMapCmd)
+	ret0, _ := ret[0].(*redis.StringStructMapCmd)
 	return ret0
 }
 
@@ -4969,10 +4969,10 @@ func (mr *MockCmdableMockRecorder) SMembersMap(ctx, key any) *gomock.Call {
 }
 
 // SMove mocks base method.
-func (m *MockCmdable) SMove(ctx context.Context, source, destination string, member any) *v9.BoolCmd {
+func (m *MockCmdable) SMove(ctx context.Context, source, destination string, member any) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SMove", ctx, source, destination, member)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -4983,10 +4983,10 @@ func (mr *MockCmdableMockRecorder) SMove(ctx, source, destination, member any) *
 }
 
 // SPop mocks base method.
-func (m *MockCmdable) SPop(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) SPop(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SPop", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -4997,10 +4997,10 @@ func (mr *MockCmdableMockRecorder) SPop(ctx, key any) *gomock.Call {
 }
 
 // SPopN mocks base method.
-func (m *MockCmdable) SPopN(ctx context.Context, key string, count int64) *v9.StringSliceCmd {
+func (m *MockCmdable) SPopN(ctx context.Context, key string, count int64) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SPopN", ctx, key, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -5011,10 +5011,10 @@ func (mr *MockCmdableMockRecorder) SPopN(ctx, key, count any) *gomock.Call {
 }
 
 // SPublish mocks base method.
-func (m *MockCmdable) SPublish(ctx context.Context, channel string, message any) *v9.IntCmd {
+func (m *MockCmdable) SPublish(ctx context.Context, channel string, message any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SPublish", ctx, channel, message)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5025,10 +5025,10 @@ func (mr *MockCmdableMockRecorder) SPublish(ctx, channel, message any) *gomock.C
 }
 
 // SRandMember mocks base method.
-func (m *MockCmdable) SRandMember(ctx context.Context, key string) *v9.StringCmd {
+func (m *MockCmdable) SRandMember(ctx context.Context, key string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SRandMember", ctx, key)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -5039,10 +5039,10 @@ func (mr *MockCmdableMockRecorder) SRandMember(ctx, key any) *gomock.Call {
 }
 
 // SRandMemberN mocks base method.
-func (m *MockCmdable) SRandMemberN(ctx context.Context, key string, count int64) *v9.StringSliceCmd {
+func (m *MockCmdable) SRandMemberN(ctx context.Context, key string, count int64) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SRandMemberN", ctx, key, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -5053,14 +5053,14 @@ func (mr *MockCmdableMockRecorder) SRandMemberN(ctx, key, count any) *gomock.Cal
 }
 
 // SRem mocks base method.
-func (m *MockCmdable) SRem(ctx context.Context, key string, members ...any) *v9.IntCmd {
+func (m *MockCmdable) SRem(ctx context.Context, key string, members ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SRem", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5072,10 +5072,10 @@ func (mr *MockCmdableMockRecorder) SRem(ctx, key any, members ...any) *gomock.Ca
 }
 
 // SScan mocks base method.
-func (m *MockCmdable) SScan(ctx context.Context, key string, cursor uint64, match string, count int64) *v9.ScanCmd {
+func (m *MockCmdable) SScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SScan", ctx, key, cursor, match, count)
-	ret0, _ := ret[0].(*v9.ScanCmd)
+	ret0, _ := ret[0].(*redis.ScanCmd)
 	return ret0
 }
 
@@ -5086,14 +5086,14 @@ func (mr *MockCmdableMockRecorder) SScan(ctx, key, cursor, match, count any) *go
 }
 
 // SUnion mocks base method.
-func (m *MockCmdable) SUnion(ctx context.Context, keys ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) SUnion(ctx context.Context, keys ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SUnion", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -5105,14 +5105,14 @@ func (mr *MockCmdableMockRecorder) SUnion(ctx any, keys ...any) *gomock.Call {
 }
 
 // SUnionStore mocks base method.
-func (m *MockCmdable) SUnionStore(ctx context.Context, destination string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) SUnionStore(ctx context.Context, destination string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destination}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SUnionStore", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5124,10 +5124,10 @@ func (mr *MockCmdableMockRecorder) SUnionStore(ctx, destination any, keys ...any
 }
 
 // Save mocks base method.
-func (m *MockCmdable) Save(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) Save(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Save", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5138,10 +5138,10 @@ func (mr *MockCmdableMockRecorder) Save(ctx any) *gomock.Call {
 }
 
 // Scan mocks base method.
-func (m *MockCmdable) Scan(ctx context.Context, cursor uint64, match string, count int64) *v9.ScanCmd {
+func (m *MockCmdable) Scan(ctx context.Context, cursor uint64, match string, count int64) *redis.ScanCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Scan", ctx, cursor, match, count)
-	ret0, _ := ret[0].(*v9.ScanCmd)
+	ret0, _ := ret[0].(*redis.ScanCmd)
 	return ret0
 }
 
@@ -5152,10 +5152,10 @@ func (mr *MockCmdableMockRecorder) Scan(ctx, cursor, match, count any) *gomock.C
 }
 
 // ScanType mocks base method.
-func (m *MockCmdable) ScanType(ctx context.Context, cursor uint64, match string, count int64, keyType string) *v9.ScanCmd {
+func (m *MockCmdable) ScanType(ctx context.Context, cursor uint64, match string, count int64, keyType string) *redis.ScanCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ScanType", ctx, cursor, match, count, keyType)
-	ret0, _ := ret[0].(*v9.ScanCmd)
+	ret0, _ := ret[0].(*redis.ScanCmd)
 	return ret0
 }
 
@@ -5166,14 +5166,14 @@ func (mr *MockCmdableMockRecorder) ScanType(ctx, cursor, match, count, keyType a
 }
 
 // ScriptExists mocks base method.
-func (m *MockCmdable) ScriptExists(ctx context.Context, hashes ...string) *v9.BoolSliceCmd {
+func (m *MockCmdable) ScriptExists(ctx context.Context, hashes ...string) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range hashes {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ScriptExists", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -5185,10 +5185,10 @@ func (mr *MockCmdableMockRecorder) ScriptExists(ctx any, hashes ...any) *gomock.
 }
 
 // ScriptFlush mocks base method.
-func (m *MockCmdable) ScriptFlush(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ScriptFlush(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ScriptFlush", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5199,10 +5199,10 @@ func (mr *MockCmdableMockRecorder) ScriptFlush(ctx any) *gomock.Call {
 }
 
 // ScriptKill mocks base method.
-func (m *MockCmdable) ScriptKill(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ScriptKill(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ScriptKill", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5213,10 +5213,10 @@ func (mr *MockCmdableMockRecorder) ScriptKill(ctx any) *gomock.Call {
 }
 
 // ScriptLoad mocks base method.
-func (m *MockCmdable) ScriptLoad(ctx context.Context, script string) *v9.StringCmd {
+func (m *MockCmdable) ScriptLoad(ctx context.Context, script string) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ScriptLoad", ctx, script)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -5227,10 +5227,10 @@ func (mr *MockCmdableMockRecorder) ScriptLoad(ctx, script any) *gomock.Call {
 }
 
 // Set mocks base method.
-func (m *MockCmdable) Set(ctx context.Context, key string, value any, expiration time.Duration) *v9.StatusCmd {
+func (m *MockCmdable) Set(ctx context.Context, key string, value any, expiration time.Duration) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Set", ctx, key, value, expiration)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5241,10 +5241,10 @@ func (mr *MockCmdableMockRecorder) Set(ctx, key, value, expiration any) *gomock.
 }
 
 // SetArgs mocks base method.
-func (m *MockCmdable) SetArgs(ctx context.Context, key string, value any, a v9.SetArgs) *v9.StatusCmd {
+func (m *MockCmdable) SetArgs(ctx context.Context, key string, value any, a redis.SetArgs) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetArgs", ctx, key, value, a)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5255,10 +5255,10 @@ func (mr *MockCmdableMockRecorder) SetArgs(ctx, key, value, a any) *gomock.Call 
 }
 
 // SetBit mocks base method.
-func (m *MockCmdable) SetBit(ctx context.Context, key string, offset int64, value int) *v9.IntCmd {
+func (m *MockCmdable) SetBit(ctx context.Context, key string, offset int64, value int) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetBit", ctx, key, offset, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5269,10 +5269,10 @@ func (mr *MockCmdableMockRecorder) SetBit(ctx, key, offset, value any) *gomock.C
 }
 
 // SetEx mocks base method.
-func (m *MockCmdable) SetEx(ctx context.Context, key string, value any, expiration time.Duration) *v9.StatusCmd {
+func (m *MockCmdable) SetEx(ctx context.Context, key string, value any, expiration time.Duration) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetEx", ctx, key, value, expiration)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5283,10 +5283,10 @@ func (mr *MockCmdableMockRecorder) SetEx(ctx, key, value, expiration any) *gomoc
 }
 
 // SetNX mocks base method.
-func (m *MockCmdable) SetNX(ctx context.Context, key string, value any, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) SetNX(ctx context.Context, key string, value any, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetNX", ctx, key, value, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -5297,10 +5297,10 @@ func (mr *MockCmdableMockRecorder) SetNX(ctx, key, value, expiration any) *gomoc
 }
 
 // SetRange mocks base method.
-func (m *MockCmdable) SetRange(ctx context.Context, key string, offset int64, value string) *v9.IntCmd {
+func (m *MockCmdable) SetRange(ctx context.Context, key string, offset int64, value string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetRange", ctx, key, offset, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5311,10 +5311,10 @@ func (mr *MockCmdableMockRecorder) SetRange(ctx, key, offset, value any) *gomock
 }
 
 // SetXX mocks base method.
-func (m *MockCmdable) SetXX(ctx context.Context, key string, value any, expiration time.Duration) *v9.BoolCmd {
+func (m *MockCmdable) SetXX(ctx context.Context, key string, value any, expiration time.Duration) *redis.BoolCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetXX", ctx, key, value, expiration)
-	ret0, _ := ret[0].(*v9.BoolCmd)
+	ret0, _ := ret[0].(*redis.BoolCmd)
 	return ret0
 }
 
@@ -5325,10 +5325,10 @@ func (mr *MockCmdableMockRecorder) SetXX(ctx, key, value, expiration any) *gomoc
 }
 
 // Shutdown mocks base method.
-func (m *MockCmdable) Shutdown(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) Shutdown(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Shutdown", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5339,10 +5339,10 @@ func (mr *MockCmdableMockRecorder) Shutdown(ctx any) *gomock.Call {
 }
 
 // ShutdownNoSave mocks base method.
-func (m *MockCmdable) ShutdownNoSave(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ShutdownNoSave(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ShutdownNoSave", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5353,10 +5353,10 @@ func (mr *MockCmdableMockRecorder) ShutdownNoSave(ctx any) *gomock.Call {
 }
 
 // ShutdownSave mocks base method.
-func (m *MockCmdable) ShutdownSave(ctx context.Context) *v9.StatusCmd {
+func (m *MockCmdable) ShutdownSave(ctx context.Context) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ShutdownSave", ctx)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5367,10 +5367,10 @@ func (mr *MockCmdableMockRecorder) ShutdownSave(ctx any) *gomock.Call {
 }
 
 // SlaveOf mocks base method.
-func (m *MockCmdable) SlaveOf(ctx context.Context, host, port string) *v9.StatusCmd {
+func (m *MockCmdable) SlaveOf(ctx context.Context, host, port string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SlaveOf", ctx, host, port)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5381,10 +5381,10 @@ func (mr *MockCmdableMockRecorder) SlaveOf(ctx, host, port any) *gomock.Call {
 }
 
 // SlowLogGet mocks base method.
-func (m *MockCmdable) SlowLogGet(ctx context.Context, num int64) *v9.SlowLogCmd {
+func (m *MockCmdable) SlowLogGet(ctx context.Context, num int64) *redis.SlowLogCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SlowLogGet", ctx, num)
-	ret0, _ := ret[0].(*v9.SlowLogCmd)
+	ret0, _ := ret[0].(*redis.SlowLogCmd)
 	return ret0
 }
 
@@ -5395,10 +5395,10 @@ func (mr *MockCmdableMockRecorder) SlowLogGet(ctx, num any) *gomock.Call {
 }
 
 // Sort mocks base method.
-func (m *MockCmdable) Sort(ctx context.Context, key string, sort *v9.Sort) *v9.StringSliceCmd {
+func (m *MockCmdable) Sort(ctx context.Context, key string, sort *redis.Sort) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Sort", ctx, key, sort)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -5409,10 +5409,10 @@ func (mr *MockCmdableMockRecorder) Sort(ctx, key, sort any) *gomock.Call {
 }
 
 // SortInterfaces mocks base method.
-func (m *MockCmdable) SortInterfaces(ctx context.Context, key string, sort *v9.Sort) *v9.SliceCmd {
+func (m *MockCmdable) SortInterfaces(ctx context.Context, key string, sort *redis.Sort) *redis.SliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SortInterfaces", ctx, key, sort)
-	ret0, _ := ret[0].(*v9.SliceCmd)
+	ret0, _ := ret[0].(*redis.SliceCmd)
 	return ret0
 }
 
@@ -5423,10 +5423,10 @@ func (mr *MockCmdableMockRecorder) SortInterfaces(ctx, key, sort any) *gomock.Ca
 }
 
 // SortRO mocks base method.
-func (m *MockCmdable) SortRO(ctx context.Context, key string, sort *v9.Sort) *v9.StringSliceCmd {
+func (m *MockCmdable) SortRO(ctx context.Context, key string, sort *redis.Sort) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SortRO", ctx, key, sort)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -5437,10 +5437,10 @@ func (mr *MockCmdableMockRecorder) SortRO(ctx, key, sort any) *gomock.Call {
 }
 
 // SortStore mocks base method.
-func (m *MockCmdable) SortStore(ctx context.Context, key, store string, sort *v9.Sort) *v9.IntCmd {
+func (m *MockCmdable) SortStore(ctx context.Context, key, store string, sort *redis.Sort) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SortStore", ctx, key, store, sort)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5451,10 +5451,10 @@ func (mr *MockCmdableMockRecorder) SortStore(ctx, key, store, sort any) *gomock.
 }
 
 // StrLen mocks base method.
-func (m *MockCmdable) StrLen(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) StrLen(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "StrLen", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5465,14 +5465,14 @@ func (mr *MockCmdableMockRecorder) StrLen(ctx, key any) *gomock.Call {
 }
 
 // TDigestAdd mocks base method.
-func (m *MockCmdable) TDigestAdd(ctx context.Context, key string, elements ...float64) *v9.StatusCmd {
+func (m *MockCmdable) TDigestAdd(ctx context.Context, key string, elements ...float64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestAdd", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5484,14 +5484,14 @@ func (mr *MockCmdableMockRecorder) TDigestAdd(ctx, key any, elements ...any) *go
 }
 
 // TDigestByRank mocks base method.
-func (m *MockCmdable) TDigestByRank(ctx context.Context, key string, rank ...uint64) *v9.FloatSliceCmd {
+func (m *MockCmdable) TDigestByRank(ctx context.Context, key string, rank ...uint64) *redis.FloatSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range rank {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestByRank", varargs...)
-	ret0, _ := ret[0].(*v9.FloatSliceCmd)
+	ret0, _ := ret[0].(*redis.FloatSliceCmd)
 	return ret0
 }
 
@@ -5503,14 +5503,14 @@ func (mr *MockCmdableMockRecorder) TDigestByRank(ctx, key any, rank ...any) *gom
 }
 
 // TDigestByRevRank mocks base method.
-func (m *MockCmdable) TDigestByRevRank(ctx context.Context, key string, rank ...uint64) *v9.FloatSliceCmd {
+func (m *MockCmdable) TDigestByRevRank(ctx context.Context, key string, rank ...uint64) *redis.FloatSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range rank {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestByRevRank", varargs...)
-	ret0, _ := ret[0].(*v9.FloatSliceCmd)
+	ret0, _ := ret[0].(*redis.FloatSliceCmd)
 	return ret0
 }
 
@@ -5522,14 +5522,14 @@ func (mr *MockCmdableMockRecorder) TDigestByRevRank(ctx, key any, rank ...any) *
 }
 
 // TDigestCDF mocks base method.
-func (m *MockCmdable) TDigestCDF(ctx context.Context, key string, elements ...float64) *v9.FloatSliceCmd {
+func (m *MockCmdable) TDigestCDF(ctx context.Context, key string, elements ...float64) *redis.FloatSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestCDF", varargs...)
-	ret0, _ := ret[0].(*v9.FloatSliceCmd)
+	ret0, _ := ret[0].(*redis.FloatSliceCmd)
 	return ret0
 }
 
@@ -5541,10 +5541,10 @@ func (mr *MockCmdableMockRecorder) TDigestCDF(ctx, key any, elements ...any) *go
 }
 
 // TDigestCreate mocks base method.
-func (m *MockCmdable) TDigestCreate(ctx context.Context, key string) *v9.StatusCmd {
+func (m *MockCmdable) TDigestCreate(ctx context.Context, key string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestCreate", ctx, key)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5555,10 +5555,10 @@ func (mr *MockCmdableMockRecorder) TDigestCreate(ctx, key any) *gomock.Call {
 }
 
 // TDigestCreateWithCompression mocks base method.
-func (m *MockCmdable) TDigestCreateWithCompression(ctx context.Context, key string, compression int64) *v9.StatusCmd {
+func (m *MockCmdable) TDigestCreateWithCompression(ctx context.Context, key string, compression int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestCreateWithCompression", ctx, key, compression)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5569,10 +5569,10 @@ func (mr *MockCmdableMockRecorder) TDigestCreateWithCompression(ctx, key, compre
 }
 
 // TDigestInfo mocks base method.
-func (m *MockCmdable) TDigestInfo(ctx context.Context, key string) *v9.TDigestInfoCmd {
+func (m *MockCmdable) TDigestInfo(ctx context.Context, key string) *redis.TDigestInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestInfo", ctx, key)
-	ret0, _ := ret[0].(*v9.TDigestInfoCmd)
+	ret0, _ := ret[0].(*redis.TDigestInfoCmd)
 	return ret0
 }
 
@@ -5583,10 +5583,10 @@ func (mr *MockCmdableMockRecorder) TDigestInfo(ctx, key any) *gomock.Call {
 }
 
 // TDigestMax mocks base method.
-func (m *MockCmdable) TDigestMax(ctx context.Context, key string) *v9.FloatCmd {
+func (m *MockCmdable) TDigestMax(ctx context.Context, key string) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestMax", ctx, key)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -5597,14 +5597,14 @@ func (mr *MockCmdableMockRecorder) TDigestMax(ctx, key any) *gomock.Call {
 }
 
 // TDigestMerge mocks base method.
-func (m *MockCmdable) TDigestMerge(ctx context.Context, destKey string, options *v9.TDigestMergeOptions, sourceKeys ...string) *v9.StatusCmd {
+func (m *MockCmdable) TDigestMerge(ctx context.Context, destKey string, options *redis.TDigestMergeOptions, sourceKeys ...string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destKey, options}
 	for _, a := range sourceKeys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestMerge", varargs...)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5616,10 +5616,10 @@ func (mr *MockCmdableMockRecorder) TDigestMerge(ctx, destKey, options any, sourc
 }
 
 // TDigestMin mocks base method.
-func (m *MockCmdable) TDigestMin(ctx context.Context, key string) *v9.FloatCmd {
+func (m *MockCmdable) TDigestMin(ctx context.Context, key string) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestMin", ctx, key)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -5630,14 +5630,14 @@ func (mr *MockCmdableMockRecorder) TDigestMin(ctx, key any) *gomock.Call {
 }
 
 // TDigestQuantile mocks base method.
-func (m *MockCmdable) TDigestQuantile(ctx context.Context, key string, elements ...float64) *v9.FloatSliceCmd {
+func (m *MockCmdable) TDigestQuantile(ctx context.Context, key string, elements ...float64) *redis.FloatSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestQuantile", varargs...)
-	ret0, _ := ret[0].(*v9.FloatSliceCmd)
+	ret0, _ := ret[0].(*redis.FloatSliceCmd)
 	return ret0
 }
 
@@ -5649,14 +5649,14 @@ func (mr *MockCmdableMockRecorder) TDigestQuantile(ctx, key any, elements ...any
 }
 
 // TDigestRank mocks base method.
-func (m *MockCmdable) TDigestRank(ctx context.Context, key string, values ...float64) *v9.IntSliceCmd {
+func (m *MockCmdable) TDigestRank(ctx context.Context, key string, values ...float64) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestRank", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -5668,10 +5668,10 @@ func (mr *MockCmdableMockRecorder) TDigestRank(ctx, key any, values ...any) *gom
 }
 
 // TDigestReset mocks base method.
-func (m *MockCmdable) TDigestReset(ctx context.Context, key string) *v9.StatusCmd {
+func (m *MockCmdable) TDigestReset(ctx context.Context, key string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestReset", ctx, key)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5682,14 +5682,14 @@ func (mr *MockCmdableMockRecorder) TDigestReset(ctx, key any) *gomock.Call {
 }
 
 // TDigestRevRank mocks base method.
-func (m *MockCmdable) TDigestRevRank(ctx context.Context, key string, values ...float64) *v9.IntSliceCmd {
+func (m *MockCmdable) TDigestRevRank(ctx context.Context, key string, values ...float64) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range values {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TDigestRevRank", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -5701,10 +5701,10 @@ func (mr *MockCmdableMockRecorder) TDigestRevRank(ctx, key any, values ...any) *
 }
 
 // TDigestTrimmedMean mocks base method.
-func (m *MockCmdable) TDigestTrimmedMean(ctx context.Context, key string, lowCutQuantile, highCutQuantile float64) *v9.FloatCmd {
+func (m *MockCmdable) TDigestTrimmedMean(ctx context.Context, key string, lowCutQuantile, highCutQuantile float64) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TDigestTrimmedMean", ctx, key, lowCutQuantile, highCutQuantile)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -5715,10 +5715,10 @@ func (mr *MockCmdableMockRecorder) TDigestTrimmedMean(ctx, key, lowCutQuantile, 
 }
 
 // TFCall mocks base method.
-func (m *MockCmdable) TFCall(ctx context.Context, libName, funcName string, numKeys int) *v9.Cmd {
+func (m *MockCmdable) TFCall(ctx context.Context, libName, funcName string, numKeys int) *redis.Cmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFCall", ctx, libName, funcName, numKeys)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -5729,10 +5729,10 @@ func (mr *MockCmdableMockRecorder) TFCall(ctx, libName, funcName, numKeys any) *
 }
 
 // TFCallASYNC mocks base method.
-func (m *MockCmdable) TFCallASYNC(ctx context.Context, libName, funcName string, numKeys int) *v9.Cmd {
+func (m *MockCmdable) TFCallASYNC(ctx context.Context, libName, funcName string, numKeys int) *redis.Cmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFCallASYNC", ctx, libName, funcName, numKeys)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -5743,10 +5743,10 @@ func (mr *MockCmdableMockRecorder) TFCallASYNC(ctx, libName, funcName, numKeys a
 }
 
 // TFCallASYNCArgs mocks base method.
-func (m *MockCmdable) TFCallASYNCArgs(ctx context.Context, libName, funcName string, numKeys int, options *v9.TFCallOptions) *v9.Cmd {
+func (m *MockCmdable) TFCallASYNCArgs(ctx context.Context, libName, funcName string, numKeys int, options *redis.TFCallOptions) *redis.Cmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFCallASYNCArgs", ctx, libName, funcName, numKeys, options)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -5757,10 +5757,10 @@ func (mr *MockCmdableMockRecorder) TFCallASYNCArgs(ctx, libName, funcName, numKe
 }
 
 // TFCallArgs mocks base method.
-func (m *MockCmdable) TFCallArgs(ctx context.Context, libName, funcName string, numKeys int, options *v9.TFCallOptions) *v9.Cmd {
+func (m *MockCmdable) TFCallArgs(ctx context.Context, libName, funcName string, numKeys int, options *redis.TFCallOptions) *redis.Cmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFCallArgs", ctx, libName, funcName, numKeys, options)
-	ret0, _ := ret[0].(*v9.Cmd)
+	ret0, _ := ret[0].(*redis.Cmd)
 	return ret0
 }
 
@@ -5771,10 +5771,10 @@ func (mr *MockCmdableMockRecorder) TFCallArgs(ctx, libName, funcName, numKeys, o
 }
 
 // TFunctionDelete mocks base method.
-func (m *MockCmdable) TFunctionDelete(ctx context.Context, libName string) *v9.StatusCmd {
+func (m *MockCmdable) TFunctionDelete(ctx context.Context, libName string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFunctionDelete", ctx, libName)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5785,10 +5785,10 @@ func (mr *MockCmdableMockRecorder) TFunctionDelete(ctx, libName any) *gomock.Cal
 }
 
 // TFunctionList mocks base method.
-func (m *MockCmdable) TFunctionList(ctx context.Context) *v9.MapStringInterfaceSliceCmd {
+func (m *MockCmdable) TFunctionList(ctx context.Context) *redis.MapStringInterfaceSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFunctionList", ctx)
-	ret0, _ := ret[0].(*v9.MapStringInterfaceSliceCmd)
+	ret0, _ := ret[0].(*redis.MapStringInterfaceSliceCmd)
 	return ret0
 }
 
@@ -5799,10 +5799,10 @@ func (mr *MockCmdableMockRecorder) TFunctionList(ctx any) *gomock.Call {
 }
 
 // TFunctionListArgs mocks base method.
-func (m *MockCmdable) TFunctionListArgs(ctx context.Context, options *v9.TFunctionListOptions) *v9.MapStringInterfaceSliceCmd {
+func (m *MockCmdable) TFunctionListArgs(ctx context.Context, options *redis.TFunctionListOptions) *redis.MapStringInterfaceSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFunctionListArgs", ctx, options)
-	ret0, _ := ret[0].(*v9.MapStringInterfaceSliceCmd)
+	ret0, _ := ret[0].(*redis.MapStringInterfaceSliceCmd)
 	return ret0
 }
 
@@ -5813,10 +5813,10 @@ func (mr *MockCmdableMockRecorder) TFunctionListArgs(ctx, options any) *gomock.C
 }
 
 // TFunctionLoad mocks base method.
-func (m *MockCmdable) TFunctionLoad(ctx context.Context, lib string) *v9.StatusCmd {
+func (m *MockCmdable) TFunctionLoad(ctx context.Context, lib string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFunctionLoad", ctx, lib)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5827,10 +5827,10 @@ func (mr *MockCmdableMockRecorder) TFunctionLoad(ctx, lib any) *gomock.Call {
 }
 
 // TFunctionLoadArgs mocks base method.
-func (m *MockCmdable) TFunctionLoadArgs(ctx context.Context, lib string, options *v9.TFunctionLoadOptions) *v9.StatusCmd {
+func (m *MockCmdable) TFunctionLoadArgs(ctx context.Context, lib string, options *redis.TFunctionLoadOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TFunctionLoadArgs", ctx, lib, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5841,10 +5841,10 @@ func (mr *MockCmdableMockRecorder) TFunctionLoadArgs(ctx, lib, options any) *gom
 }
 
 // TSAdd mocks base method.
-func (m *MockCmdable) TSAdd(ctx context.Context, key string, timestamp any, value float64) *v9.IntCmd {
+func (m *MockCmdable) TSAdd(ctx context.Context, key string, timestamp any, value float64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSAdd", ctx, key, timestamp, value)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5855,10 +5855,10 @@ func (mr *MockCmdableMockRecorder) TSAdd(ctx, key, timestamp, value any) *gomock
 }
 
 // TSAddWithArgs mocks base method.
-func (m *MockCmdable) TSAddWithArgs(ctx context.Context, key string, timestamp any, value float64, options *v9.TSOptions) *v9.IntCmd {
+func (m *MockCmdable) TSAddWithArgs(ctx context.Context, key string, timestamp any, value float64, options *redis.TSOptions) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSAddWithArgs", ctx, key, timestamp, value, options)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5869,10 +5869,10 @@ func (mr *MockCmdableMockRecorder) TSAddWithArgs(ctx, key, timestamp, value, opt
 }
 
 // TSAlter mocks base method.
-func (m *MockCmdable) TSAlter(ctx context.Context, key string, options *v9.TSAlterOptions) *v9.StatusCmd {
+func (m *MockCmdable) TSAlter(ctx context.Context, key string, options *redis.TSAlterOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSAlter", ctx, key, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5883,10 +5883,10 @@ func (mr *MockCmdableMockRecorder) TSAlter(ctx, key, options any) *gomock.Call {
 }
 
 // TSCreate mocks base method.
-func (m *MockCmdable) TSCreate(ctx context.Context, key string) *v9.StatusCmd {
+func (m *MockCmdable) TSCreate(ctx context.Context, key string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSCreate", ctx, key)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5897,10 +5897,10 @@ func (mr *MockCmdableMockRecorder) TSCreate(ctx, key any) *gomock.Call {
 }
 
 // TSCreateRule mocks base method.
-func (m *MockCmdable) TSCreateRule(ctx context.Context, sourceKey, destKey string, aggregator v9.Aggregator, bucketDuration int) *v9.StatusCmd {
+func (m *MockCmdable) TSCreateRule(ctx context.Context, sourceKey, destKey string, aggregator redis.Aggregator, bucketDuration int) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSCreateRule", ctx, sourceKey, destKey, aggregator, bucketDuration)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5911,10 +5911,10 @@ func (mr *MockCmdableMockRecorder) TSCreateRule(ctx, sourceKey, destKey, aggrega
 }
 
 // TSCreateRuleWithArgs mocks base method.
-func (m *MockCmdable) TSCreateRuleWithArgs(ctx context.Context, sourceKey, destKey string, aggregator v9.Aggregator, bucketDuration int, options *v9.TSCreateRuleOptions) *v9.StatusCmd {
+func (m *MockCmdable) TSCreateRuleWithArgs(ctx context.Context, sourceKey, destKey string, aggregator redis.Aggregator, bucketDuration int, options *redis.TSCreateRuleOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSCreateRuleWithArgs", ctx, sourceKey, destKey, aggregator, bucketDuration, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5925,10 +5925,10 @@ func (mr *MockCmdableMockRecorder) TSCreateRuleWithArgs(ctx, sourceKey, destKey,
 }
 
 // TSCreateWithArgs mocks base method.
-func (m *MockCmdable) TSCreateWithArgs(ctx context.Context, key string, options *v9.TSOptions) *v9.StatusCmd {
+func (m *MockCmdable) TSCreateWithArgs(ctx context.Context, key string, options *redis.TSOptions) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSCreateWithArgs", ctx, key, options)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5939,10 +5939,10 @@ func (mr *MockCmdableMockRecorder) TSCreateWithArgs(ctx, key, options any) *gomo
 }
 
 // TSDecrBy mocks base method.
-func (m *MockCmdable) TSDecrBy(ctx context.Context, Key string, timestamp float64) *v9.IntCmd {
+func (m *MockCmdable) TSDecrBy(ctx context.Context, Key string, timestamp float64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSDecrBy", ctx, Key, timestamp)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5953,10 +5953,10 @@ func (mr *MockCmdableMockRecorder) TSDecrBy(ctx, Key, timestamp any) *gomock.Cal
 }
 
 // TSDecrByWithArgs mocks base method.
-func (m *MockCmdable) TSDecrByWithArgs(ctx context.Context, key string, timestamp float64, options *v9.TSIncrDecrOptions) *v9.IntCmd {
+func (m *MockCmdable) TSDecrByWithArgs(ctx context.Context, key string, timestamp float64, options *redis.TSIncrDecrOptions) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSDecrByWithArgs", ctx, key, timestamp, options)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5967,10 +5967,10 @@ func (mr *MockCmdableMockRecorder) TSDecrByWithArgs(ctx, key, timestamp, options
 }
 
 // TSDel mocks base method.
-func (m *MockCmdable) TSDel(ctx context.Context, Key string, fromTimestamp, toTimestamp int) *v9.IntCmd {
+func (m *MockCmdable) TSDel(ctx context.Context, Key string, fromTimestamp, toTimestamp int) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSDel", ctx, Key, fromTimestamp, toTimestamp)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -5981,10 +5981,10 @@ func (mr *MockCmdableMockRecorder) TSDel(ctx, Key, fromTimestamp, toTimestamp an
 }
 
 // TSDeleteRule mocks base method.
-func (m *MockCmdable) TSDeleteRule(ctx context.Context, sourceKey, destKey string) *v9.StatusCmd {
+func (m *MockCmdable) TSDeleteRule(ctx context.Context, sourceKey, destKey string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSDeleteRule", ctx, sourceKey, destKey)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -5995,10 +5995,10 @@ func (mr *MockCmdableMockRecorder) TSDeleteRule(ctx, sourceKey, destKey any) *go
 }
 
 // TSGet mocks base method.
-func (m *MockCmdable) TSGet(ctx context.Context, key string) *v9.TSTimestampValueCmd {
+func (m *MockCmdable) TSGet(ctx context.Context, key string) *redis.TSTimestampValueCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSGet", ctx, key)
-	ret0, _ := ret[0].(*v9.TSTimestampValueCmd)
+	ret0, _ := ret[0].(*redis.TSTimestampValueCmd)
 	return ret0
 }
 
@@ -6009,10 +6009,10 @@ func (mr *MockCmdableMockRecorder) TSGet(ctx, key any) *gomock.Call {
 }
 
 // TSGetWithArgs mocks base method.
-func (m *MockCmdable) TSGetWithArgs(ctx context.Context, key string, options *v9.TSGetOptions) *v9.TSTimestampValueCmd {
+func (m *MockCmdable) TSGetWithArgs(ctx context.Context, key string, options *redis.TSGetOptions) *redis.TSTimestampValueCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSGetWithArgs", ctx, key, options)
-	ret0, _ := ret[0].(*v9.TSTimestampValueCmd)
+	ret0, _ := ret[0].(*redis.TSTimestampValueCmd)
 	return ret0
 }
 
@@ -6023,10 +6023,10 @@ func (mr *MockCmdableMockRecorder) TSGetWithArgs(ctx, key, options any) *gomock.
 }
 
 // TSIncrBy mocks base method.
-func (m *MockCmdable) TSIncrBy(ctx context.Context, Key string, timestamp float64) *v9.IntCmd {
+func (m *MockCmdable) TSIncrBy(ctx context.Context, Key string, timestamp float64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSIncrBy", ctx, Key, timestamp)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6037,10 +6037,10 @@ func (mr *MockCmdableMockRecorder) TSIncrBy(ctx, Key, timestamp any) *gomock.Cal
 }
 
 // TSIncrByWithArgs mocks base method.
-func (m *MockCmdable) TSIncrByWithArgs(ctx context.Context, key string, timestamp float64, options *v9.TSIncrDecrOptions) *v9.IntCmd {
+func (m *MockCmdable) TSIncrByWithArgs(ctx context.Context, key string, timestamp float64, options *redis.TSIncrDecrOptions) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSIncrByWithArgs", ctx, key, timestamp, options)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6051,10 +6051,10 @@ func (mr *MockCmdableMockRecorder) TSIncrByWithArgs(ctx, key, timestamp, options
 }
 
 // TSInfo mocks base method.
-func (m *MockCmdable) TSInfo(ctx context.Context, key string) *v9.MapStringInterfaceCmd {
+func (m *MockCmdable) TSInfo(ctx context.Context, key string) *redis.MapStringInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSInfo", ctx, key)
-	ret0, _ := ret[0].(*v9.MapStringInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringInterfaceCmd)
 	return ret0
 }
 
@@ -6065,10 +6065,10 @@ func (mr *MockCmdableMockRecorder) TSInfo(ctx, key any) *gomock.Call {
 }
 
 // TSInfoWithArgs mocks base method.
-func (m *MockCmdable) TSInfoWithArgs(ctx context.Context, key string, options *v9.TSInfoOptions) *v9.MapStringInterfaceCmd {
+func (m *MockCmdable) TSInfoWithArgs(ctx context.Context, key string, options *redis.TSInfoOptions) *redis.MapStringInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSInfoWithArgs", ctx, key, options)
-	ret0, _ := ret[0].(*v9.MapStringInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringInterfaceCmd)
 	return ret0
 }
 
@@ -6079,10 +6079,10 @@ func (mr *MockCmdableMockRecorder) TSInfoWithArgs(ctx, key, options any) *gomock
 }
 
 // TSMAdd mocks base method.
-func (m *MockCmdable) TSMAdd(ctx context.Context, ktvSlices [][]any) *v9.IntSliceCmd {
+func (m *MockCmdable) TSMAdd(ctx context.Context, ktvSlices [][]any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMAdd", ctx, ktvSlices)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -6093,10 +6093,10 @@ func (mr *MockCmdableMockRecorder) TSMAdd(ctx, ktvSlices any) *gomock.Call {
 }
 
 // TSMGet mocks base method.
-func (m *MockCmdable) TSMGet(ctx context.Context, filters []string) *v9.MapStringSliceInterfaceCmd {
+func (m *MockCmdable) TSMGet(ctx context.Context, filters []string) *redis.MapStringSliceInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMGet", ctx, filters)
-	ret0, _ := ret[0].(*v9.MapStringSliceInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringSliceInterfaceCmd)
 	return ret0
 }
 
@@ -6107,10 +6107,10 @@ func (mr *MockCmdableMockRecorder) TSMGet(ctx, filters any) *gomock.Call {
 }
 
 // TSMGetWithArgs mocks base method.
-func (m *MockCmdable) TSMGetWithArgs(ctx context.Context, filters []string, options *v9.TSMGetOptions) *v9.MapStringSliceInterfaceCmd {
+func (m *MockCmdable) TSMGetWithArgs(ctx context.Context, filters []string, options *redis.TSMGetOptions) *redis.MapStringSliceInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMGetWithArgs", ctx, filters, options)
-	ret0, _ := ret[0].(*v9.MapStringSliceInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringSliceInterfaceCmd)
 	return ret0
 }
 
@@ -6121,10 +6121,10 @@ func (mr *MockCmdableMockRecorder) TSMGetWithArgs(ctx, filters, options any) *go
 }
 
 // TSMRange mocks base method.
-func (m *MockCmdable) TSMRange(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string) *v9.MapStringSliceInterfaceCmd {
+func (m *MockCmdable) TSMRange(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string) *redis.MapStringSliceInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMRange", ctx, fromTimestamp, toTimestamp, filterExpr)
-	ret0, _ := ret[0].(*v9.MapStringSliceInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringSliceInterfaceCmd)
 	return ret0
 }
 
@@ -6135,10 +6135,10 @@ func (mr *MockCmdableMockRecorder) TSMRange(ctx, fromTimestamp, toTimestamp, fil
 }
 
 // TSMRangeWithArgs mocks base method.
-func (m *MockCmdable) TSMRangeWithArgs(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string, options *v9.TSMRangeOptions) *v9.MapStringSliceInterfaceCmd {
+func (m *MockCmdable) TSMRangeWithArgs(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string, options *redis.TSMRangeOptions) *redis.MapStringSliceInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMRangeWithArgs", ctx, fromTimestamp, toTimestamp, filterExpr, options)
-	ret0, _ := ret[0].(*v9.MapStringSliceInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringSliceInterfaceCmd)
 	return ret0
 }
 
@@ -6149,10 +6149,10 @@ func (mr *MockCmdableMockRecorder) TSMRangeWithArgs(ctx, fromTimestamp, toTimest
 }
 
 // TSMRevRange mocks base method.
-func (m *MockCmdable) TSMRevRange(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string) *v9.MapStringSliceInterfaceCmd {
+func (m *MockCmdable) TSMRevRange(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string) *redis.MapStringSliceInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMRevRange", ctx, fromTimestamp, toTimestamp, filterExpr)
-	ret0, _ := ret[0].(*v9.MapStringSliceInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringSliceInterfaceCmd)
 	return ret0
 }
 
@@ -6163,10 +6163,10 @@ func (mr *MockCmdableMockRecorder) TSMRevRange(ctx, fromTimestamp, toTimestamp, 
 }
 
 // TSMRevRangeWithArgs mocks base method.
-func (m *MockCmdable) TSMRevRangeWithArgs(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string, options *v9.TSMRevRangeOptions) *v9.MapStringSliceInterfaceCmd {
+func (m *MockCmdable) TSMRevRangeWithArgs(ctx context.Context, fromTimestamp, toTimestamp int, filterExpr []string, options *redis.TSMRevRangeOptions) *redis.MapStringSliceInterfaceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSMRevRangeWithArgs", ctx, fromTimestamp, toTimestamp, filterExpr, options)
-	ret0, _ := ret[0].(*v9.MapStringSliceInterfaceCmd)
+	ret0, _ := ret[0].(*redis.MapStringSliceInterfaceCmd)
 	return ret0
 }
 
@@ -6177,10 +6177,10 @@ func (mr *MockCmdableMockRecorder) TSMRevRangeWithArgs(ctx, fromTimestamp, toTim
 }
 
 // TSQueryIndex mocks base method.
-func (m *MockCmdable) TSQueryIndex(ctx context.Context, filterExpr []string) *v9.StringSliceCmd {
+func (m *MockCmdable) TSQueryIndex(ctx context.Context, filterExpr []string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSQueryIndex", ctx, filterExpr)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -6191,10 +6191,10 @@ func (mr *MockCmdableMockRecorder) TSQueryIndex(ctx, filterExpr any) *gomock.Cal
 }
 
 // TSRange mocks base method.
-func (m *MockCmdable) TSRange(ctx context.Context, key string, fromTimestamp, toTimestamp int) *v9.TSTimestampValueSliceCmd {
+func (m *MockCmdable) TSRange(ctx context.Context, key string, fromTimestamp, toTimestamp int) *redis.TSTimestampValueSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSRange", ctx, key, fromTimestamp, toTimestamp)
-	ret0, _ := ret[0].(*v9.TSTimestampValueSliceCmd)
+	ret0, _ := ret[0].(*redis.TSTimestampValueSliceCmd)
 	return ret0
 }
 
@@ -6205,10 +6205,10 @@ func (mr *MockCmdableMockRecorder) TSRange(ctx, key, fromTimestamp, toTimestamp 
 }
 
 // TSRangeWithArgs mocks base method.
-func (m *MockCmdable) TSRangeWithArgs(ctx context.Context, key string, fromTimestamp, toTimestamp int, options *v9.TSRangeOptions) *v9.TSTimestampValueSliceCmd {
+func (m *MockCmdable) TSRangeWithArgs(ctx context.Context, key string, fromTimestamp, toTimestamp int, options *redis.TSRangeOptions) *redis.TSTimestampValueSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSRangeWithArgs", ctx, key, fromTimestamp, toTimestamp, options)
-	ret0, _ := ret[0].(*v9.TSTimestampValueSliceCmd)
+	ret0, _ := ret[0].(*redis.TSTimestampValueSliceCmd)
 	return ret0
 }
 
@@ -6219,10 +6219,10 @@ func (mr *MockCmdableMockRecorder) TSRangeWithArgs(ctx, key, fromTimestamp, toTi
 }
 
 // TSRevRange mocks base method.
-func (m *MockCmdable) TSRevRange(ctx context.Context, key string, fromTimestamp, toTimestamp int) *v9.TSTimestampValueSliceCmd {
+func (m *MockCmdable) TSRevRange(ctx context.Context, key string, fromTimestamp, toTimestamp int) *redis.TSTimestampValueSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSRevRange", ctx, key, fromTimestamp, toTimestamp)
-	ret0, _ := ret[0].(*v9.TSTimestampValueSliceCmd)
+	ret0, _ := ret[0].(*redis.TSTimestampValueSliceCmd)
 	return ret0
 }
 
@@ -6233,10 +6233,10 @@ func (mr *MockCmdableMockRecorder) TSRevRange(ctx, key, fromTimestamp, toTimesta
 }
 
 // TSRevRangeWithArgs mocks base method.
-func (m *MockCmdable) TSRevRangeWithArgs(ctx context.Context, key string, fromTimestamp, toTimestamp int, options *v9.TSRevRangeOptions) *v9.TSTimestampValueSliceCmd {
+func (m *MockCmdable) TSRevRangeWithArgs(ctx context.Context, key string, fromTimestamp, toTimestamp int, options *redis.TSRevRangeOptions) *redis.TSTimestampValueSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TSRevRangeWithArgs", ctx, key, fromTimestamp, toTimestamp, options)
-	ret0, _ := ret[0].(*v9.TSTimestampValueSliceCmd)
+	ret0, _ := ret[0].(*redis.TSTimestampValueSliceCmd)
 	return ret0
 }
 
@@ -6247,10 +6247,10 @@ func (mr *MockCmdableMockRecorder) TSRevRangeWithArgs(ctx, key, fromTimestamp, t
 }
 
 // TTL mocks base method.
-func (m *MockCmdable) TTL(ctx context.Context, key string) *v9.DurationCmd {
+func (m *MockCmdable) TTL(ctx context.Context, key string) *redis.DurationCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TTL", ctx, key)
-	ret0, _ := ret[0].(*v9.DurationCmd)
+	ret0, _ := ret[0].(*redis.DurationCmd)
 	return ret0
 }
 
@@ -6261,10 +6261,10 @@ func (mr *MockCmdableMockRecorder) TTL(ctx, key any) *gomock.Call {
 }
 
 // Time mocks base method.
-func (m *MockCmdable) Time(ctx context.Context) *v9.TimeCmd {
+func (m *MockCmdable) Time(ctx context.Context) *redis.TimeCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Time", ctx)
-	ret0, _ := ret[0].(*v9.TimeCmd)
+	ret0, _ := ret[0].(*redis.TimeCmd)
 	return ret0
 }
 
@@ -6275,14 +6275,14 @@ func (mr *MockCmdableMockRecorder) Time(ctx any) *gomock.Call {
 }
 
 // TopKAdd mocks base method.
-func (m *MockCmdable) TopKAdd(ctx context.Context, key string, elements ...any) *v9.StringSliceCmd {
+func (m *MockCmdable) TopKAdd(ctx context.Context, key string, elements ...any) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TopKAdd", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -6294,14 +6294,14 @@ func (mr *MockCmdableMockRecorder) TopKAdd(ctx, key any, elements ...any) *gomoc
 }
 
 // TopKCount mocks base method.
-func (m *MockCmdable) TopKCount(ctx context.Context, key string, elements ...any) *v9.IntSliceCmd {
+func (m *MockCmdable) TopKCount(ctx context.Context, key string, elements ...any) *redis.IntSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TopKCount", varargs...)
-	ret0, _ := ret[0].(*v9.IntSliceCmd)
+	ret0, _ := ret[0].(*redis.IntSliceCmd)
 	return ret0
 }
 
@@ -6313,14 +6313,14 @@ func (mr *MockCmdableMockRecorder) TopKCount(ctx, key any, elements ...any) *gom
 }
 
 // TopKIncrBy mocks base method.
-func (m *MockCmdable) TopKIncrBy(ctx context.Context, key string, elements ...any) *v9.StringSliceCmd {
+func (m *MockCmdable) TopKIncrBy(ctx context.Context, key string, elements ...any) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TopKIncrBy", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -6332,10 +6332,10 @@ func (mr *MockCmdableMockRecorder) TopKIncrBy(ctx, key any, elements ...any) *go
 }
 
 // TopKInfo mocks base method.
-func (m *MockCmdable) TopKInfo(ctx context.Context, key string) *v9.TopKInfoCmd {
+func (m *MockCmdable) TopKInfo(ctx context.Context, key string) *redis.TopKInfoCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TopKInfo", ctx, key)
-	ret0, _ := ret[0].(*v9.TopKInfoCmd)
+	ret0, _ := ret[0].(*redis.TopKInfoCmd)
 	return ret0
 }
 
@@ -6346,10 +6346,10 @@ func (mr *MockCmdableMockRecorder) TopKInfo(ctx, key any) *gomock.Call {
 }
 
 // TopKList mocks base method.
-func (m *MockCmdable) TopKList(ctx context.Context, key string) *v9.StringSliceCmd {
+func (m *MockCmdable) TopKList(ctx context.Context, key string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TopKList", ctx, key)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -6360,10 +6360,10 @@ func (mr *MockCmdableMockRecorder) TopKList(ctx, key any) *gomock.Call {
 }
 
 // TopKListWithCount mocks base method.
-func (m *MockCmdable) TopKListWithCount(ctx context.Context, key string) *v9.MapStringIntCmd {
+func (m *MockCmdable) TopKListWithCount(ctx context.Context, key string) *redis.MapStringIntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TopKListWithCount", ctx, key)
-	ret0, _ := ret[0].(*v9.MapStringIntCmd)
+	ret0, _ := ret[0].(*redis.MapStringIntCmd)
 	return ret0
 }
 
@@ -6374,14 +6374,14 @@ func (mr *MockCmdableMockRecorder) TopKListWithCount(ctx, key any) *gomock.Call 
 }
 
 // TopKQuery mocks base method.
-func (m *MockCmdable) TopKQuery(ctx context.Context, key string, elements ...any) *v9.BoolSliceCmd {
+func (m *MockCmdable) TopKQuery(ctx context.Context, key string, elements ...any) *redis.BoolSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range elements {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TopKQuery", varargs...)
-	ret0, _ := ret[0].(*v9.BoolSliceCmd)
+	ret0, _ := ret[0].(*redis.BoolSliceCmd)
 	return ret0
 }
 
@@ -6393,10 +6393,10 @@ func (mr *MockCmdableMockRecorder) TopKQuery(ctx, key any, elements ...any) *gom
 }
 
 // TopKReserve mocks base method.
-func (m *MockCmdable) TopKReserve(ctx context.Context, key string, k int64) *v9.StatusCmd {
+func (m *MockCmdable) TopKReserve(ctx context.Context, key string, k int64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TopKReserve", ctx, key, k)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -6407,10 +6407,10 @@ func (mr *MockCmdableMockRecorder) TopKReserve(ctx, key, k any) *gomock.Call {
 }
 
 // TopKReserveWithOptions mocks base method.
-func (m *MockCmdable) TopKReserveWithOptions(ctx context.Context, key string, k, width, depth int64, decay float64) *v9.StatusCmd {
+func (m *MockCmdable) TopKReserveWithOptions(ctx context.Context, key string, k, width, depth int64, decay float64) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TopKReserveWithOptions", ctx, key, k, width, depth, decay)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -6421,14 +6421,14 @@ func (mr *MockCmdableMockRecorder) TopKReserveWithOptions(ctx, key, k, width, de
 }
 
 // Touch mocks base method.
-func (m *MockCmdable) Touch(ctx context.Context, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) Touch(ctx context.Context, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Touch", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6440,10 +6440,10 @@ func (mr *MockCmdableMockRecorder) Touch(ctx any, keys ...any) *gomock.Call {
 }
 
 // TxPipeline mocks base method.
-func (m *MockCmdable) TxPipeline() v9.Pipeliner {
+func (m *MockCmdable) TxPipeline() redis.Pipeliner {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TxPipeline")
-	ret0, _ := ret[0].(v9.Pipeliner)
+	ret0, _ := ret[0].(redis.Pipeliner)
 	return ret0
 }
 
@@ -6454,10 +6454,10 @@ func (mr *MockCmdableMockRecorder) TxPipeline() *gomock.Call {
 }
 
 // TxPipelined mocks base method.
-func (m *MockCmdable) TxPipelined(ctx context.Context, fn func(v9.Pipeliner) error) ([]v9.Cmder, error) {
+func (m *MockCmdable) TxPipelined(ctx context.Context, fn func(redis.Pipeliner) error) ([]redis.Cmder, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TxPipelined", ctx, fn)
-	ret0, _ := ret[0].([]v9.Cmder)
+	ret0, _ := ret[0].([]redis.Cmder)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -6469,10 +6469,10 @@ func (mr *MockCmdableMockRecorder) TxPipelined(ctx, fn any) *gomock.Call {
 }
 
 // Type mocks base method.
-func (m *MockCmdable) Type(ctx context.Context, key string) *v9.StatusCmd {
+func (m *MockCmdable) Type(ctx context.Context, key string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Type", ctx, key)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -6483,14 +6483,14 @@ func (mr *MockCmdableMockRecorder) Type(ctx, key any) *gomock.Call {
 }
 
 // Unlink mocks base method.
-func (m *MockCmdable) Unlink(ctx context.Context, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) Unlink(ctx context.Context, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Unlink", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6502,14 +6502,14 @@ func (mr *MockCmdableMockRecorder) Unlink(ctx any, keys ...any) *gomock.Call {
 }
 
 // XAck mocks base method.
-func (m *MockCmdable) XAck(ctx context.Context, stream, group string, ids ...string) *v9.IntCmd {
+func (m *MockCmdable) XAck(ctx context.Context, stream, group string, ids ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, stream, group}
 	for _, a := range ids {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "XAck", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6521,10 +6521,10 @@ func (mr *MockCmdableMockRecorder) XAck(ctx, stream, group any, ids ...any) *gom
 }
 
 // XAdd mocks base method.
-func (m *MockCmdable) XAdd(ctx context.Context, a *v9.XAddArgs) *v9.StringCmd {
+func (m *MockCmdable) XAdd(ctx context.Context, a *redis.XAddArgs) *redis.StringCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XAdd", ctx, a)
-	ret0, _ := ret[0].(*v9.StringCmd)
+	ret0, _ := ret[0].(*redis.StringCmd)
 	return ret0
 }
 
@@ -6535,10 +6535,10 @@ func (mr *MockCmdableMockRecorder) XAdd(ctx, a any) *gomock.Call {
 }
 
 // XAutoClaim mocks base method.
-func (m *MockCmdable) XAutoClaim(ctx context.Context, a *v9.XAutoClaimArgs) *v9.XAutoClaimCmd {
+func (m *MockCmdable) XAutoClaim(ctx context.Context, a *redis.XAutoClaimArgs) *redis.XAutoClaimCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XAutoClaim", ctx, a)
-	ret0, _ := ret[0].(*v9.XAutoClaimCmd)
+	ret0, _ := ret[0].(*redis.XAutoClaimCmd)
 	return ret0
 }
 
@@ -6549,10 +6549,10 @@ func (mr *MockCmdableMockRecorder) XAutoClaim(ctx, a any) *gomock.Call {
 }
 
 // XAutoClaimJustID mocks base method.
-func (m *MockCmdable) XAutoClaimJustID(ctx context.Context, a *v9.XAutoClaimArgs) *v9.XAutoClaimJustIDCmd {
+func (m *MockCmdable) XAutoClaimJustID(ctx context.Context, a *redis.XAutoClaimArgs) *redis.XAutoClaimJustIDCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XAutoClaimJustID", ctx, a)
-	ret0, _ := ret[0].(*v9.XAutoClaimJustIDCmd)
+	ret0, _ := ret[0].(*redis.XAutoClaimJustIDCmd)
 	return ret0
 }
 
@@ -6563,10 +6563,10 @@ func (mr *MockCmdableMockRecorder) XAutoClaimJustID(ctx, a any) *gomock.Call {
 }
 
 // XClaim mocks base method.
-func (m *MockCmdable) XClaim(ctx context.Context, a *v9.XClaimArgs) *v9.XMessageSliceCmd {
+func (m *MockCmdable) XClaim(ctx context.Context, a *redis.XClaimArgs) *redis.XMessageSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XClaim", ctx, a)
-	ret0, _ := ret[0].(*v9.XMessageSliceCmd)
+	ret0, _ := ret[0].(*redis.XMessageSliceCmd)
 	return ret0
 }
 
@@ -6577,10 +6577,10 @@ func (mr *MockCmdableMockRecorder) XClaim(ctx, a any) *gomock.Call {
 }
 
 // XClaimJustID mocks base method.
-func (m *MockCmdable) XClaimJustID(ctx context.Context, a *v9.XClaimArgs) *v9.StringSliceCmd {
+func (m *MockCmdable) XClaimJustID(ctx context.Context, a *redis.XClaimArgs) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XClaimJustID", ctx, a)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -6591,14 +6591,14 @@ func (mr *MockCmdableMockRecorder) XClaimJustID(ctx, a any) *gomock.Call {
 }
 
 // XDel mocks base method.
-func (m *MockCmdable) XDel(ctx context.Context, stream string, ids ...string) *v9.IntCmd {
+func (m *MockCmdable) XDel(ctx context.Context, stream string, ids ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, stream}
 	for _, a := range ids {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "XDel", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6610,10 +6610,10 @@ func (mr *MockCmdableMockRecorder) XDel(ctx, stream any, ids ...any) *gomock.Cal
 }
 
 // XGroupCreate mocks base method.
-func (m *MockCmdable) XGroupCreate(ctx context.Context, stream, group, start string) *v9.StatusCmd {
+func (m *MockCmdable) XGroupCreate(ctx context.Context, stream, group, start string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XGroupCreate", ctx, stream, group, start)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -6624,10 +6624,10 @@ func (mr *MockCmdableMockRecorder) XGroupCreate(ctx, stream, group, start any) *
 }
 
 // XGroupCreateConsumer mocks base method.
-func (m *MockCmdable) XGroupCreateConsumer(ctx context.Context, stream, group, consumer string) *v9.IntCmd {
+func (m *MockCmdable) XGroupCreateConsumer(ctx context.Context, stream, group, consumer string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XGroupCreateConsumer", ctx, stream, group, consumer)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6638,10 +6638,10 @@ func (mr *MockCmdableMockRecorder) XGroupCreateConsumer(ctx, stream, group, cons
 }
 
 // XGroupCreateMkStream mocks base method.
-func (m *MockCmdable) XGroupCreateMkStream(ctx context.Context, stream, group, start string) *v9.StatusCmd {
+func (m *MockCmdable) XGroupCreateMkStream(ctx context.Context, stream, group, start string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XGroupCreateMkStream", ctx, stream, group, start)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -6652,10 +6652,10 @@ func (mr *MockCmdableMockRecorder) XGroupCreateMkStream(ctx, stream, group, star
 }
 
 // XGroupDelConsumer mocks base method.
-func (m *MockCmdable) XGroupDelConsumer(ctx context.Context, stream, group, consumer string) *v9.IntCmd {
+func (m *MockCmdable) XGroupDelConsumer(ctx context.Context, stream, group, consumer string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XGroupDelConsumer", ctx, stream, group, consumer)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6666,10 +6666,10 @@ func (mr *MockCmdableMockRecorder) XGroupDelConsumer(ctx, stream, group, consume
 }
 
 // XGroupDestroy mocks base method.
-func (m *MockCmdable) XGroupDestroy(ctx context.Context, stream, group string) *v9.IntCmd {
+func (m *MockCmdable) XGroupDestroy(ctx context.Context, stream, group string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XGroupDestroy", ctx, stream, group)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6680,10 +6680,10 @@ func (mr *MockCmdableMockRecorder) XGroupDestroy(ctx, stream, group any) *gomock
 }
 
 // XGroupSetID mocks base method.
-func (m *MockCmdable) XGroupSetID(ctx context.Context, stream, group, start string) *v9.StatusCmd {
+func (m *MockCmdable) XGroupSetID(ctx context.Context, stream, group, start string) *redis.StatusCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XGroupSetID", ctx, stream, group, start)
-	ret0, _ := ret[0].(*v9.StatusCmd)
+	ret0, _ := ret[0].(*redis.StatusCmd)
 	return ret0
 }
 
@@ -6694,10 +6694,10 @@ func (mr *MockCmdableMockRecorder) XGroupSetID(ctx, stream, group, start any) *g
 }
 
 // XInfoConsumers mocks base method.
-func (m *MockCmdable) XInfoConsumers(ctx context.Context, key, group string) *v9.XInfoConsumersCmd {
+func (m *MockCmdable) XInfoConsumers(ctx context.Context, key, group string) *redis.XInfoConsumersCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XInfoConsumers", ctx, key, group)
-	ret0, _ := ret[0].(*v9.XInfoConsumersCmd)
+	ret0, _ := ret[0].(*redis.XInfoConsumersCmd)
 	return ret0
 }
 
@@ -6708,10 +6708,10 @@ func (mr *MockCmdableMockRecorder) XInfoConsumers(ctx, key, group any) *gomock.C
 }
 
 // XInfoGroups mocks base method.
-func (m *MockCmdable) XInfoGroups(ctx context.Context, key string) *v9.XInfoGroupsCmd {
+func (m *MockCmdable) XInfoGroups(ctx context.Context, key string) *redis.XInfoGroupsCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XInfoGroups", ctx, key)
-	ret0, _ := ret[0].(*v9.XInfoGroupsCmd)
+	ret0, _ := ret[0].(*redis.XInfoGroupsCmd)
 	return ret0
 }
 
@@ -6722,10 +6722,10 @@ func (mr *MockCmdableMockRecorder) XInfoGroups(ctx, key any) *gomock.Call {
 }
 
 // XInfoStream mocks base method.
-func (m *MockCmdable) XInfoStream(ctx context.Context, key string) *v9.XInfoStreamCmd {
+func (m *MockCmdable) XInfoStream(ctx context.Context, key string) *redis.XInfoStreamCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XInfoStream", ctx, key)
-	ret0, _ := ret[0].(*v9.XInfoStreamCmd)
+	ret0, _ := ret[0].(*redis.XInfoStreamCmd)
 	return ret0
 }
 
@@ -6736,10 +6736,10 @@ func (mr *MockCmdableMockRecorder) XInfoStream(ctx, key any) *gomock.Call {
 }
 
 // XInfoStreamFull mocks base method.
-func (m *MockCmdable) XInfoStreamFull(ctx context.Context, key string, count int) *v9.XInfoStreamFullCmd {
+func (m *MockCmdable) XInfoStreamFull(ctx context.Context, key string, count int) *redis.XInfoStreamFullCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XInfoStreamFull", ctx, key, count)
-	ret0, _ := ret[0].(*v9.XInfoStreamFullCmd)
+	ret0, _ := ret[0].(*redis.XInfoStreamFullCmd)
 	return ret0
 }
 
@@ -6750,10 +6750,10 @@ func (mr *MockCmdableMockRecorder) XInfoStreamFull(ctx, key, count any) *gomock.
 }
 
 // XLen mocks base method.
-func (m *MockCmdable) XLen(ctx context.Context, stream string) *v9.IntCmd {
+func (m *MockCmdable) XLen(ctx context.Context, stream string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XLen", ctx, stream)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6764,10 +6764,10 @@ func (mr *MockCmdableMockRecorder) XLen(ctx, stream any) *gomock.Call {
 }
 
 // XPending mocks base method.
-func (m *MockCmdable) XPending(ctx context.Context, stream, group string) *v9.XPendingCmd {
+func (m *MockCmdable) XPending(ctx context.Context, stream, group string) *redis.XPendingCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XPending", ctx, stream, group)
-	ret0, _ := ret[0].(*v9.XPendingCmd)
+	ret0, _ := ret[0].(*redis.XPendingCmd)
 	return ret0
 }
 
@@ -6778,10 +6778,10 @@ func (mr *MockCmdableMockRecorder) XPending(ctx, stream, group any) *gomock.Call
 }
 
 // XPendingExt mocks base method.
-func (m *MockCmdable) XPendingExt(ctx context.Context, a *v9.XPendingExtArgs) *v9.XPendingExtCmd {
+func (m *MockCmdable) XPendingExt(ctx context.Context, a *redis.XPendingExtArgs) *redis.XPendingExtCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XPendingExt", ctx, a)
-	ret0, _ := ret[0].(*v9.XPendingExtCmd)
+	ret0, _ := ret[0].(*redis.XPendingExtCmd)
 	return ret0
 }
 
@@ -6792,10 +6792,10 @@ func (mr *MockCmdableMockRecorder) XPendingExt(ctx, a any) *gomock.Call {
 }
 
 // XRange mocks base method.
-func (m *MockCmdable) XRange(ctx context.Context, stream, start, stop string) *v9.XMessageSliceCmd {
+func (m *MockCmdable) XRange(ctx context.Context, stream, start, stop string) *redis.XMessageSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XRange", ctx, stream, start, stop)
-	ret0, _ := ret[0].(*v9.XMessageSliceCmd)
+	ret0, _ := ret[0].(*redis.XMessageSliceCmd)
 	return ret0
 }
 
@@ -6806,10 +6806,10 @@ func (mr *MockCmdableMockRecorder) XRange(ctx, stream, start, stop any) *gomock.
 }
 
 // XRangeN mocks base method.
-func (m *MockCmdable) XRangeN(ctx context.Context, stream, start, stop string, count int64) *v9.XMessageSliceCmd {
+func (m *MockCmdable) XRangeN(ctx context.Context, stream, start, stop string, count int64) *redis.XMessageSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XRangeN", ctx, stream, start, stop, count)
-	ret0, _ := ret[0].(*v9.XMessageSliceCmd)
+	ret0, _ := ret[0].(*redis.XMessageSliceCmd)
 	return ret0
 }
 
@@ -6820,10 +6820,10 @@ func (mr *MockCmdableMockRecorder) XRangeN(ctx, stream, start, stop, count any) 
 }
 
 // XRead mocks base method.
-func (m *MockCmdable) XRead(ctx context.Context, a *v9.XReadArgs) *v9.XStreamSliceCmd {
+func (m *MockCmdable) XRead(ctx context.Context, a *redis.XReadArgs) *redis.XStreamSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XRead", ctx, a)
-	ret0, _ := ret[0].(*v9.XStreamSliceCmd)
+	ret0, _ := ret[0].(*redis.XStreamSliceCmd)
 	return ret0
 }
 
@@ -6834,10 +6834,10 @@ func (mr *MockCmdableMockRecorder) XRead(ctx, a any) *gomock.Call {
 }
 
 // XReadGroup mocks base method.
-func (m *MockCmdable) XReadGroup(ctx context.Context, a *v9.XReadGroupArgs) *v9.XStreamSliceCmd {
+func (m *MockCmdable) XReadGroup(ctx context.Context, a *redis.XReadGroupArgs) *redis.XStreamSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XReadGroup", ctx, a)
-	ret0, _ := ret[0].(*v9.XStreamSliceCmd)
+	ret0, _ := ret[0].(*redis.XStreamSliceCmd)
 	return ret0
 }
 
@@ -6848,14 +6848,14 @@ func (mr *MockCmdableMockRecorder) XReadGroup(ctx, a any) *gomock.Call {
 }
 
 // XReadStreams mocks base method.
-func (m *MockCmdable) XReadStreams(ctx context.Context, streams ...string) *v9.XStreamSliceCmd {
+func (m *MockCmdable) XReadStreams(ctx context.Context, streams ...string) *redis.XStreamSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range streams {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "XReadStreams", varargs...)
-	ret0, _ := ret[0].(*v9.XStreamSliceCmd)
+	ret0, _ := ret[0].(*redis.XStreamSliceCmd)
 	return ret0
 }
 
@@ -6867,10 +6867,10 @@ func (mr *MockCmdableMockRecorder) XReadStreams(ctx any, streams ...any) *gomock
 }
 
 // XRevRange mocks base method.
-func (m *MockCmdable) XRevRange(ctx context.Context, stream, start, stop string) *v9.XMessageSliceCmd {
+func (m *MockCmdable) XRevRange(ctx context.Context, stream, start, stop string) *redis.XMessageSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XRevRange", ctx, stream, start, stop)
-	ret0, _ := ret[0].(*v9.XMessageSliceCmd)
+	ret0, _ := ret[0].(*redis.XMessageSliceCmd)
 	return ret0
 }
 
@@ -6881,10 +6881,10 @@ func (mr *MockCmdableMockRecorder) XRevRange(ctx, stream, start, stop any) *gomo
 }
 
 // XRevRangeN mocks base method.
-func (m *MockCmdable) XRevRangeN(ctx context.Context, stream, start, stop string, count int64) *v9.XMessageSliceCmd {
+func (m *MockCmdable) XRevRangeN(ctx context.Context, stream, start, stop string, count int64) *redis.XMessageSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XRevRangeN", ctx, stream, start, stop, count)
-	ret0, _ := ret[0].(*v9.XMessageSliceCmd)
+	ret0, _ := ret[0].(*redis.XMessageSliceCmd)
 	return ret0
 }
 
@@ -6895,10 +6895,10 @@ func (mr *MockCmdableMockRecorder) XRevRangeN(ctx, stream, start, stop, count an
 }
 
 // XTrimMaxLen mocks base method.
-func (m *MockCmdable) XTrimMaxLen(ctx context.Context, key string, maxLen int64) *v9.IntCmd {
+func (m *MockCmdable) XTrimMaxLen(ctx context.Context, key string, maxLen int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XTrimMaxLen", ctx, key, maxLen)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6909,10 +6909,10 @@ func (mr *MockCmdableMockRecorder) XTrimMaxLen(ctx, key, maxLen any) *gomock.Cal
 }
 
 // XTrimMaxLenApprox mocks base method.
-func (m *MockCmdable) XTrimMaxLenApprox(ctx context.Context, key string, maxLen, limit int64) *v9.IntCmd {
+func (m *MockCmdable) XTrimMaxLenApprox(ctx context.Context, key string, maxLen, limit int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XTrimMaxLenApprox", ctx, key, maxLen, limit)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6923,10 +6923,10 @@ func (mr *MockCmdableMockRecorder) XTrimMaxLenApprox(ctx, key, maxLen, limit any
 }
 
 // XTrimMinID mocks base method.
-func (m *MockCmdable) XTrimMinID(ctx context.Context, key, minID string) *v9.IntCmd {
+func (m *MockCmdable) XTrimMinID(ctx context.Context, key, minID string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XTrimMinID", ctx, key, minID)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6937,10 +6937,10 @@ func (mr *MockCmdableMockRecorder) XTrimMinID(ctx, key, minID any) *gomock.Call 
 }
 
 // XTrimMinIDApprox mocks base method.
-func (m *MockCmdable) XTrimMinIDApprox(ctx context.Context, key, minID string, limit int64) *v9.IntCmd {
+func (m *MockCmdable) XTrimMinIDApprox(ctx context.Context, key, minID string, limit int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "XTrimMinIDApprox", ctx, key, minID, limit)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6951,14 +6951,14 @@ func (mr *MockCmdableMockRecorder) XTrimMinIDApprox(ctx, key, minID, limit any) 
 }
 
 // ZAdd mocks base method.
-func (m *MockCmdable) ZAdd(ctx context.Context, key string, members ...v9.Z) *v9.IntCmd {
+func (m *MockCmdable) ZAdd(ctx context.Context, key string, members ...redis.Z) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZAdd", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6970,10 +6970,10 @@ func (mr *MockCmdableMockRecorder) ZAdd(ctx, key any, members ...any) *gomock.Ca
 }
 
 // ZAddArgs mocks base method.
-func (m *MockCmdable) ZAddArgs(ctx context.Context, key string, args v9.ZAddArgs) *v9.IntCmd {
+func (m *MockCmdable) ZAddArgs(ctx context.Context, key string, args redis.ZAddArgs) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZAddArgs", ctx, key, args)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -6984,10 +6984,10 @@ func (mr *MockCmdableMockRecorder) ZAddArgs(ctx, key, args any) *gomock.Call {
 }
 
 // ZAddArgsIncr mocks base method.
-func (m *MockCmdable) ZAddArgsIncr(ctx context.Context, key string, args v9.ZAddArgs) *v9.FloatCmd {
+func (m *MockCmdable) ZAddArgsIncr(ctx context.Context, key string, args redis.ZAddArgs) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZAddArgsIncr", ctx, key, args)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -6998,14 +6998,14 @@ func (mr *MockCmdableMockRecorder) ZAddArgsIncr(ctx, key, args any) *gomock.Call
 }
 
 // ZAddGT mocks base method.
-func (m *MockCmdable) ZAddGT(ctx context.Context, key string, members ...v9.Z) *v9.IntCmd {
+func (m *MockCmdable) ZAddGT(ctx context.Context, key string, members ...redis.Z) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZAddGT", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7017,14 +7017,14 @@ func (mr *MockCmdableMockRecorder) ZAddGT(ctx, key any, members ...any) *gomock.
 }
 
 // ZAddLT mocks base method.
-func (m *MockCmdable) ZAddLT(ctx context.Context, key string, members ...v9.Z) *v9.IntCmd {
+func (m *MockCmdable) ZAddLT(ctx context.Context, key string, members ...redis.Z) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZAddLT", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7036,14 +7036,14 @@ func (mr *MockCmdableMockRecorder) ZAddLT(ctx, key any, members ...any) *gomock.
 }
 
 // ZAddNX mocks base method.
-func (m *MockCmdable) ZAddNX(ctx context.Context, key string, members ...v9.Z) *v9.IntCmd {
+func (m *MockCmdable) ZAddNX(ctx context.Context, key string, members ...redis.Z) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZAddNX", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7055,14 +7055,14 @@ func (mr *MockCmdableMockRecorder) ZAddNX(ctx, key any, members ...any) *gomock.
 }
 
 // ZAddXX mocks base method.
-func (m *MockCmdable) ZAddXX(ctx context.Context, key string, members ...v9.Z) *v9.IntCmd {
+func (m *MockCmdable) ZAddXX(ctx context.Context, key string, members ...redis.Z) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZAddXX", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7074,10 +7074,10 @@ func (mr *MockCmdableMockRecorder) ZAddXX(ctx, key any, members ...any) *gomock.
 }
 
 // ZCard mocks base method.
-func (m *MockCmdable) ZCard(ctx context.Context, key string) *v9.IntCmd {
+func (m *MockCmdable) ZCard(ctx context.Context, key string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZCard", ctx, key)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7088,10 +7088,10 @@ func (mr *MockCmdableMockRecorder) ZCard(ctx, key any) *gomock.Call {
 }
 
 // ZCount mocks base method.
-func (m *MockCmdable) ZCount(ctx context.Context, key, min, max string) *v9.IntCmd {
+func (m *MockCmdable) ZCount(ctx context.Context, key, min, max string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZCount", ctx, key, min, max)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7102,14 +7102,14 @@ func (mr *MockCmdableMockRecorder) ZCount(ctx, key, min, max any) *gomock.Call {
 }
 
 // ZDiff mocks base method.
-func (m *MockCmdable) ZDiff(ctx context.Context, keys ...string) *v9.StringSliceCmd {
+func (m *MockCmdable) ZDiff(ctx context.Context, keys ...string) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZDiff", varargs...)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7121,14 +7121,14 @@ func (mr *MockCmdableMockRecorder) ZDiff(ctx any, keys ...any) *gomock.Call {
 }
 
 // ZDiffStore mocks base method.
-func (m *MockCmdable) ZDiffStore(ctx context.Context, destination string, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) ZDiffStore(ctx context.Context, destination string, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, destination}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZDiffStore", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7140,14 +7140,14 @@ func (mr *MockCmdableMockRecorder) ZDiffStore(ctx, destination any, keys ...any)
 }
 
 // ZDiffWithScores mocks base method.
-func (m *MockCmdable) ZDiffWithScores(ctx context.Context, keys ...string) *v9.ZSliceCmd {
+func (m *MockCmdable) ZDiffWithScores(ctx context.Context, keys ...string) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZDiffWithScores", varargs...)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7159,10 +7159,10 @@ func (mr *MockCmdableMockRecorder) ZDiffWithScores(ctx any, keys ...any) *gomock
 }
 
 // ZIncrBy mocks base method.
-func (m *MockCmdable) ZIncrBy(ctx context.Context, key string, increment float64, member string) *v9.FloatCmd {
+func (m *MockCmdable) ZIncrBy(ctx context.Context, key string, increment float64, member string) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZIncrBy", ctx, key, increment, member)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -7173,10 +7173,10 @@ func (mr *MockCmdableMockRecorder) ZIncrBy(ctx, key, increment, member any) *gom
 }
 
 // ZInter mocks base method.
-func (m *MockCmdable) ZInter(ctx context.Context, store *v9.ZStore) *v9.StringSliceCmd {
+func (m *MockCmdable) ZInter(ctx context.Context, store *redis.ZStore) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZInter", ctx, store)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7187,14 +7187,14 @@ func (mr *MockCmdableMockRecorder) ZInter(ctx, store any) *gomock.Call {
 }
 
 // ZInterCard mocks base method.
-func (m *MockCmdable) ZInterCard(ctx context.Context, limit int64, keys ...string) *v9.IntCmd {
+func (m *MockCmdable) ZInterCard(ctx context.Context, limit int64, keys ...string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, limit}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZInterCard", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7206,10 +7206,10 @@ func (mr *MockCmdableMockRecorder) ZInterCard(ctx, limit any, keys ...any) *gomo
 }
 
 // ZInterStore mocks base method.
-func (m *MockCmdable) ZInterStore(ctx context.Context, destination string, store *v9.ZStore) *v9.IntCmd {
+func (m *MockCmdable) ZInterStore(ctx context.Context, destination string, store *redis.ZStore) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZInterStore", ctx, destination, store)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7220,10 +7220,10 @@ func (mr *MockCmdableMockRecorder) ZInterStore(ctx, destination, store any) *gom
 }
 
 // ZInterWithScores mocks base method.
-func (m *MockCmdable) ZInterWithScores(ctx context.Context, store *v9.ZStore) *v9.ZSliceCmd {
+func (m *MockCmdable) ZInterWithScores(ctx context.Context, store *redis.ZStore) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZInterWithScores", ctx, store)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7234,10 +7234,10 @@ func (mr *MockCmdableMockRecorder) ZInterWithScores(ctx, store any) *gomock.Call
 }
 
 // ZLexCount mocks base method.
-func (m *MockCmdable) ZLexCount(ctx context.Context, key, min, max string) *v9.IntCmd {
+func (m *MockCmdable) ZLexCount(ctx context.Context, key, min, max string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZLexCount", ctx, key, min, max)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7248,14 +7248,14 @@ func (mr *MockCmdableMockRecorder) ZLexCount(ctx, key, min, max any) *gomock.Cal
 }
 
 // ZMPop mocks base method.
-func (m *MockCmdable) ZMPop(ctx context.Context, order string, count int64, keys ...string) *v9.ZSliceWithKeyCmd {
+func (m *MockCmdable) ZMPop(ctx context.Context, order string, count int64, keys ...string) *redis.ZSliceWithKeyCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, order, count}
 	for _, a := range keys {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZMPop", varargs...)
-	ret0, _ := ret[0].(*v9.ZSliceWithKeyCmd)
+	ret0, _ := ret[0].(*redis.ZSliceWithKeyCmd)
 	return ret0
 }
 
@@ -7267,14 +7267,14 @@ func (mr *MockCmdableMockRecorder) ZMPop(ctx, order, count any, keys ...any) *go
 }
 
 // ZMScore mocks base method.
-func (m *MockCmdable) ZMScore(ctx context.Context, key string, members ...string) *v9.FloatSliceCmd {
+func (m *MockCmdable) ZMScore(ctx context.Context, key string, members ...string) *redis.FloatSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZMScore", varargs...)
-	ret0, _ := ret[0].(*v9.FloatSliceCmd)
+	ret0, _ := ret[0].(*redis.FloatSliceCmd)
 	return ret0
 }
 
@@ -7286,14 +7286,14 @@ func (mr *MockCmdableMockRecorder) ZMScore(ctx, key any, members ...any) *gomock
 }
 
 // ZPopMax mocks base method.
-func (m *MockCmdable) ZPopMax(ctx context.Context, key string, count ...int64) *v9.ZSliceCmd {
+func (m *MockCmdable) ZPopMax(ctx context.Context, key string, count ...int64) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range count {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZPopMax", varargs...)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7305,14 +7305,14 @@ func (mr *MockCmdableMockRecorder) ZPopMax(ctx, key any, count ...any) *gomock.C
 }
 
 // ZPopMin mocks base method.
-func (m *MockCmdable) ZPopMin(ctx context.Context, key string, count ...int64) *v9.ZSliceCmd {
+func (m *MockCmdable) ZPopMin(ctx context.Context, key string, count ...int64) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range count {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZPopMin", varargs...)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7324,10 +7324,10 @@ func (mr *MockCmdableMockRecorder) ZPopMin(ctx, key any, count ...any) *gomock.C
 }
 
 // ZRandMember mocks base method.
-func (m *MockCmdable) ZRandMember(ctx context.Context, key string, count int) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRandMember(ctx context.Context, key string, count int) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRandMember", ctx, key, count)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7338,10 +7338,10 @@ func (mr *MockCmdableMockRecorder) ZRandMember(ctx, key, count any) *gomock.Call
 }
 
 // ZRandMemberWithScores mocks base method.
-func (m *MockCmdable) ZRandMemberWithScores(ctx context.Context, key string, count int) *v9.ZSliceCmd {
+func (m *MockCmdable) ZRandMemberWithScores(ctx context.Context, key string, count int) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRandMemberWithScores", ctx, key, count)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7352,10 +7352,10 @@ func (mr *MockCmdableMockRecorder) ZRandMemberWithScores(ctx, key, count any) *g
 }
 
 // ZRange mocks base method.
-func (m *MockCmdable) ZRange(ctx context.Context, key string, start, stop int64) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRange(ctx context.Context, key string, start, stop int64) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRange", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7366,10 +7366,10 @@ func (mr *MockCmdableMockRecorder) ZRange(ctx, key, start, stop any) *gomock.Cal
 }
 
 // ZRangeArgs mocks base method.
-func (m *MockCmdable) ZRangeArgs(ctx context.Context, z v9.ZRangeArgs) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRangeArgs(ctx context.Context, z redis.ZRangeArgs) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeArgs", ctx, z)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7380,10 +7380,10 @@ func (mr *MockCmdableMockRecorder) ZRangeArgs(ctx, z any) *gomock.Call {
 }
 
 // ZRangeArgsWithScores mocks base method.
-func (m *MockCmdable) ZRangeArgsWithScores(ctx context.Context, z v9.ZRangeArgs) *v9.ZSliceCmd {
+func (m *MockCmdable) ZRangeArgsWithScores(ctx context.Context, z redis.ZRangeArgs) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeArgsWithScores", ctx, z)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7394,10 +7394,10 @@ func (mr *MockCmdableMockRecorder) ZRangeArgsWithScores(ctx, z any) *gomock.Call
 }
 
 // ZRangeByLex mocks base method.
-func (m *MockCmdable) ZRangeByLex(ctx context.Context, key string, opt *v9.ZRangeBy) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRangeByLex(ctx context.Context, key string, opt *redis.ZRangeBy) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeByLex", ctx, key, opt)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7408,10 +7408,10 @@ func (mr *MockCmdableMockRecorder) ZRangeByLex(ctx, key, opt any) *gomock.Call {
 }
 
 // ZRangeByScore mocks base method.
-func (m *MockCmdable) ZRangeByScore(ctx context.Context, key string, opt *v9.ZRangeBy) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRangeByScore(ctx context.Context, key string, opt *redis.ZRangeBy) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeByScore", ctx, key, opt)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7422,10 +7422,10 @@ func (mr *MockCmdableMockRecorder) ZRangeByScore(ctx, key, opt any) *gomock.Call
 }
 
 // ZRangeByScoreWithScores mocks base method.
-func (m *MockCmdable) ZRangeByScoreWithScores(ctx context.Context, key string, opt *v9.ZRangeBy) *v9.ZSliceCmd {
+func (m *MockCmdable) ZRangeByScoreWithScores(ctx context.Context, key string, opt *redis.ZRangeBy) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeByScoreWithScores", ctx, key, opt)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7436,10 +7436,10 @@ func (mr *MockCmdableMockRecorder) ZRangeByScoreWithScores(ctx, key, opt any) *g
 }
 
 // ZRangeStore mocks base method.
-func (m *MockCmdable) ZRangeStore(ctx context.Context, dst string, z v9.ZRangeArgs) *v9.IntCmd {
+func (m *MockCmdable) ZRangeStore(ctx context.Context, dst string, z redis.ZRangeArgs) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeStore", ctx, dst, z)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7450,10 +7450,10 @@ func (mr *MockCmdableMockRecorder) ZRangeStore(ctx, dst, z any) *gomock.Call {
 }
 
 // ZRangeWithScores mocks base method.
-func (m *MockCmdable) ZRangeWithScores(ctx context.Context, key string, start, stop int64) *v9.ZSliceCmd {
+func (m *MockCmdable) ZRangeWithScores(ctx context.Context, key string, start, stop int64) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRangeWithScores", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7464,10 +7464,10 @@ func (mr *MockCmdableMockRecorder) ZRangeWithScores(ctx, key, start, stop any) *
 }
 
 // ZRank mocks base method.
-func (m *MockCmdable) ZRank(ctx context.Context, key, member string) *v9.IntCmd {
+func (m *MockCmdable) ZRank(ctx context.Context, key, member string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRank", ctx, key, member)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7478,10 +7478,10 @@ func (mr *MockCmdableMockRecorder) ZRank(ctx, key, member any) *gomock.Call {
 }
 
 // ZRankWithScore mocks base method.
-func (m *MockCmdable) ZRankWithScore(ctx context.Context, key, member string) *v9.RankWithScoreCmd {
+func (m *MockCmdable) ZRankWithScore(ctx context.Context, key, member string) *redis.RankWithScoreCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRankWithScore", ctx, key, member)
-	ret0, _ := ret[0].(*v9.RankWithScoreCmd)
+	ret0, _ := ret[0].(*redis.RankWithScoreCmd)
 	return ret0
 }
 
@@ -7492,14 +7492,14 @@ func (mr *MockCmdableMockRecorder) ZRankWithScore(ctx, key, member any) *gomock.
 }
 
 // ZRem mocks base method.
-func (m *MockCmdable) ZRem(ctx context.Context, key string, members ...any) *v9.IntCmd {
+func (m *MockCmdable) ZRem(ctx context.Context, key string, members ...any) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, key}
 	for _, a := range members {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ZRem", varargs...)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7511,10 +7511,10 @@ func (mr *MockCmdableMockRecorder) ZRem(ctx, key any, members ...any) *gomock.Ca
 }
 
 // ZRemRangeByLex mocks base method.
-func (m *MockCmdable) ZRemRangeByLex(ctx context.Context, key, min, max string) *v9.IntCmd {
+func (m *MockCmdable) ZRemRangeByLex(ctx context.Context, key, min, max string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRemRangeByLex", ctx, key, min, max)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7525,10 +7525,10 @@ func (mr *MockCmdableMockRecorder) ZRemRangeByLex(ctx, key, min, max any) *gomoc
 }
 
 // ZRemRangeByRank mocks base method.
-func (m *MockCmdable) ZRemRangeByRank(ctx context.Context, key string, start, stop int64) *v9.IntCmd {
+func (m *MockCmdable) ZRemRangeByRank(ctx context.Context, key string, start, stop int64) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRemRangeByRank", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7539,10 +7539,10 @@ func (mr *MockCmdableMockRecorder) ZRemRangeByRank(ctx, key, start, stop any) *g
 }
 
 // ZRemRangeByScore mocks base method.
-func (m *MockCmdable) ZRemRangeByScore(ctx context.Context, key, min, max string) *v9.IntCmd {
+func (m *MockCmdable) ZRemRangeByScore(ctx context.Context, key, min, max string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRemRangeByScore", ctx, key, min, max)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7553,10 +7553,10 @@ func (mr *MockCmdableMockRecorder) ZRemRangeByScore(ctx, key, min, max any) *gom
 }
 
 // ZRevRange mocks base method.
-func (m *MockCmdable) ZRevRange(ctx context.Context, key string, start, stop int64) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRevRange(ctx context.Context, key string, start, stop int64) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRange", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7567,10 +7567,10 @@ func (mr *MockCmdableMockRecorder) ZRevRange(ctx, key, start, stop any) *gomock.
 }
 
 // ZRevRangeByLex mocks base method.
-func (m *MockCmdable) ZRevRangeByLex(ctx context.Context, key string, opt *v9.ZRangeBy) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRevRangeByLex(ctx context.Context, key string, opt *redis.ZRangeBy) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRangeByLex", ctx, key, opt)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7581,10 +7581,10 @@ func (mr *MockCmdableMockRecorder) ZRevRangeByLex(ctx, key, opt any) *gomock.Cal
 }
 
 // ZRevRangeByScore mocks base method.
-func (m *MockCmdable) ZRevRangeByScore(ctx context.Context, key string, opt *v9.ZRangeBy) *v9.StringSliceCmd {
+func (m *MockCmdable) ZRevRangeByScore(ctx context.Context, key string, opt *redis.ZRangeBy) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRangeByScore", ctx, key, opt)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7595,10 +7595,10 @@ func (mr *MockCmdableMockRecorder) ZRevRangeByScore(ctx, key, opt any) *gomock.C
 }
 
 // ZRevRangeByScoreWithScores mocks base method.
-func (m *MockCmdable) ZRevRangeByScoreWithScores(ctx context.Context, key string, opt *v9.ZRangeBy) *v9.ZSliceCmd {
+func (m *MockCmdable) ZRevRangeByScoreWithScores(ctx context.Context, key string, opt *redis.ZRangeBy) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRangeByScoreWithScores", ctx, key, opt)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7609,10 +7609,10 @@ func (mr *MockCmdableMockRecorder) ZRevRangeByScoreWithScores(ctx, key, opt any)
 }
 
 // ZRevRangeWithScores mocks base method.
-func (m *MockCmdable) ZRevRangeWithScores(ctx context.Context, key string, start, stop int64) *v9.ZSliceCmd {
+func (m *MockCmdable) ZRevRangeWithScores(ctx context.Context, key string, start, stop int64) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRangeWithScores", ctx, key, start, stop)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 
@@ -7623,10 +7623,10 @@ func (mr *MockCmdableMockRecorder) ZRevRangeWithScores(ctx, key, start, stop any
 }
 
 // ZRevRank mocks base method.
-func (m *MockCmdable) ZRevRank(ctx context.Context, key, member string) *v9.IntCmd {
+func (m *MockCmdable) ZRevRank(ctx context.Context, key, member string) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRank", ctx, key, member)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7637,10 +7637,10 @@ func (mr *MockCmdableMockRecorder) ZRevRank(ctx, key, member any) *gomock.Call {
 }
 
 // ZRevRankWithScore mocks base method.
-func (m *MockCmdable) ZRevRankWithScore(ctx context.Context, key, member string) *v9.RankWithScoreCmd {
+func (m *MockCmdable) ZRevRankWithScore(ctx context.Context, key, member string) *redis.RankWithScoreCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZRevRankWithScore", ctx, key, member)
-	ret0, _ := ret[0].(*v9.RankWithScoreCmd)
+	ret0, _ := ret[0].(*redis.RankWithScoreCmd)
 	return ret0
 }
 
@@ -7651,10 +7651,10 @@ func (mr *MockCmdableMockRecorder) ZRevRankWithScore(ctx, key, member any) *gomo
 }
 
 // ZScan mocks base method.
-func (m *MockCmdable) ZScan(ctx context.Context, key string, cursor uint64, match string, count int64) *v9.ScanCmd {
+func (m *MockCmdable) ZScan(ctx context.Context, key string, cursor uint64, match string, count int64) *redis.ScanCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZScan", ctx, key, cursor, match, count)
-	ret0, _ := ret[0].(*v9.ScanCmd)
+	ret0, _ := ret[0].(*redis.ScanCmd)
 	return ret0
 }
 
@@ -7665,10 +7665,10 @@ func (mr *MockCmdableMockRecorder) ZScan(ctx, key, cursor, match, count any) *go
 }
 
 // ZScore mocks base method.
-func (m *MockCmdable) ZScore(ctx context.Context, key, member string) *v9.FloatCmd {
+func (m *MockCmdable) ZScore(ctx context.Context, key, member string) *redis.FloatCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZScore", ctx, key, member)
-	ret0, _ := ret[0].(*v9.FloatCmd)
+	ret0, _ := ret[0].(*redis.FloatCmd)
 	return ret0
 }
 
@@ -7679,10 +7679,10 @@ func (mr *MockCmdableMockRecorder) ZScore(ctx, key, member any) *gomock.Call {
 }
 
 // ZUnion mocks base method.
-func (m *MockCmdable) ZUnion(ctx context.Context, store v9.ZStore) *v9.StringSliceCmd {
+func (m *MockCmdable) ZUnion(ctx context.Context, store redis.ZStore) *redis.StringSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZUnion", ctx, store)
-	ret0, _ := ret[0].(*v9.StringSliceCmd)
+	ret0, _ := ret[0].(*redis.StringSliceCmd)
 	return ret0
 }
 
@@ -7693,10 +7693,10 @@ func (mr *MockCmdableMockRecorder) ZUnion(ctx, store any) *gomock.Call {
 }
 
 // ZUnionStore mocks base method.
-func (m *MockCmdable) ZUnionStore(ctx context.Context, dest string, store *v9.ZStore) *v9.IntCmd {
+func (m *MockCmdable) ZUnionStore(ctx context.Context, dest string, store *redis.ZStore) *redis.IntCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZUnionStore", ctx, dest, store)
-	ret0, _ := ret[0].(*v9.IntCmd)
+	ret0, _ := ret[0].(*redis.IntCmd)
 	return ret0
 }
 
@@ -7707,10 +7707,10 @@ func (mr *MockCmdableMockRecorder) ZUnionStore(ctx, dest, store any) *gomock.Cal
 }
 
 // ZUnionWithScores mocks base method.
-func (m *MockCmdable) ZUnionWithScores(ctx context.Context, store v9.ZStore) *v9.ZSliceCmd {
+func (m *MockCmdable) ZUnionWithScores(ctx context.Context, store redis.ZStore) *redis.ZSliceCmd {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ZUnionWithScores", ctx, store)
-	ret0, _ := ret[0].(*v9.ZSliceCmd)
+	ret0, _ := ret[0].(*redis.ZSliceCmd)
 	return ret0
 }
 

@@ -99,3 +99,17 @@ func (mr *MockUserDAOMockRecorder) Insert(ctx, u any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Insert", reflect.TypeOf((*MockUserDAO)(nil).Insert), ctx, u)
 }
+
+// UpdateNonZeroFields mocks base method.
+func (m *MockUserDAO) UpdateNonZeroFields(ctx context.Context, u dao.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateNonZeroFields", ctx, u)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateNonZeroFields indicates an expected call of UpdateNonZeroFields.
+func (mr *MockUserDAOMockRecorder) UpdateNonZeroFields(ctx, u any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNonZeroFields", reflect.TypeOf((*MockUserDAO)(nil).UpdateNonZeroFields), ctx, u)
+}
