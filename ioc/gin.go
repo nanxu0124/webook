@@ -34,7 +34,7 @@ func corsHandler() gin.HandlerFunc {
 	return cors.New(cors.Config{
 		AllowCredentials: true,                                      // 允许客户端发送认证信息
 		AllowHeaders:     []string{"Content-Type", "Authorization"}, // 允许的请求头
-		ExposeHeaders:    []string{"X-Jwt-Token"},
+		ExposeHeaders:    []string{"X-Jwt-Token", "X-Refresh-Token"},
 		AllowOriginFunc: func(origin string) bool {
 			// 允许来自 localhost 和指定公司域名的请求
 			if strings.HasPrefix(origin, "http://localhost") {

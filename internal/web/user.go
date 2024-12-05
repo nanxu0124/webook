@@ -31,7 +31,7 @@ type UserHandler struct {
 	emailRegexExp    *regexp.Regexp      // 用于邮箱格式验证的正则表达式对象
 	passwordRegexExp *regexp.Regexp      // 用于密码格式验证的正则表达式对象
 
-	jwtKey string // 用于 JWT 鉴权登录
+	jwtHandler // 用于 JWT 鉴权登录
 }
 
 // NewUserHandler 构造函数，创建并返回一个新的UserHandler实例
@@ -56,6 +56,31 @@ func (c *UserHandler) RegisterRoutes(server *gin.Engine) {
 
 	ug.POST("/login_sms/code/send", c.SendSMSLoginCode)
 	ug.POST("/login_sms", c.LoginSMS)
+	ug.POST("/refresh_token", c.RefreshToken)
+}
+
+func (c *UserHandler) RefreshToken(ctx *gin.Context) {
+	// 假定长 token 也放在这里
+	tokenStr := ExtractToken(ctx)
+	rc := RefreshClaims{}
+	token, err := jwt.ParseWithClaims(tokenStr, &rc, func(token *jwt.Token) (interface{}, error) {
+		return refreshTokenKey, nil
+	})
+	// 这边要保持和登录校验一直的逻辑，即返回 401 响应
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, Result{Code: 4, Msg: "请登录"})
+		return
+	}
+	if token == nil || !token.Valid {
+		ctx.JSON(http.StatusUnauthorized, Result{Code: 4, Msg: "请登录"})
+		return
+	}
+	err = c.setJWTToken(ctx, rc.Uid)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, Result{Code: 4, Msg: "请登录"})
+		return
+	}
+	ctx.JSON(http.StatusOK, Result{Msg: "刷新成功"})
 }
 
 // LoginSMS 用户通过短信验证码进行登录
@@ -85,7 +110,11 @@ func (c *UserHandler) LoginSMS(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "系统错误"})
 		return
 	}
-	c.setJWTToken(ctx, u.Id)
+	err = c.setLoginToken(ctx, u.Id)
+	if err != nil {
+		ctx.JSON(http.StatusOK, Result{Msg: "系统错误"})
+		return
+	}
 	ctx.JSON(http.StatusOK, Result{Msg: "登录成功"})
 }
 
@@ -211,30 +240,13 @@ func (c *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	c.setJWTToken(ctx, u.Id)
-	// 返回登录成功的响应
-	ctx.String(http.StatusOK, "登录成功")
-}
-
-func (c *UserHandler) setJWTToken(ctx *gin.Context, uid int64) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaims{
-		Id:        uid,                         // 用户 ID
-		UserAgent: ctx.GetHeader("User-Agent"), // 从请求头中获取 User-Agent
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 30)), // 设置过期时间为 30 分钟
-		},
-	})
-
-	// 使用 JWTKey 对 token 进行签名
-	tokenStr, err := token.SignedString(JWTKey)
+	err = c.setLoginToken(ctx, u.Id)
 	if err != nil {
-		// 如果签名过程中出错，返回系统异常信息
-		ctx.String(http.StatusOK, "系统异常")
+		ctx.JSON(http.StatusOK, Result{Msg: "系统错误"})
 		return
 	}
-
-	// 将生成的 token 添加到响应头部，使用 x-jwt-token 作为 header 名
-	ctx.Header("x-jwt-token", tokenStr)
+	// 返回登录成功的响应
+	ctx.String(http.StatusOK, "登录成功")
 }
 
 // Edit 用户编译信息
