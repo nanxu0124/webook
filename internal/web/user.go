@@ -5,10 +5,12 @@ import (
 	regexp "github.com/dlclark/regexp2"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"net/http"
 	"time"
 	"webook/internal/domain"
 	"webook/internal/service"
+	ijwt "webook/internal/web/jwt"
 )
 
 const (
@@ -31,17 +33,18 @@ type UserHandler struct {
 	emailRegexExp    *regexp.Regexp      // 用于邮箱格式验证的正则表达式对象
 	passwordRegexExp *regexp.Regexp      // 用于密码格式验证的正则表达式对象
 
-	jwtHandler // 用于 JWT 鉴权登录
+	ijwt.Handler // 用于 JWT 鉴权登录
 }
 
 // NewUserHandler 构造函数，创建并返回一个新的UserHandler实例
 // 接收一个service.UserService对象，用于处理注册、登录等请求
-func NewUserHandler(svc service.UserService, codeSvc service.CodeService) *UserHandler {
+func NewUserHandler(svc service.UserService, codeSvc service.CodeService, jwthdl ijwt.Handler) *UserHandler {
 	return &UserHandler{
 		svc:              svc,
 		codeSvc:          codeSvc,
 		emailRegexExp:    regexp.MustCompile(emailRegexPattern, regexp.None),    // 编译邮箱格式正则
 		passwordRegexExp: regexp.MustCompile(passwordRegexPattern, regexp.None), // 编译密码格式正则
+		Handler:          jwthdl,
 	}
 }
 
@@ -49,8 +52,9 @@ func NewUserHandler(svc service.UserService, codeSvc service.CodeService) *UserH
 func (c *UserHandler) RegisterRoutes(server *gin.Engine) {
 	// 定义/users相关的路由组
 	ug := server.Group("/users")
-	ug.POST("/signup", c.SignUp)  // 用户注册
-	ug.POST("/login", c.Login)    // 用户登录
+	ug.POST("/signup", c.SignUp) // 用户注册
+	ug.POST("/login", c.Login)   // 用户登录
+	ug.POST("/logout", c.Logout)
 	ug.POST("/edit", c.Edit)      // 用户信息编辑
 	ug.GET("/profile", c.Profile) // 获取用户信息
 
@@ -61,10 +65,10 @@ func (c *UserHandler) RegisterRoutes(server *gin.Engine) {
 
 func (c *UserHandler) RefreshToken(ctx *gin.Context) {
 	// 假定长 token 也放在这里
-	tokenStr := ExtractToken(ctx)
-	rc := RefreshClaims{}
+	tokenStr := c.ExtractTokenString(ctx)
+	var rc ijwt.RefreshClaims
 	token, err := jwt.ParseWithClaims(tokenStr, &rc, func(token *jwt.Token) (interface{}, error) {
-		return refreshTokenKey, nil
+		return ijwt.RefreshTokenKey, nil
 	})
 	// 这边要保持和登录校验一直的逻辑，即返回 401 响应
 	if err != nil {
@@ -75,7 +79,14 @@ func (c *UserHandler) RefreshToken(ctx *gin.Context) {
 		ctx.JSON(http.StatusUnauthorized, Result{Code: 4, Msg: "请登录"})
 		return
 	}
-	err = c.setJWTToken(ctx, rc.Uid)
+
+	err = c.CheckSession(ctx, rc.Ssid)
+	if err != nil {
+		ctx.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	err = c.SetJWTToken(ctx, rc.Ssid, rc.Id)
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, Result{Code: 4, Msg: "请登录"})
 		return
@@ -110,7 +121,9 @@ func (c *UserHandler) LoginSMS(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, Result{Code: 4, Msg: "系统错误"})
 		return
 	}
-	err = c.setLoginToken(ctx, u.Id)
+	// 用 uuid 来标识这一次会话
+	ssid := uuid.New().String()
+	err = c.SetJWTToken(ctx, ssid, u.Id)
 	if err != nil {
 		ctx.JSON(http.StatusOK, Result{Msg: "系统错误"})
 		return
@@ -240,13 +253,26 @@ func (c *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	err = c.setLoginToken(ctx, u.Id)
+	err = c.SetLoginToken(ctx, u.Id)
 	if err != nil {
 		ctx.JSON(http.StatusOK, Result{Msg: "系统错误"})
 		return
 	}
 	// 返回登录成功的响应
 	ctx.String(http.StatusOK, "登录成功")
+}
+
+func (c *UserHandler) Logout(ctx *gin.Context) {
+	err := c.ClearToken(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusOK, Result{
+			Msg: "系统错误",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, Result{
+		Msg: "OK",
+	})
 }
 
 // Edit 用户编译信息
@@ -276,7 +302,7 @@ func (c *UserHandler) Edit(ctx *gin.Context) {
 		return
 	}
 
-	uc := ctx.MustGet("user").(UserClaims)
+	uc := ctx.MustGet("user").(ijwt.UserClaims)
 	err = c.svc.UpdateNonSensitiveInfo(ctx, domain.User{
 		Id:       uc.Id,
 		Nickname: req.Nickname,
@@ -304,7 +330,7 @@ func (c *UserHandler) Profile(ctx *gin.Context) {
 
 	// 从上下文中获取JWT中的用户信息（UserClaims），通过ctx.MustGet("user")来获取
 	// 该操作会返回UserClaims对象，其中包含用户的ID
-	uc := ctx.MustGet("user").(UserClaims)
+	uc := ctx.MustGet("user").(ijwt.UserClaims)
 
 	// 调用服务层的Profile方法查询用户的详细信息
 	u, err := c.svc.Profile(ctx, uc.Id)

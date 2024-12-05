@@ -6,15 +6,16 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"time"
-	"webook/internal/web"
+	ijwt "webook/internal/web/jwt"
 )
 
 // JWTLoginMiddlewareBuilder 是一个中间件构建器，用于验证用户请求中的JWT令牌。
 type JWTLoginMiddlewareBuilder struct {
 	publicPaths set.Set[string]
+	ijwt.Handler
 }
 
-func NewJWTLoginMiddlewareBuilder() *JWTLoginMiddlewareBuilder {
+func NewJWTLoginMiddlewareBuilder(hdl ijwt.Handler) *JWTLoginMiddlewareBuilder {
 	s := set.NewMapSet[string](5)
 	// 如果请求的路径是用户注册（/users/signup）或登录（/users/login）
 	// 这些接口不需要JWT验证，直接放行
@@ -25,6 +26,7 @@ func NewJWTLoginMiddlewareBuilder() *JWTLoginMiddlewareBuilder {
 	s.Add("/users/refresh_token")
 	return &JWTLoginMiddlewareBuilder{
 		publicPaths: s,
+		Handler:     hdl,
 	}
 }
 
@@ -36,16 +38,16 @@ func (j *JWTLoginMiddlewareBuilder) Build() gin.HandlerFunc {
 			return
 		}
 
-		tokenStr := web.ExtractToken(ctx)
+		tokenStr := j.ExtractTokenString(ctx)
 
 		// 创建UserClaims结构体用于解析token中的claim信息
-		uc := web.UserClaims{}
+		uc := ijwt.UserClaims{}
 
 		// 使用jwt.ParseWithClaims解析token并验证其合法性
 		// tokenStr是待验证的JWT字符串，uc是用于存放解析后的claims信息
 		// web.JWTKey是密钥，用于验证token的签名
 		token, err := jwt.ParseWithClaims(tokenStr, &uc, func(token *jwt.Token) (interface{}, error) {
-			return web.AccessTokenKey, nil
+			return ijwt.AccessTokenKey, nil
 		})
 
 		if err != nil || !token.Valid {
@@ -70,6 +72,12 @@ func (j *JWTLoginMiddlewareBuilder) Build() gin.HandlerFunc {
 
 		if ctx.GetHeader("User-Agent") != uc.UserAgent {
 			// 换了一个 User-Agent，可能是攻击者
+			ctx.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		err = j.CheckSession(ctx, uc.Ssid)
+		if err != nil {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}

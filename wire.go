@@ -10,6 +10,7 @@ import (
 	"webook/internal/repository/dao"
 	"webook/internal/service"
 	"webook/internal/web"
+	ijwt "webook/internal/web/jwt"
 	"webook/ioc"
 )
 
@@ -29,6 +30,7 @@ func InitWebServer() *gin.Engine {
 		service.NewSMSCodeService,
 		ioc.InitSmsService,
 
+		ijwt.NewRedisHandler,
 		web.NewUserHandler,
 		ioc.GinMiddlewares,
 		ioc.InitWebServer,

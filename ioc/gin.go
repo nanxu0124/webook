@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 	"webook/internal/web"
+	ijwt "webook/internal/web/jwt"
 	"webook/internal/web/middleware"
 	"webook/pkg/ginx/middleware/ratelimit"
 )
@@ -20,13 +21,13 @@ func InitWebServer(funcs []gin.HandlerFunc, userHdl *web.UserHandler) *gin.Engin
 	return server
 }
 
-func GinMiddlewares(cmd redis.Cmdable) []gin.HandlerFunc {
+func GinMiddlewares(cmd redis.Cmdable, hdl ijwt.Handler) []gin.HandlerFunc {
 	return []gin.HandlerFunc{
 		ratelimit.NewBuilder(cmd, time.Minute, 100).Build(),
 		corsHandler(),
 
 		// 使用 JWT
-		middleware.NewJWTLoginMiddlewareBuilder().Build(),
+		middleware.NewJWTLoginMiddlewareBuilder(hdl).Build(),
 	}
 }
 
