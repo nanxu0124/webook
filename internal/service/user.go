@@ -6,6 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"webook/internal/domain"
 	"webook/internal/repository"
+	"webook/pkg/logger"
 )
 
 var (
@@ -24,13 +25,15 @@ type UserService interface {
 
 // UserService 结构体，表示用户相关的业务逻辑服务
 type userService struct {
-	repo repository.UserRepository // 引用repository层的UserRepository对象，用于数据访问
+	repo   repository.UserRepository // 引用repository层的UserRepository对象，用于数据访问
+	logger logger.Logger
 }
 
 // NewUserService 实现 UserService 接口
-func NewUserService(repo repository.UserRepository) UserService {
+func NewUserService(repo repository.UserRepository, l logger.Logger) UserService {
 	return &userService{
-		repo: repo,
+		repo:   repo,
+		logger: l,
 	}
 }
 

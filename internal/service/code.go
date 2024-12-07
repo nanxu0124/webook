@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"webook/internal/repository"
 	"webook/internal/service/sms"
+	"webook/pkg/logger"
 )
 
 var (
@@ -42,15 +43,17 @@ type CodeService interface {
 
 // SMSCodeService 负责处理验证码的相关业务逻辑：生成验证码、存储验证码、发送短信以及验证验证码
 type SMSCodeService struct {
-	sms  sms.Service               // 短信服务接口，用于发送验证码短信
-	repo repository.CodeRepository // 数据库操作对象，用于存储和验证验证码
+	sms    sms.Service               // 短信服务接口，用于发送验证码短信
+	repo   repository.CodeRepository // 数据库操作对象，用于存储和验证验证码
+	logger logger.Logger
 }
 
 // NewSMSCodeService 实现 CodeService 接口
-func NewSMSCodeService(svc sms.Service, repo repository.CodeRepository) CodeService {
+func NewSMSCodeService(svc sms.Service, repo repository.CodeRepository, l logger.Logger) CodeService {
 	return &SMSCodeService{
-		sms:  svc,
-		repo: repo,
+		sms:    svc,
+		repo:   repo,
+		logger: l,
 	}
 }
 
@@ -64,6 +67,12 @@ func (c *SMSCodeService) Send(ctx context.Context, biz string, phone string) err
 	// 发送验证码短信
 	err = c.sms.Send(ctx, codeTplId, []string{code}, phone)
 	// TODO 这里考虑返回 err 之后是否要删除 redis 里边的验证码
+	if err != nil {
+		c.logger.Warn("发送验证码短信失败: ", logger.Field{
+			Key:   "SMSCodeService",
+			Value: err.Error(),
+		})
+	}
 	return err // 返回发送短信的错误
 }
 
@@ -74,6 +83,10 @@ func (c *SMSCodeService) Verify(ctx context.Context, biz string, phone string, i
 	if errors.Is(err, repository.ErrCodeVerifyTooManyTimes) {
 		// 如果验证次数超过限制，表示可能存在异常行为（例如恶意攻击）
 		// 在接入告警系统后，可以在这里进行告警处理
+		c.logger.Error("验证次数超过限制: ", logger.Field{
+			Key:   "SMSCodeService",
+			Value: err.Error(),
+		})
 		return false, nil // 返回 false，表示验证失败
 	}
 	// 返回验证码验证的结果
