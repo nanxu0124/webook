@@ -10,6 +10,7 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
+	"webook/internal/integration/startup"
 	"webook/internal/web"
 	"webook/ioc"
 )
@@ -17,7 +18,7 @@ import (
 func TestUserHandler_SendSMSLoginCode(t *testing.T) {
 	const sendSMSCodeUrl = "/users/login_sms/code/send"
 	// 使用依赖注入的 server
-	server := InitWebServer()
+	server := startup.InitWebServer()
 	rdb := ioc.InitRedis()
 	testCases := []struct {
 		// 名字

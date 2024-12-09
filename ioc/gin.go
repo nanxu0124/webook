@@ -15,7 +15,7 @@ import (
 	"webook/pkg/logger"
 )
 
-func InitWebServer(funcs []gin.HandlerFunc, userHdl *web.UserHandler) *gin.Engine {
+func InitWebServer(funcs []gin.HandlerFunc, userHdl *web.UserHandler, artHdl *web.ArticleHandler) *gin.Engine {
 	server := gin.Default() // 初始化一个默认的 Gin 引擎实例
 	gin.ForceConsoleColor() // 强制开启控制台的彩色输出
 
