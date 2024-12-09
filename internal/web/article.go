@@ -25,6 +25,38 @@ func (hdl *ArticleHandler) RegisterRoutes(s *gin.Engine) {
 	g := s.Group("/articles")
 	g.POST("/edit", hdl.Edit)
 	g.POST("/publish", hdl.Publish)
+	g.POST("/withdraw", hdl.Withdraw)
+}
+
+func (a *ArticleHandler) Withdraw(ctx *gin.Context) {
+	var req ArticleReq
+	if err := ctx.Bind(&req); err != nil {
+		a.l.Error("反序列化请求失败", logger.Error(err))
+		return
+	}
+
+	usr, ok := ctx.MustGet("user").(jwt.UserClaims)
+	if !ok {
+		ctx.JSON(http.StatusOK, Result{
+			Code: 5,
+			Msg:  "系统错误",
+		})
+		a.l.Error("获得用户会话信息失败")
+		return
+	}
+
+	if err := a.svc.Withdraw(ctx, usr.Id, req.Id); err != nil {
+		a.l.Error("设置为仅自己可见失败", logger.Error(err),
+			logger.Field{Key: "id", Value: req.Id})
+		ctx.JSON(http.StatusOK, Result{
+			Code: 5,
+			Msg:  "系统错误",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, Result{
+		Msg: "OK",
+	})
 }
 
 func (hdl *ArticleHandler) Publish(ctx *gin.Context) {

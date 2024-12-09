@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"webook/internal/domain"
 	"webook/internal/integration/startup"
 	"webook/internal/repository/dao"
 	ijwt "webook/internal/web/jwt"
@@ -86,6 +87,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Edit() {
 					Title:    "测试标题",
 					Content:  "测试内容",
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusUnpublished.ToUint8(),
 				}, art)
 			},
 
@@ -108,6 +110,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Edit() {
 					Ctime:    456,
 					Utime:    234,
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				})
 			},
 			after: func(t *testing.T) {
@@ -122,7 +125,8 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Edit() {
 					Content:  "新的内容",
 					AuthorId: 123,
 					// 创建时间没变
-					Ctime: 456,
+					Ctime:  456,
+					Status: domain.ArticleStatusUnpublished.ToUint8(),
 				}, art)
 			},
 			req: Article{
@@ -148,6 +152,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Edit() {
 					// 注意。这个 AuthorID 设置为另外一个人的ID
 					// 意味着在修改别人的帖子
 					AuthorId: 789,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				})
 			},
 			after: func(t *testing.T) {
@@ -161,6 +166,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Edit() {
 					Ctime:    456,
 					Utime:    234,
 					AuthorId: 789,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				}, art)
 			},
 			req: Article{
@@ -238,6 +244,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 					Title:    "新建并发表-标题",
 					Content:  "新建并发表-内容",
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				}, art)
 
 				var publishedArt dao.PublishedArticle
@@ -252,6 +259,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 						Title:    "新建并发表-标题",
 						Content:  "新建并发表-内容",
 						AuthorId: author_id,
+						Status:   domain.ArticleStatusPublished.ToUint8(),
 					},
 				}, publishedArt)
 
@@ -276,6 +284,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 					Ctime:    456,
 					Utime:    234,
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusUnpublished.ToUint8(),
 				})
 			},
 
@@ -293,6 +302,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 					Title:    "更新帖子并发表-新标题",
 					Content:  "更新帖子并发表-新标题",
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				}, art)
 
 				var publishedArt dao.PublishedArticle
@@ -307,6 +317,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 						Title:    "更新帖子并发表-新标题",
 						Content:  "更新帖子并发表-新标题",
 						AuthorId: author_id,
+						Status:   domain.ArticleStatusPublished.ToUint8(),
 					},
 				}, publishedArt)
 
@@ -332,6 +343,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 					Ctime:    456,
 					Utime:    234,
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				}
 				s.db.Create(&art)
 				s.db.Create(&dao.PublishedArticle{Article: art})
@@ -351,6 +363,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 					Title:    "更新帖子并重新发表-新标题",
 					Content:  "更新帖子并重新发表-新标题",
 					AuthorId: author_id,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				}, art)
 
 				var publishedArt dao.PublishedArticle
@@ -365,6 +378,7 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 						Title:    "更新帖子并重新发表-新标题",
 						Content:  "更新帖子并重新发表-新标题",
 						AuthorId: author_id,
+						Status:   domain.ArticleStatusPublished.ToUint8(),
 					},
 				}, publishedArt)
 
@@ -390,16 +404,10 @@ func (s *ArticleHandlerTestSuite) TestArticleHandler_Publish() {
 					Utime:   234,
 					// 注意。这个 AuthorID 设置为另外一个人的ID
 					AuthorId: 789,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
 				}
 				s.db.Create(&art)
-				s.db.Create(&dao.PublishedArticle{Article: dao.Article{
-					Id:       4,
-					Title:    "我的标题",
-					Content:  "我的内容",
-					Ctime:    456,
-					Utime:    234,
-					AuthorId: 789,
-				}})
+				s.db.Create(&dao.PublishedArticle{Article: art})
 			},
 			after: func(t *testing.T) {
 				// 更新应该是失败了，数据没有发生变化

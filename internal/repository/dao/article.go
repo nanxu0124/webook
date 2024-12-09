@@ -25,11 +25,14 @@ type PublishedArticle struct {
 	Article
 }
 
+var ErrPossibleIncorrectAuthor = errors.New("用户在尝试操作非本人数据")
+
 type ArticleDAO interface {
 	Create(ctx context.Context, art Article) (int64, error)
 	UpdateById(ctx context.Context, art Article) error
 	Sync(ctx context.Context, art Article) (int64, error)
 	SyncClosure(ctx context.Context, art Article) (int64, error)
+	SyncStatus(ctx context.Context, uid, id int64, status uint8) error
 }
 
 type GORMArticleDAO struct {
@@ -40,6 +43,38 @@ func NewGORMArticleDAO(db *gorm.DB) ArticleDAO {
 	return &GORMArticleDAO{
 		db: db,
 	}
+}
+
+func (dao *GORMArticleDAO) SyncStatus(ctx context.Context, uid, id int64, status uint8) error {
+	now := time.Now().UnixMilli()
+	return dao.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		res := tx.Model(&Article{}).
+			Where("id= ? AND author_id = ?", id, uid).
+			Updates(map[string]interface{}{
+				"status": status,
+				"utime":  now,
+			})
+		if res.Error != nil {
+			return res.Error
+		}
+		if res.RowsAffected != 1 {
+			return ErrPossibleIncorrectAuthor
+		}
+
+		res = tx.Model(&PublishedArticle{}).
+			Where("id= ? AND author_id = ?", id, uid).
+			Updates(map[string]interface{}{
+				"status": status,
+				"utime":  now,
+			})
+		if res.Error != nil {
+			return res.Error
+		}
+		if res.RowsAffected != 1 {
+			return ErrPossibleIncorrectAuthor
+		}
+		return nil
+	})
 }
 
 // Sync 同步 Article 数据到数据库，并在发布文章表中同步数据
@@ -157,6 +192,7 @@ func (dao *GORMArticleDAO) SyncClosure(ctx context.Context, art Article) (int64,
 				"title":   art.Title,   // 更新标题
 				"content": art.Content, // 更新内容
 				"utime":   now,         // 更新时间
+				"status":  art.Status,
 			}),
 		}).Create(&publishArt).Error // 如果没有冲突则插入新的发布文章
 	})

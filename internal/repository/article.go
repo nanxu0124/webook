@@ -12,6 +12,9 @@ type ArticleRepository interface {
 
 	// Sync 本身要求先保存到制作库，再同步到线上库
 	Sync(ctx context.Context, art domain.Article) (int64, error)
+
+	// SyncStatus 仅仅同步状态
+	SyncStatus(ctx context.Context, uid, id int64, status domain.ArticleStatus) error
 }
 
 type CachedArticleRepository struct {
@@ -22,6 +25,10 @@ func NewArticleRepository(dao dao.ArticleDAO) ArticleRepository {
 	return &CachedArticleRepository{
 		dao: dao,
 	}
+}
+
+func (repo *CachedArticleRepository) SyncStatus(ctx context.Context, uid, id int64, status domain.ArticleStatus) error {
+	return repo.dao.SyncStatus(ctx, uid, id, status.ToUint8())
 }
 
 func (repo *CachedArticleRepository) Sync(ctx context.Context, art domain.Article) (int64, error) {
@@ -42,5 +49,6 @@ func (repo *CachedArticleRepository) toEntity(art domain.Article) dao.Article {
 		Title:    art.Title,
 		Content:  art.Content,
 		AuthorId: art.Author.Id,
+		Status:   art.Status.ToUint8(),
 	}
 }
