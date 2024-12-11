@@ -8,6 +8,7 @@ import (
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
+	"webook/internal/repository/dao/article"
 	"webook/internal/service"
 	"webook/internal/web"
 	ijwt "webook/internal/web/jwt"
@@ -20,18 +21,22 @@ func InitWebServer() *gin.Engine {
 		ioc.InitDB, ioc.InitRedis,
 
 		dao.NewGormUserDAO,
+		article.NewGORMArticleDAO,
 
 		cache.NewRedisUserCache, cache.NewRedisCodeCache,
 
 		repository.NewCachedUserRepository,
 		repository.NewCachedCodeRepository,
+		repository.NewArticleRepository,
 
 		service.NewUserService,
 		service.NewSMSCodeService,
+		service.NewArticleService,
 		ioc.InitSmsService,
 
 		ijwt.NewRedisHandler,
 		web.NewUserHandler,
+		web.NewArticleHandler,
 		ioc.GinMiddlewares,
 		ioc.InitWebServer,
 		ioc.InitLogger,

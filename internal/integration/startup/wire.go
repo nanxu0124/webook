@@ -8,6 +8,7 @@ import (
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
+	"webook/internal/repository/dao/article"
 	"webook/internal/service"
 	"webook/internal/web"
 	ijwt "webook/internal/web/jwt"
@@ -20,7 +21,7 @@ func InitWebServer() *gin.Engine {
 		InitTestDB, InitTestRedis, InitTestLogger,
 
 		dao.NewGormUserDAO,
-		dao.NewGORMArticleDAO,
+		article.NewGORMArticleDAO,
 
 		cache.NewRedisUserCache, cache.NewRedisCodeCache,
 
@@ -43,10 +44,9 @@ func InitWebServer() *gin.Engine {
 	return gin.Default()
 }
 
-func InitArticleHandler() *web.ArticleHandler {
+func InitArticleHandler(dao article.ArticleDAO) *web.ArticleHandler {
 	wire.Build(
-		InitTestDB, InitTestLogger,
-		dao.NewGORMArticleDAO,
+		InitTestLogger,
 		repository.NewArticleRepository,
 		service.NewArticleService,
 		web.NewArticleHandler,

@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"webook/internal/domain"
-	"webook/internal/repository/dao"
+	"webook/internal/repository/dao/article"
 )
 
 type ArticleRepository interface {
@@ -18,10 +18,10 @@ type ArticleRepository interface {
 }
 
 type CachedArticleRepository struct {
-	dao dao.ArticleDAO
+	dao article.ArticleDAO
 }
 
-func NewArticleRepository(dao dao.ArticleDAO) ArticleRepository {
+func NewArticleRepository(dao article.ArticleDAO) ArticleRepository {
 	return &CachedArticleRepository{
 		dao: dao,
 	}
@@ -32,7 +32,7 @@ func (repo *CachedArticleRepository) SyncStatus(ctx context.Context, uid, id int
 }
 
 func (repo *CachedArticleRepository) Sync(ctx context.Context, art domain.Article) (int64, error) {
-	return repo.dao.SyncClosure(ctx, repo.toEntity(art))
+	return repo.dao.Sync(ctx, repo.toEntity(art))
 }
 
 func (repo *CachedArticleRepository) Create(ctx context.Context, art domain.Article) (int64, error) {
@@ -43,8 +43,8 @@ func (repo *CachedArticleRepository) Update(ctx context.Context, art domain.Arti
 	return repo.dao.UpdateById(ctx, repo.toEntity(art))
 }
 
-func (repo *CachedArticleRepository) toEntity(art domain.Article) dao.Article {
-	return dao.Article{
+func (repo *CachedArticleRepository) toEntity(art domain.Article) article.Article {
+	return article.Article{
 		Id:       art.Id,
 		Title:    art.Title,
 		Content:  art.Content,

@@ -11,6 +11,7 @@ import (
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
+	"webook/internal/repository/dao/article"
 	"webook/internal/service"
 	"webook/internal/web"
 	"webook/internal/web/jwt"
@@ -38,6 +39,10 @@ func InitWebServer() *gin.Engine {
 	codeRepository := repository.NewCachedCodeRepository(codeCache)
 	codeService := service.NewSMSCodeService(smsService, codeRepository, logger)
 	userHandler := web.NewUserHandler(userService, codeService, handler)
-	engine := ioc.InitWebServer(v, userHandler)
+	articleDAO := article.NewGORMArticleDAO(db)
+	articleRepository := repository.NewArticleRepository(articleDAO)
+	articleService := service.NewArticleService(articleRepository)
+	articleHandler := web.NewArticleHandler(articleService, logger)
+	engine := ioc.InitWebServer(v, userHandler, articleHandler)
 	return engine
 }

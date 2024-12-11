@@ -1,4 +1,4 @@
-package dao
+package article
 
 import (
 	"context"
@@ -8,32 +8,7 @@ import (
 	"time"
 )
 
-type Article struct {
-	Id int64
-	// 标题的长度
-	// 正常都不会超过这个长度
-	Title   string `gorm:"type=varchar(4096)"`
-	Content string `gorm:"type=BLOB"`
-	// 作者
-	AuthorId int64 `gorm:"index"`
-	Status   uint8 `gorm:"default=1"`
-	Ctime    int64
-	Utime    int64
-}
-
-type PublishedArticle struct {
-	Article
-}
-
 var ErrPossibleIncorrectAuthor = errors.New("用户在尝试操作非本人数据")
-
-type ArticleDAO interface {
-	Create(ctx context.Context, art Article) (int64, error)
-	UpdateById(ctx context.Context, art Article) error
-	Sync(ctx context.Context, art Article) (int64, error)
-	SyncClosure(ctx context.Context, art Article) (int64, error)
-	SyncStatus(ctx context.Context, uid, id int64, status uint8) error
-}
 
 type GORMArticleDAO struct {
 	db *gorm.DB
