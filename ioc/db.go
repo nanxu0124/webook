@@ -45,6 +45,28 @@ func InitDB(l logger.Logger) *gorm.DB {
 	return db // 返回数据库连接对象
 }
 
+func InitTiDB(l logger.Logger) *gorm.DB {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&tls=%s",
+		"root", "", "127.0.0.1", "4001", "webook", "false")
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: glogger.New(gormLoggerFunc(l.Debug), // 自定义日志记录
+			glogger.Config{
+				SlowThreshold: 0,            // 不记录慢查询
+				LogLevel:      glogger.Info, // 设置日志等级为 Info
+			}),
+	})
+	if err != nil {
+		panic(err)
+	}
+	// 初始化数据库表结构
+	err = dao.InitTables(db)
+	if err != nil {
+		panic(err) // 初始化表失败时，抛出 panic
+	}
+	return db
+}
+
 type gormLoggerFunc func(msg string, fields ...logger.Field)
 
 func (g gormLoggerFunc) Printf(msg string, args ...interface{}) {
