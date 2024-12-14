@@ -36,17 +36,24 @@ func InitWebServer() *gin.Engine {
 	codeService := service.NewSMSCodeService(smsService, codeRepository, logger)
 	userHandler := web.NewUserHandler(userService, codeService, handler)
 	articleDAO := article.NewGORMArticleDAO(gormDB)
-	articleRepository := repository.NewArticleRepository(articleDAO)
+	articleCache := cache.NewRedisArticleCache(cmdable)
+	articleRepository := repository.NewArticleRepository(articleDAO, userRepository, articleCache, logger)
 	articleService := service.NewArticleService(articleRepository)
 	articleHandler := web.NewArticleHandler(articleService, logger)
 	engine := ioc.InitWebServer(v, userHandler, articleHandler)
 	return engine
 }
 
-func InitArticleHandler(dao2 article.ArticleDAO) *web.ArticleHandler {
-	articleRepository := repository.NewArticleRepository(dao2)
-	articleService := service.NewArticleService(articleRepository)
+func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
+	gormDB := InitTestDB()
+	userDAO := dao.NewGormUserDAO(gormDB)
+	cmdable := InitTestRedis()
+	userCache := cache.NewRedisUserCache(cmdable)
+	userRepository := repository.NewCachedUserRepository(userDAO, userCache)
+	articleCache := cache.NewRedisArticleCache(cmdable)
 	logger := InitTestLogger()
+	articleRepository := repository.NewArticleRepository(articleDao, userRepository, articleCache, logger)
+	articleService := service.NewArticleService(articleRepository)
 	articleHandler := web.NewArticleHandler(articleService, logger)
 	return articleHandler
 }

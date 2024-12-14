@@ -23,7 +23,7 @@ func InitWebServer() *gin.Engine {
 		dao.NewGormUserDAO,
 		article.NewGORMArticleDAO,
 
-		cache.NewRedisUserCache, cache.NewRedisCodeCache,
+		cache.NewRedisUserCache, cache.NewRedisCodeCache, cache.NewRedisArticleCache,
 
 		repository.NewCachedUserRepository,
 		repository.NewCachedCodeRepository,
@@ -44,9 +44,13 @@ func InitWebServer() *gin.Engine {
 	return gin.Default()
 }
 
-func InitArticleHandler(dao article.ArticleDAO) *web.ArticleHandler {
+func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
 	wire.Build(
-		InitTestLogger,
+		InitTestDB, InitTestRedis, InitTestLogger,
+		dao.NewGormUserDAO,
+		cache.NewRedisUserCache,
+		cache.NewRedisArticleCache,
+		repository.NewCachedUserRepository,
 		repository.NewArticleRepository,
 		service.NewArticleService,
 		web.NewArticleHandler,

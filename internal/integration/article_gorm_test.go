@@ -470,6 +470,184 @@ func (s *ArticleGORMHandlerTestSuite) TestArticleHandler_Publish() {
 	}
 }
 
+func (s *ArticleGORMHandlerTestSuite) TestArticleHandler_Withdraw() {
+	t := s.T()
+	testCases := []struct {
+		name string
+		// 要提前准备数据
+		before func(t *testing.T)
+		// 验证并且删除数据
+		after func(t *testing.T)
+		// 构造请求，直接使用 req
+		// 也就是说，我们放弃测试 Bind 的异常分支
+		req Article
+
+		// 预期响应
+		wantCode   int
+		wantResult Result[int64]
+	}{
+		{
+			name: "文章不存在",
+			before: func(t *testing.T) {
+
+			},
+
+			after: func(t *testing.T) {
+
+			},
+			req: Article{
+				Id: 111,
+			},
+			wantCode: http.StatusOK,
+			wantResult: Result[int64]{
+				Code: 5,
+				Msg:  "系统错误",
+			},
+		},
+		{
+			name: "修改状态成功",
+			before: func(t *testing.T) {
+				art := article.Article{
+					Id:       2,
+					Title:    "我的标题",
+					Content:  "我的内容",
+					Ctime:    456,
+					Utime:    456,
+					AuthorId: author_id,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
+				}
+				s.db.Create(&art)
+				s.db.Create(&article.PublishedArticle{Article: art})
+			},
+
+			after: func(t *testing.T) {
+				// 验证一下数据
+				var art article.Article
+				s.db.Where("id = ?", 2).First(&art)
+				assert.Equal(t, int64(456), art.Ctime)
+				// 更新时间变了
+				assert.True(t, art.Utime > 456)
+				art.Utime = 0
+				art.Ctime = 0
+				assert.Equal(t, article.Article{
+					Id:       2,
+					Title:    "我的标题",
+					Content:  "我的内容",
+					AuthorId: author_id,
+					Status:   domain.ArticleStatusPrivate.ToUint8(),
+				}, art)
+
+				var publishedArt article.PublishedArticle
+				s.db.Where("id = ?", 2).First(&publishedArt)
+				assert.Equal(t, int64(456), publishedArt.Ctime)
+				// 更新时间变了
+				assert.True(t, publishedArt.Utime > 456)
+				publishedArt.Utime = 0
+				publishedArt.Ctime = 0
+				assert.Equal(t, article.PublishedArticle{
+					Article: article.Article{
+						Id:       2,
+						Title:    "我的标题",
+						Content:  "我的内容",
+						AuthorId: author_id,
+						Status:   domain.ArticleStatusPrivate.ToUint8(),
+					}}, publishedArt)
+			},
+			req: Article{
+				Id: 2,
+			},
+			wantCode: http.StatusOK,
+			wantResult: Result[int64]{
+				Code: 0,
+				Msg:  "OK",
+			},
+		},
+
+		{
+			name: "修改的不是自己的文章",
+			before: func(t *testing.T) {
+				art := article.Article{
+					Id:       2,
+					Title:    "我的标题",
+					Content:  "我的内容",
+					Ctime:    456,
+					Utime:    456,
+					AuthorId: 789,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
+				}
+				s.db.Create(&art)
+				s.db.Create(&article.PublishedArticle{Article: art})
+			},
+
+			after: func(t *testing.T) {
+				// 验证一下数据
+				var art article.Article
+				s.db.Where("id = ?", 2).First(&art)
+				assert.Equal(t, int64(456), art.Ctime)
+				assert.Equal(t, int64(456), art.Utime)
+				art.Utime = 0
+				art.Ctime = 0
+				assert.Equal(t, article.Article{
+					Id:       2,
+					Title:    "我的标题",
+					Content:  "我的内容",
+					AuthorId: 789,
+					Status:   domain.ArticleStatusPublished.ToUint8(),
+				}, art)
+
+				var publishedArt article.PublishedArticle
+				s.db.Where("id = ?", 2).First(&publishedArt)
+				assert.Equal(t, int64(456), publishedArt.Ctime)
+				assert.Equal(t, int64(456), publishedArt.Utime)
+				publishedArt.Utime = 0
+				publishedArt.Ctime = 0
+				assert.Equal(t, article.PublishedArticle{
+					Article: article.Article{
+						Id:       2,
+						Title:    "我的标题",
+						Content:  "我的内容",
+						AuthorId: 789,
+						Status:   domain.ArticleStatusPublished.ToUint8(),
+					}}, publishedArt)
+			},
+			req: Article{
+				Id: 2,
+			},
+			wantCode: http.StatusOK,
+			wantResult: Result[int64]{
+				Code: 5,
+				Msg:  "系统错误",
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			tc.before(t)
+			data, err := json.Marshal(tc.req)
+			// 不能有 error
+			assert.NoError(t, err)
+			req, err := http.NewRequest(http.MethodPost,
+				"/articles/withdraw", bytes.NewReader(data))
+			assert.NoError(t, err)
+			req.Header.Set("Content-Type",
+				"application/json")
+			recorder := httptest.NewRecorder()
+
+			s.server.ServeHTTP(recorder, req)
+			code := recorder.Code
+			assert.Equal(t, tc.wantCode, code)
+			// 反序列化为结果
+			// 利用泛型来限定结果必须是 int64
+			var result Result[int64]
+			err = json.Unmarshal(recorder.Body.Bytes(), &result)
+			assert.NoError(t, err)
+			assert.Equal(t, tc.wantResult, result)
+			tc.after(t)
+		})
+	}
+}
+
 type Article struct {
 	Id      int64  `json:"id"`
 	Title   string `json:"title"`

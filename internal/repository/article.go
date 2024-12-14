@@ -30,10 +30,10 @@ type CachedArticleRepository struct {
 	dao      article.ArticleDAO
 	userRepo UserRepository
 	cache    cache.ArticleCache
-	l        logger.ZapLogger
+	l        logger.Logger
 }
 
-func NewArticleRepository(dao article.ArticleDAO, userRepo UserRepository, c cache.ArticleCache, logger logger.ZapLogger) ArticleRepository {
+func NewArticleRepository(dao article.ArticleDAO, userRepo UserRepository, c cache.ArticleCache, logger logger.Logger) ArticleRepository {
 	return &CachedArticleRepository{
 		dao:      dao,
 		userRepo: userRepo,

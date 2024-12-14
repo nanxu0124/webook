@@ -38,7 +38,7 @@ func (hdl *ArticleHandler) RegisterRoutes(s *gin.Engine) {
 	pub.GET("/:id", hdl.PubDetail)
 }
 
-func (a *ArticleHandler) PubDetail(ctx *gin.Context) {
+func (hdl *ArticleHandler) PubDetail(ctx *gin.Context) {
 	idstr := ctx.Param("id")
 	id, err := strconv.ParseInt(idstr, 10, 64)
 	if err != nil {
@@ -46,16 +46,16 @@ func (a *ArticleHandler) PubDetail(ctx *gin.Context) {
 			Code: 4,
 			Msg:  "参数错误",
 		})
-		a.l.Error("前端输入的 ID 不对", logger.Error(err))
+		hdl.l.Error("前端输入的 ID 不对", logger.Error(err))
 		return
 	}
-	art, err := a.svc.GetPublishedById(ctx, id)
+	art, err := hdl.svc.GetPublishedById(ctx, id)
 	if err != nil {
 		ctx.JSON(http.StatusOK, Result{
 			Code: 5,
 			Msg:  "系统错误",
 		})
-		a.l.Error("获得文章信息失败", logger.Error(err))
+		hdl.l.Error("获得文章信息失败", logger.Error(err))
 		return
 	}
 	ctx.JSON(http.StatusOK, Result{
