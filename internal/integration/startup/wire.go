@@ -22,17 +22,21 @@ func InitWebServer() *gin.Engine {
 
 		dao.NewGormUserDAO,
 		article.NewGORMArticleDAO,
+		dao.NewGORMInteractiveDAO,
 
 		cache.NewRedisUserCache, cache.NewRedisCodeCache, cache.NewRedisArticleCache,
+		cache.NewRedisInteractiveCache,
 
 		repository.NewCachedUserRepository,
 		repository.NewCachedCodeRepository,
 		repository.NewArticleRepository,
+		repository.NewCachedInteractiveRepository,
 
 		service.NewUserService,
 		service.NewSMSCodeService,
 		service.NewArticleService,
 		ioc.InitSmsService,
+		service.NewInteractiveService,
 
 		ijwt.NewRedisHandler,
 		web.NewUserHandler,
@@ -48,12 +52,27 @@ func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
 	wire.Build(
 		InitTestDB, InitTestRedis, InitTestLogger,
 		dao.NewGormUserDAO,
+		dao.NewGORMInteractiveDAO,
 		cache.NewRedisUserCache,
 		cache.NewRedisArticleCache,
+		cache.NewRedisInteractiveCache,
 		repository.NewCachedUserRepository,
 		repository.NewArticleRepository,
+		repository.NewCachedInteractiveRepository,
 		service.NewArticleService,
+		service.NewInteractiveService,
 		web.NewArticleHandler,
 	)
 	return new(web.ArticleHandler)
+}
+
+func InitInteractiveService() service.InteractiveService {
+	wire.Build(
+		InitTestDB, InitTestRedis, InitTestLogger,
+		service.NewInteractiveService,
+		repository.NewCachedInteractiveRepository,
+		dao.NewGORMInteractiveDAO,
+		cache.NewRedisInteractiveCache,
+	)
+	return service.NewInteractiveService(nil, nil)
 }

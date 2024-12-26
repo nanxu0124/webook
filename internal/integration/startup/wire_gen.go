@@ -39,7 +39,11 @@ func InitWebServer() *gin.Engine {
 	articleCache := cache.NewRedisArticleCache(cmdable)
 	articleRepository := repository.NewArticleRepository(articleDAO, userRepository, articleCache, logger)
 	articleService := service.NewArticleService(articleRepository)
-	articleHandler := web.NewArticleHandler(articleService, logger)
+	interactiveDAO := dao.NewGORMInteractiveDAO(gormDB)
+	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
+	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
+	interactiveService := service.NewInteractiveService(interactiveRepository, logger)
+	articleHandler := web.NewArticleHandler(articleService, interactiveService, logger)
 	engine := ioc.InitWebServer(v, userHandler, articleHandler)
 	return engine
 }
@@ -54,6 +58,21 @@ func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
 	logger := InitTestLogger()
 	articleRepository := repository.NewArticleRepository(articleDao, userRepository, articleCache, logger)
 	articleService := service.NewArticleService(articleRepository)
-	articleHandler := web.NewArticleHandler(articleService, logger)
+	interactiveDAO := dao.NewGORMInteractiveDAO(gormDB)
+	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
+	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
+	interactiveService := service.NewInteractiveService(interactiveRepository, logger)
+	articleHandler := web.NewArticleHandler(articleService, interactiveService, logger)
 	return articleHandler
+}
+
+func InitInteractiveService() service.InteractiveService {
+	gormDB := InitTestDB()
+	interactiveDAO := dao.NewGORMInteractiveDAO(gormDB)
+	cmdable := InitTestRedis()
+	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
+	logger := InitTestLogger()
+	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
+	interactiveService := service.NewInteractiveService(interactiveRepository, logger)
+	return interactiveService
 }

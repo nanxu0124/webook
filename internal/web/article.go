@@ -1,26 +1,33 @@
 package web
 
 import (
+	"fmt"
 	"github.com/ecodeclub/ekit/slice"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/sync/errgroup"
 	"net/http"
 	"strconv"
 	"time"
 	"webook/internal/domain"
 	"webook/internal/service"
 	"webook/internal/web/jwt"
+	"webook/pkg/ginx"
 	"webook/pkg/logger"
 )
 
 type ArticleHandler struct {
-	svc service.ArticleService
-	l   logger.Logger
+	svc     service.ArticleService
+	intrSvc service.InteractiveService
+	biz     string
+	l       logger.Logger
 }
 
-func NewArticleHandler(svc service.ArticleService, l logger.Logger) *ArticleHandler {
+func NewArticleHandler(svc service.ArticleService, intrSvc service.InteractiveService, l logger.Logger) *ArticleHandler {
 	return &ArticleHandler{
-		svc: svc,
-		l:   l,
+		svc:     svc,
+		l:       l,
+		biz:     "article",
+		intrSvc: intrSvc,
 	}
 }
 
@@ -35,40 +42,102 @@ func (hdl *ArticleHandler) RegisterRoutes(s *gin.Engine) {
 
 	pub := g.Group("/pub")
 	//pub.GET("/pub", a.PubList)
-	pub.GET("/:id", hdl.PubDetail)
+	pub.GET("/:id", ginx.WrapClaims(hdl.PubDetail))
+	pub.POST("/like", ginx.WrapClaimsAndReq[LikeReq](hdl.Like))
+	pub.POST("/collect", ginx.WrapClaimsAndReq[CollectReq](hdl.Collect))
 }
 
-func (hdl *ArticleHandler) PubDetail(ctx *gin.Context) {
+func (hdl *ArticleHandler) Collect(ctx *gin.Context, req CollectReq, uc ginx.UserClaims) (Result, error) {
+	err := hdl.intrSvc.Collect(ctx, hdl.biz, req.Id, req.Cid, uc.Id)
+	if err != nil {
+		return Result{
+			Code: 5,
+			Msg:  "系统错误",
+		}, err
+	}
+	return Result{Msg: "OK"}, nil
+}
+
+func (hdl *ArticleHandler) Like(ctx *gin.Context, req LikeReq, uc ginx.UserClaims) (Result, error) {
+	var err error
+	if req.Like {
+		err = hdl.intrSvc.Like(ctx, hdl.biz, req.Id, uc.Id)
+	} else {
+		err = hdl.intrSvc.CancelLike(ctx, hdl.biz, req.Id, uc.Id)
+	}
+
+	if err != nil {
+		return Result{
+			Code: 5,
+			Msg:  "系统错误",
+		}, err
+	}
+	return Result{Msg: "OK"}, nil
+}
+
+func (hdl *ArticleHandler) PubDetail(ctx *gin.Context, uc ginx.UserClaims) (Result, error) {
 	idstr := ctx.Param("id")
 	id, err := strconv.ParseInt(idstr, 10, 64)
 	if err != nil {
-		ctx.JSON(http.StatusOK, Result{
+		hdl.l.Error("前端输入的 ID 不对", logger.Error(err))
+		return Result{
 			Code: 4,
 			Msg:  "参数错误",
-		})
-		hdl.l.Error("前端输入的 ID 不对", logger.Error(err))
-		return
+		}, fmt.Errorf("查询文章详情的 ID %s 不正确, %w", idstr, err)
 	}
-	art, err := hdl.svc.GetPublishedById(ctx, id)
+
+	// 使用 error group 来同时查询数据
+	var (
+		eg   errgroup.Group
+		art  domain.Article
+		intr domain.Interactive
+	)
+	eg.Go(func() error {
+		var er error
+		art, er = hdl.svc.GetPublishedById(ctx, id)
+		return er
+	})
+
+	eg.Go(func() error {
+		var er error
+		intr, er = hdl.intrSvc.Get(ctx, hdl.biz, id, uc.Id)
+		return er
+	})
+
+	err = eg.Wait()
+
 	if err != nil {
-		ctx.JSON(http.StatusOK, Result{
+		return Result{
 			Code: 5,
 			Msg:  "系统错误",
-		})
-		hdl.l.Error("获得文章信息失败", logger.Error(err))
-		return
+		}, fmt.Errorf("获取文章信息失败 %w", err)
 	}
-	ctx.JSON(http.StatusOK, Result{
+
+	// 直接异步操作，在确定我们获取到了数据之后再来操作
+	go func() {
+		err = hdl.intrSvc.IncrReadCnt(ctx, hdl.biz, art.Id)
+		if err != nil {
+			hdl.l.Error("增加文章阅读数失败", logger.Error(err))
+		}
+	}()
+
+	return Result{
 		Data: ArticleVo{
 			Id:      art.Id,
 			Title:   art.Title,
 			Status:  art.Status.ToUint8(),
 			Content: art.Content,
-			Author:  art.Author.Name,
-			Ctime:   art.Ctime.Format(time.DateTime),
-			Utime:   art.Utime.Format(time.DateTime),
+			// 要把作者信息带出去
+			Author:     art.Author.Name,
+			Ctime:      art.Ctime.Format(time.DateTime),
+			Utime:      art.Utime.Format(time.DateTime),
+			ReadCnt:    intr.ReadCnt,
+			CollectCnt: intr.CollectCnt,
+			LikeCnt:    intr.LikeCnt,
+			Liked:      intr.Liked,
+			Collected:  intr.Collected,
 		},
-	})
+	}, nil
 }
 
 func (hdl *ArticleHandler) Detail(ctx *gin.Context) {
