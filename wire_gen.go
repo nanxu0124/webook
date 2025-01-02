@@ -7,7 +7,7 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	article2 "webook/internal/events/article"
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
@@ -24,7 +24,7 @@ import (
 
 // Injectors from wire.go:
 
-func InitWebServer() *gin.Engine {
+func InitApp() *App {
 	cmdable := ioc.InitRedis()
 	handler := jwt.NewRedisHandler(cmdable)
 	logger := ioc.InitLogger()
@@ -40,9 +40,23 @@ func InitWebServer() *gin.Engine {
 	codeService := service.NewSMSCodeService(smsService, codeRepository, logger)
 	userHandler := web.NewUserHandler(userService, codeService, handler)
 	articleDAO := article.NewGORMArticleDAO(db)
-	articleRepository := repository.NewArticleRepository(articleDAO)
-	articleService := service.NewArticleService(articleRepository)
-	articleHandler := web.NewArticleHandler(articleService, logger)
+	articleCache := cache.NewRedisArticleCache(cmdable)
+	articleRepository := repository.NewArticleRepository(articleDAO, userRepository, articleCache, logger)
+	client := ioc.InitKafka()
+	syncProducer := ioc.NewSyncProducer(client)
+	producer := article2.NewKafkaProducer(syncProducer)
+	articleService := service.NewArticleService(articleRepository, logger, producer)
+	interactiveDAO := dao.NewGORMInteractiveDAO(db)
+	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
+	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
+	interactiveService := service.NewInteractiveService(interactiveRepository, logger)
+	articleHandler := web.NewArticleHandler(articleService, interactiveService, logger)
 	engine := ioc.InitWebServer(v, userHandler, articleHandler)
-	return engine
+	interactiveReadEventBatchConsumer := article2.NewInteractiveReadEventBatchConsumer(client, logger, interactiveRepository)
+	v2 := ioc.NewConsumers(interactiveReadEventBatchConsumer)
+	app := &App{
+		web:       engine,
+		consumers: v2,
+	}
+	return app
 }

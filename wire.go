@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
+	eventsArticle "webook/internal/events/article"
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
@@ -15,32 +15,58 @@ import (
 	"webook/ioc"
 )
 
-func InitWebServer() *gin.Engine {
+func InitApp() *App {
 	wire.Build(
 		// 最基础的第三方依赖
-		ioc.InitDB, ioc.InitRedis,
+		ioc.InitDB,
+		ioc.InitRedis,
+		ioc.InitLogger,
+		ioc.InitKafka,
+		ioc.NewSyncProducer,
 
+		// DAO 部分
 		dao.NewGormUserDAO,
 		article.NewGORMArticleDAO,
+		dao.NewGORMInteractiveDAO,
 
-		cache.NewRedisUserCache, cache.NewRedisCodeCache,
+		// Cache 部分
+		cache.NewRedisUserCache,
+		cache.NewRedisCodeCache,
+		cache.NewRedisArticleCache,
+		cache.NewRedisInteractiveCache,
 
+		// repository 部分
 		repository.NewCachedUserRepository,
 		repository.NewCachedCodeRepository,
 		repository.NewArticleRepository,
+		repository.NewCachedInteractiveRepository,
 
+		// events 部分
+		eventsArticle.NewKafkaProducer,
+		//eventsArticle.NewInteractiveReadEventConsumer,
+		eventsArticle.NewInteractiveReadEventBatchConsumer,
+		ioc.NewConsumers,
+
+		// service 部分
 		service.NewUserService,
 		service.NewSMSCodeService,
 		service.NewArticleService,
+		service.NewInteractiveService,
 		ioc.InitSmsService,
 
+		// handler 部分
 		ijwt.NewRedisHandler,
 		web.NewUserHandler,
 		web.NewArticleHandler,
+
+		// gin 的中间件
 		ioc.GinMiddlewares,
+
+		// Web 服务器
 		ioc.InitWebServer,
-		ioc.InitLogger,
+
+		wire.Struct(new(App), "*"),
 	)
 
-	return new(gin.Engine)
+	return new(App)
 }

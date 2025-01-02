@@ -11,6 +11,7 @@ import (
 
 type InteractiveRepository interface {
 	IncrReadCnt(ctx context.Context, biz string, bizId int64) error
+	BatchIncrReadCnt(ctx context.Context, bizs []string, bizIds []int64) error
 	IncrLike(ctx context.Context, biz string, bizId, uid int64) error
 	DecrLike(ctx context.Context, biz string, bizId, uid int64) error
 	AddCollectionItem(ctx context.Context, biz string, bizId, cid int64, uid int64) error
@@ -49,6 +50,28 @@ func (c *CachedReadCntRepository) IncrReadCnt(ctx context.Context, biz string, b
 	// 然后更新缓存中的阅读计数（如果缓存中存在对应的键）
 	// 这部分会存在一定的不一致风险，但由于阅读数不要求完全准确，业务上是可以容忍的
 	return c.cache.IncrReadCntIfPresent(ctx, biz, bizId)
+}
+
+// BatchIncrReadCnt 批量增加文章的阅读计数
+// 该方法会同时更新数据库和缓存中的阅读计数，更新操作会在后台并发执行
+func (c *CachedReadCntRepository) BatchIncrReadCnt(ctx context.Context, bizs []string, bizIds []int64) error {
+	// 启动一个新的 goroutine 用于异步更新缓存中的阅读计数
+	//go func() {
+	//	// 遍历每个业务和对应的业务ID
+	//	for i := 0; i < len(bizs); i++ {
+	//		// 更新缓存中的阅读计数，如果更新失败，则记录错误日志
+	//		err := c.cache.IncrReadCntIfPresent(ctx, bizs[i], bizIds[i])
+	//		if err != nil {
+	//			// 记录缓存更新失败的日志
+	//			c.l.Error("更新缓存阅读计数失败",
+	//				logger.Int64("bizId", bizIds[i]),
+	//				logger.String("biz", bizs[i]),
+	//				logger.Error(err))
+	//		}
+	//	}
+	//}()
+	// 调用数据库层的方法批量更新数据库中的阅读计数
+	return c.dao.BatchIncrReadCnt(ctx, bizs, bizIds)
 }
 
 // IncrLike 增加点赞操作：首先插入数据库中的点赞信息，然后更新缓存中的点赞计数

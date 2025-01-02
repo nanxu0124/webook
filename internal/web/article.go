@@ -94,7 +94,7 @@ func (hdl *ArticleHandler) PubDetail(ctx *gin.Context, uc ginx.UserClaims) (Resu
 	)
 	eg.Go(func() error {
 		var er error
-		art, er = hdl.svc.GetPublishedById(ctx, id)
+		art, er = hdl.svc.GetPublishedById(ctx, id, uc.Id)
 		return er
 	})
 
@@ -113,13 +113,15 @@ func (hdl *ArticleHandler) PubDetail(ctx *gin.Context, uc ginx.UserClaims) (Resu
 		}, fmt.Errorf("获取文章信息失败 %w", err)
 	}
 
+	// 现在 service 接入了 kafka， 所以这里不需要异步去操作了
+	//
 	// 直接异步操作，在确定我们获取到了数据之后再来操作
-	go func() {
-		err = hdl.intrSvc.IncrReadCnt(ctx, hdl.biz, art.Id)
-		if err != nil {
-			hdl.l.Error("增加文章阅读数失败", logger.Error(err))
-		}
-	}()
+	//go func() {
+	//	err = hdl.intrSvc.IncrReadCnt(ctx, hdl.biz, art.Id)
+	//	if err != nil {
+	//		hdl.l.Error("增加文章阅读数失败", logger.Error(err))
+	//	}
+	//}()
 
 	return Result{
 		Data: ArticleVo{

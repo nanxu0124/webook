@@ -13,7 +13,14 @@ import (
 func main() {
 	// 当前目录的配置
 	initViperRemote()
-	server := InitWebServer()
+	app := InitApp()
+	for _, c := range app.consumers {
+		err := c.Start()
+		if err != nil {
+			panic(err)
+		}
+	}
+	server := app.web
 	// 注册路由
 	server.GET("/hello", func(ctx *gin.Context) {
 		ctx.String(http.StatusOK, "hello, world")

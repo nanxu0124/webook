@@ -15,6 +15,7 @@ type InteractiveDAO interface {
 	Get(ctx context.Context, biz string, bizId int64) (Interactive, error)
 	InsertCollectionBiz(ctx context.Context, cb UserCollectionBiz) error
 	GetCollectionInfo(ctx context.Context, biz string, bizId, uid int64) (UserCollectionBiz, error)
+	BatchIncrReadCnt(ctx context.Context, bizs []string, ids []int64) error
 }
 
 type GORMInteractiveDAO struct {
@@ -45,6 +46,53 @@ func (dao *GORMInteractiveDAO) IncrReadCnt(ctx context.Context, biz string, bizI
 		Utime:   now,   // 设置更新时间为当前时间戳
 		Biz:     biz,   // 设置业务标识
 		BizId:   bizId, // 设置业务 ID
+	}).Error
+}
+
+// BatchIncrReadCnt 批量增加多个文章的阅读计数。
+//
+//	ctx: 上下文对象，用于控制超时和取消。
+//	bizs: 业务标识的列表（例如："article"）
+//	ids: 文章 ID 的列表，每个 ID 对应一个文章
+func (dao *GORMInteractiveDAO) BatchIncrReadCnt(ctx context.Context, bizs []string, ids []int64) error {
+	// 开始一个数据库事务，确保批量更新操作的原子性
+	return dao.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		// 确保 bizs 和 ids 列表的长度一致
+		for i := 0; i < len(bizs); i++ {
+			// 调用 incrReadCnt 方法，逐个处理每个业务标识和 ID
+			err := dao.incrReadCnt(tx, bizs[i], ids[i])
+			if err != nil {
+				// 如果发生错误，回滚事务并返回错误
+				return err
+			}
+		}
+		// 如果所有操作都成功，提交事务
+		return nil
+	})
+}
+
+// incrReadCnt 更新指定文章的阅读计数，如果该记录不存在，则插入新记录；如果存在，则更新阅读计数。
+//
+// tx: 当前事务对象，确保操作在事务中执行。
+// biz: 业务标识（例如："article"）
+// bizId: 文章的唯一 ID
+func (dao *GORMInteractiveDAO) incrReadCnt(tx *gorm.DB, biz string, bizId int64) error {
+	// 获取当前时间戳（毫秒级）
+	now := time.Now().UnixMilli()
+
+	// 使用 OnConflict 语句处理插入冲突的情况
+	return tx.Clauses(clause.OnConflict{
+		// 如果插入的记录已经存在，则执行更新操作
+		DoUpdates: clause.Assignments(map[string]any{
+			"read_cnt": gorm.Expr("`read_cnt`+1"), // 阅读计数增加 1
+			"utime":    now,                       // 更新时间更新为当前时间
+		}),
+	}).Create(&Interactive{
+		ReadCnt: 1,     // 初始的阅读计数为 1
+		Ctime:   now,   // 创建时间为当前时间
+		Utime:   now,   // 更新时间为当前时间
+		Biz:     biz,   // 业务标识
+		BizId:   bizId, // 文章 ID
 	}).Error
 }
 
