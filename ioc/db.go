@@ -6,7 +6,10 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	glogger "gorm.io/gorm/logger"
+	"gorm.io/plugin/prometheus"
+	"time"
 	"webook/internal/repository/dao"
+	prometheus2 "webook/pkg/gormx/callbacks/prometheus"
 	"webook/pkg/logger"
 )
 
@@ -26,14 +29,52 @@ func InitDB(l logger.Logger) *gorm.DB {
 
 	// 使用 GORM 打开数据库连接
 	db, err := gorm.Open(mysql.Open(c.DSN), &gorm.Config{
-		Logger: glogger.New(gormLoggerFunc(l.Debug), // 自定义日志记录
-			glogger.Config{
-				SlowThreshold: 0,            // 不记录慢查询
-				LogLevel:      glogger.Info, // 设置日志等级为 Info
-			}),
+		//Logger: glogger.New(gormLoggerFunc(l.Debug), // 自定义日志记录
+		//	glogger.Config{
+		//		SlowThreshold: 0,            // 不记录慢查询
+		//		LogLevel:      glogger.Info, // 设置日志等级为 Info
+		//	}),
 	})
 	if err != nil {
 		panic(err) // 打开数据库失败时，抛出 panic
+	}
+
+	// 获取底层的 *sql.DB 对象
+	sqlDB, err := db.DB()
+	if err != nil {
+		// 错误处理
+		panic("failed to get DB instance")
+	}
+	sqlDB.SetMaxOpenConns(100)                 // 设置最大打开连接数
+	sqlDB.SetMaxIdleConns(30)                  // 设置最大空闲连接数
+	sqlDB.SetConnMaxLifetime(time.Minute * 30) // 设置连接的最大生命周期
+
+	// 接入 prometheus
+	err = db.Use(prometheus.New(prometheus.Config{
+		DBName: "webook",
+		// 每 15 秒采集一些数据
+		RefreshInterval: 15,
+		MetricsCollector: []prometheus.MetricsCollector{
+			&prometheus.MySQL{
+				VariableNames: []string{"Threads_running"},
+			},
+		}, // user defined metrics
+	}))
+	if err != nil {
+		panic(err)
+	}
+
+	// 接入回调
+	prom := prometheus2.Callbacks{
+		Namespace:  "webook_server",
+		Subsystem:  "webook",
+		Name:       "gorm",
+		InstanceID: "my-instance-1",
+		Help:       "gorm DB 查询",
+	}
+	err = prom.Register(db)
+	if err != nil {
+		panic(err)
 	}
 
 	// 初始化数据库表结构

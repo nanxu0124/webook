@@ -1,7 +1,6 @@
 package ioc
 
 import (
-	"context"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
@@ -10,8 +9,7 @@ import (
 	"webook/internal/web"
 	ijwt "webook/internal/web/jwt"
 	"webook/internal/web/middleware"
-	"webook/pkg/ginx/middleware/accesslog"
-	"webook/pkg/ginx/middleware/ratelimit"
+	"webook/pkg/ginx/middleware/metrics"
 	"webook/pkg/logger"
 )
 
@@ -24,26 +22,43 @@ func InitWebServer(funcs []gin.HandlerFunc, userHdl *web.UserHandler, artHdl *we
 
 	// 注册用户相关的路由
 	userHdl.RegisterRoutes(server)
+	artHdl.RegisterRoutes(server)
 
 	return server // 返回配置好的 Gin 引擎实例
 }
 
 func GinMiddlewares(cmd redis.Cmdable, hdl ijwt.Handler, l logger.Logger) []gin.HandlerFunc {
+
+	pb := &metrics.PrometheusBuilder{
+		Namespace:  "webook_server",
+		Subsystem:  "webook",
+		Name:       "gin_http",
+		InstanceID: "my-instance-1",
+		Help:       "GIN 中 HTTP 请求",
+	}
+
 	return []gin.HandlerFunc{
-		ratelimit.NewBuilder(cmd, time.Minute, 100).Build(), // 限制每分钟最多 100 次请求
+		// 限流
+		//ratelimit.NewBuilder(cmd, time.Minute, 100).Build(), // 限制每分钟最多 100 次请求
+
+		// 跨域
 		corsHandler(), // 配置 CORS 中间件
+
+		// prometheus 中间件
+		pb.BuildResponseTime(),
+		pb.BuildActiveRequest(),
 
 		// 使用 JWT 中间件
 		middleware.NewJWTLoginMiddlewareBuilder(hdl).Build(),
 
 		// 访问日志中间件
-		accesslog.NewMiddlewareBuilder(func(ctx context.Context, al accesslog.AccessLog) {
-			// 设置为 DEBUG 级别
-			l.Debug("GIN 收到请求", logger.Field{
-				Key:   "req",
-				Value: al,
-			})
-		}).AllowReqBody().AllowRespBody().Build(),
+		//accesslog.NewMiddlewareBuilder(func(ctx context.Context, al accesslog.AccessLog) {
+		//	// 设置为 DEBUG 级别
+		//	l.Debug("GIN 收到请求", logger.Field{
+		//		Key:   "req",
+		//		Value: al,
+		//	})
+		//}).AllowReqBody().AllowRespBody().Build(),
 	}
 }
 

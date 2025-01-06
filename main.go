@@ -13,6 +13,7 @@ import (
 func main() {
 	// 当前目录的配置
 	initViperRemote()
+	initPrometheus()
 	app := InitApp()
 	for _, c := range app.consumers {
 		err := c.Start()

@@ -24,6 +24,7 @@ func NewJWTLoginMiddlewareBuilder(hdl ijwt.Handler) *JWTLoginMiddlewareBuilder {
 	s.Add("/users/login_sms")
 	s.Add("/users/login")
 	s.Add("/users/refresh_token")
+	s.Add("/users/metrics")
 	return &JWTLoginMiddlewareBuilder{
 		publicPaths: s,
 		Handler:     hdl,
