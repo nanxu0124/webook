@@ -20,6 +20,14 @@ func NewGORMArticleDAO(db *gorm.DB) ArticleDAO {
 	}
 }
 
+func (dao *GORMArticleDAO) ListPubByUtime(ctx context.Context, utime time.Time, offset int, limit int) ([]PublishedArticle, error) {
+	var res []PublishedArticle
+	err := dao.db.WithContext(ctx).Order("utime DESC").
+		Where("utime < ?", utime.UnixMilli()).
+		Limit(limit).Offset(offset).Find(&res).Error
+	return res, err
+}
+
 func (dao *GORMArticleDAO) GetPubById(ctx context.Context, id int64) (PublishedArticle, error) {
 	var pub PublishedArticle
 	err := dao.db.WithContext(ctx).

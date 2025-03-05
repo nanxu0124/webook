@@ -16,6 +16,11 @@ type MongoDBDAO struct {
 	node    *snowflake.Node
 }
 
+func (m *MongoDBDAO) ListPubByUtime(ctx context.Context, utime time.Time, offset int, limit int) ([]PublishedArticle, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func InitCollections(db *mongo.Database) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()

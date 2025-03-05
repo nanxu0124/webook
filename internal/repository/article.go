@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/ecodeclub/ekit/slice"
+	"time"
 	"webook/internal/domain"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao/article"
@@ -24,6 +25,7 @@ type ArticleRepository interface {
 	GetById(ctx context.Context, id int64) (domain.Article, error)
 
 	GetPublishedById(ctx context.Context, id int64) (domain.Article, error)
+	ListPub(ctx context.Context, utime time.Time, offset int, limit int) ([]domain.Article, error)
 }
 
 type CachedArticleRepository struct {
@@ -40,6 +42,16 @@ func NewArticleRepository(dao article.ArticleDAO, userRepo UserRepository, c cac
 		cache:    c,
 		l:        logger,
 	}
+}
+
+func (repo *CachedArticleRepository) ListPub(ctx context.Context, utime time.Time, offset int, limit int) ([]domain.Article, error) {
+	val, err := repo.dao.ListPubByUtime(ctx, utime, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	return slice.Map[article.PublishedArticle, domain.Article](val, func(idx int, src article.PublishedArticle) domain.Article {
+		return repo.PublishedArticletoDomain(src)
+	}), nil
 }
 
 func (repo *CachedArticleRepository) GetPublishedById(ctx context.Context, id int64) (domain.Article, error) {
@@ -210,6 +222,18 @@ func (repo *CachedArticleRepository) toEntity(art domain.Article) article.Articl
 }
 
 func (repo *CachedArticleRepository) toDomain(art article.Article) domain.Article {
+	return domain.Article{
+		Id:      art.Id,
+		Title:   art.Title,
+		Status:  domain.ArticleStatus(art.Status),
+		Content: art.Content,
+		Author: domain.Author{
+			Id: art.AuthorId,
+		},
+	}
+}
+
+func (repo *CachedArticleRepository) PublishedArticletoDomain(art article.PublishedArticle) domain.Article {
 	return domain.Article{
 		Id:      art.Id,
 		Title:   art.Title,

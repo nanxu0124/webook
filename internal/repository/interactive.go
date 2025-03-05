@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
+	"github.com/ecodeclub/ekit/slice"
 	"webook/internal/domain"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
@@ -18,6 +19,7 @@ type InteractiveRepository interface {
 	Get(ctx context.Context, biz string, bizId int64) (domain.Interactive, error)
 	Liked(ctx context.Context, biz string, id int64, uid int64) (bool, error)
 	Collected(ctx context.Context, biz string, id int64, uid int64) (bool, error)
+	GetByIds(ctx context.Context, biz string, ids []int64) ([]domain.Interactive, error)
 }
 
 type CachedReadCntRepository struct {
@@ -32,6 +34,17 @@ func NewCachedInteractiveRepository(dao dao.InteractiveDAO, cache cache.Interact
 		cache: cache,
 		l:     l,
 	}
+}
+
+func (c *CachedReadCntRepository) GetByIds(ctx context.Context, biz string, ids []int64) ([]domain.Interactive, error) {
+	vals, err := c.dao.GetByIds(ctx, biz, ids)
+	if err != nil {
+		return nil, err
+	}
+	return slice.Map[dao.Interactive, domain.Interactive](vals,
+		func(idx int, src dao.Interactive) domain.Interactive {
+			return c.toDomain(src)
+		}), nil
 }
 
 // IncrReadCnt 增加阅读计数，先更新数据库，再更新缓存
@@ -184,6 +197,7 @@ func (c *CachedReadCntRepository) Collected(ctx context.Context, biz string, id 
 
 func (c *CachedReadCntRepository) toDomain(intr dao.Interactive) domain.Interactive {
 	return domain.Interactive{
+		BizId:      intr.BizId,
 		LikeCnt:    intr.LikeCnt,
 		CollectCnt: intr.CollectCnt,
 		ReadCnt:    intr.ReadCnt,

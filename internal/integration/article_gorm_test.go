@@ -566,6 +566,13 @@ func (s *ArticleGORMHandlerTestSuite) TestArticleHandler_Withdraw() {
 		{
 			name: "修改的不是自己的文章",
 			before: func(t *testing.T) {
+
+				err := s.db.Exec("TRUNCATE TABLE `articles`").Error
+				assert.NoError(s.T(), err)
+
+				err = s.db.Exec("TRUNCATE TABLE `published_articles`").Error
+				assert.NoError(s.T(), err)
+
 				art := article.Article{
 					Id:       2,
 					Title:    "我的标题",

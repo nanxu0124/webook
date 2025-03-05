@@ -8,6 +8,9 @@ package startup
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/wire"
+	"time"
+	article2 "webook/internal/events/article"
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
@@ -20,6 +23,7 @@ import (
 
 // Injectors from wire.go:
 
+//go:generate wire
 func InitWebServer() *gin.Engine {
 	cmdable := InitTestRedis()
 	handler := jwt.NewRedisHandler(cmdable)
@@ -38,7 +42,10 @@ func InitWebServer() *gin.Engine {
 	articleDAO := article.NewGORMArticleDAO(gormDB)
 	articleCache := cache.NewRedisArticleCache(cmdable)
 	articleRepository := repository.NewArticleRepository(articleDAO, userRepository, articleCache, logger)
-	articleService := service.NewArticleService(articleRepository)
+	client := InitKafka()
+	syncProducer := NewSyncProducer(client)
+	producer := article2.NewKafkaProducer(syncProducer)
+	articleService := service.NewArticleService(articleRepository, logger, producer)
 	interactiveDAO := dao.NewGORMInteractiveDAO(gormDB)
 	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
 	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
@@ -48,7 +55,7 @@ func InitWebServer() *gin.Engine {
 	return engine
 }
 
-func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
+func InitArticleHandler(dao2 article.ArticleDAO) *web.ArticleHandler {
 	gormDB := InitTestDB()
 	userDAO := dao.NewGormUserDAO(gormDB)
 	cmdable := InitTestRedis()
@@ -56,8 +63,11 @@ func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
 	userRepository := repository.NewCachedUserRepository(userDAO, userCache)
 	articleCache := cache.NewRedisArticleCache(cmdable)
 	logger := InitTestLogger()
-	articleRepository := repository.NewArticleRepository(articleDao, userRepository, articleCache, logger)
-	articleService := service.NewArticleService(articleRepository)
+	articleRepository := repository.NewArticleRepository(dao2, userRepository, articleCache, logger)
+	client := InitKafka()
+	syncProducer := NewSyncProducer(client)
+	producer := article2.NewKafkaProducer(syncProducer)
+	articleService := service.NewArticleService(articleRepository, logger, producer)
 	interactiveDAO := dao.NewGORMInteractiveDAO(gormDB)
 	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
 	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
@@ -65,6 +75,43 @@ func InitArticleHandler(articleDao article.ArticleDAO) *web.ArticleHandler {
 	articleHandler := web.NewArticleHandler(articleService, interactiveService, logger)
 	return articleHandler
 }
+
+func InitUserSvc() service.UserService {
+	gormDB := InitTestDB()
+	userDAO := dao.NewGormUserDAO(gormDB)
+	cmdable := InitTestRedis()
+	userCache := cache.NewRedisUserCache(cmdable)
+	userRepository := repository.NewCachedUserRepository(userDAO, userCache)
+	logger := InitTestLogger()
+	userService := service.NewUserService(userRepository, logger)
+	return userService
+}
+
+func InitRankingService(expiration time.Duration) service.RankingService {
+	gormDB := InitTestDB()
+	interactiveDAO := dao.NewGORMInteractiveDAO(gormDB)
+	cmdable := InitTestRedis()
+	interactiveCache := cache.NewRedisInteractiveCache(cmdable)
+	logger := InitTestLogger()
+	interactiveRepository := repository.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
+	interactiveService := service.NewInteractiveService(interactiveRepository, logger)
+	articleDAO := article.NewGORMArticleDAO(gormDB)
+	userRepository := _wireCachedUserRepositoryValue
+	articleCache := cache.NewRedisArticleCache(cmdable)
+	articleRepository := repository.NewArticleRepository(articleDAO, userRepository, articleCache, logger)
+	client := InitKafka()
+	syncProducer := NewSyncProducer(client)
+	producer := article2.NewKafkaProducer(syncProducer)
+	articleService := service.NewArticleService(articleRepository, logger, producer)
+	rankingCache := cache.NewRedisRankingCache(cmdable, expiration)
+	rankingRepository := repository.NewCachedRankingRepository(rankingCache)
+	rankingService := service.NewBatchRankingService(interactiveService, articleService, rankingRepository)
+	return rankingService
+}
+
+var (
+	_wireCachedUserRepositoryValue = &repository.CachedUserRepository{}
+)
 
 func InitInteractiveService() service.InteractiveService {
 	gormDB := InitTestDB()
@@ -76,3 +123,25 @@ func InitInteractiveService() service.InteractiveService {
 	interactiveService := service.NewInteractiveService(interactiveRepository, logger)
 	return interactiveService
 }
+
+func InitJwtHdl() jwt.Handler {
+	cmdable := InitTestRedis()
+	handler := jwt.NewRedisHandler(cmdable)
+	return handler
+}
+
+// wire.go:
+
+// 第三方依赖
+var thirdProvider = wire.NewSet(
+	InitTestDB, InitTestRedis, InitTestLogger,
+	InitKafka, NewSyncProducer,
+)
+
+var userSvcProvider = wire.NewSet(dao.NewGormUserDAO, cache.NewRedisUserCache, repository.NewCachedUserRepository, service.NewUserService)
+
+var articlSvcProvider = wire.NewSet(article.NewGORMArticleDAO, article2.NewKafkaProducer, cache.NewRedisArticleCache, repository.NewArticleRepository, service.NewArticleService)
+
+var interactiveSvcProvider = wire.NewSet(service.NewInteractiveService, repository.NewCachedInteractiveRepository, dao.NewGORMInteractiveDAO, cache.NewRedisInteractiveCache)
+
+var rankServiceProvider = wire.NewSet(service.NewBatchRankingService, repository.NewCachedRankingRepository, cache.NewRedisRankingCache)

@@ -99,9 +99,17 @@ func (s *InteractiveTestSuite) TestIncrReadCnt() {
 			// DB 有数据，缓存没有数据
 			name: "增加成功,db有",
 			before: func(t *testing.T) {
+
+				err := s.db.Exec("TRUNCATE TABLE `interactives`").Error
+				assert.NoError(s.T(), err)
+				err = s.db.Exec("TRUNCATE TABLE `user_like_bizs`").Error
+				assert.NoError(s.T(), err)
+				err = s.db.Exec("TRUNCATE TABLE `user_collection_bizs`").Error
+				assert.NoError(s.T(), err)
+
 				ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 				defer cancel()
-				err := s.db.WithContext(ctx).Create(dao.Interactive{
+				err = s.db.WithContext(ctx).Create(dao.Interactive{
 					Id:         1,
 					Biz:        "test",
 					BizId:      2,
@@ -139,8 +147,15 @@ func (s *InteractiveTestSuite) TestIncrReadCnt() {
 			bizId: 2,
 		},
 		{
-			name:   "增加成功-都没有",
-			before: func(t *testing.T) {},
+			name: "增加成功-都没有",
+			before: func(t *testing.T) {
+				err := s.db.Exec("TRUNCATE TABLE `interactives`").Error
+				assert.NoError(s.T(), err)
+				err = s.db.Exec("TRUNCATE TABLE `user_like_bizs`").Error
+				assert.NoError(s.T(), err)
+				err = s.db.Exec("TRUNCATE TABLE `user_collection_bizs`").Error
+				assert.NoError(s.T(), err)
+			},
 			after: func(t *testing.T) {
 				ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 				defer cancel()
@@ -256,8 +271,15 @@ func (s *InteractiveTestSuite) TestLike() {
 			uid:   123,
 		},
 		{
-			name:   "点赞-都没有",
-			before: func(t *testing.T) {},
+			name: "点赞-都没有",
+			before: func(t *testing.T) {
+				err := s.db.Exec("TRUNCATE TABLE `interactives`").Error
+				assert.NoError(s.T(), err)
+				err = s.db.Exec("TRUNCATE TABLE `user_like_bizs`").Error
+				assert.NoError(s.T(), err)
+				err = s.db.Exec("TRUNCATE TABLE `user_collection_bizs`").Error
+				assert.NoError(s.T(), err)
+			},
 			after: func(t *testing.T) {
 				ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 				defer cancel()
