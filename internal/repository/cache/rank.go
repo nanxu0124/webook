@@ -3,6 +3,8 @@ package cache
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"github.com/ecodeclub/ekit/syncx/atomicx"
 	"github.com/redis/go-redis/v9"
 	"time"
 	"webook/internal/domain"
@@ -42,10 +44,43 @@ func (r *RedisRankingCache) Get(ctx context.Context) ([]domain.Article, error) {
 	return nil, err
 }
 
-func NewRedisRankingCache(client redis.Cmdable, expiration time.Duration) RankingCache {
+func NewRedisRankingCache(client redis.Cmdable) RankingCache {
 	return &RedisRankingCache{
 		key:        "ranking:article",
 		client:     client,
-		expiration: expiration,
+		expiration: time.Minute * 3,
 	}
+}
+
+// RankingLocalCache 本地缓存
+type RankingLocalCache struct {
+	topN       *atomicx.Value[[]domain.Article]
+	ddl        *atomicx.Value[time.Time]
+	expiration time.Duration
+}
+
+func NewRankingLocalCache() *RankingLocalCache {
+	return &RankingLocalCache{
+		topN:       atomicx.NewValue[[]domain.Article](),
+		ddl:        atomicx.NewValueOf[time.Time](time.Now()),
+		expiration: time.Minute * 3,
+	}
+}
+
+func (r *RankingLocalCache) Set(_ context.Context, arts []domain.Article) error {
+	r.ddl.Store(time.Now().Add(time.Minute * 3))
+	r.topN.Store(arts)
+	return nil
+}
+
+func (r *RankingLocalCache) Get(_ context.Context) ([]domain.Article, error) {
+	arts := r.topN.Load()
+	if len(arts) == 0 || r.ddl.Load().Before(time.Now()) {
+		return nil, errors.New("本地缓存失效了")
+	}
+	return arts, nil
+}
+
+func (r *RankingLocalCache) ForceGet(_ context.Context) ([]domain.Article, error) {
+	return r.topN.Load(), nil
 }

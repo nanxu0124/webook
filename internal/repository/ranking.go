@@ -12,17 +12,34 @@ type RankingRepository interface {
 }
 
 type CachedRankingRepository struct {
-	cache cache.RankingCache
+	redisCache *cache.RedisRankingCache
+	localCache *cache.RankingLocalCache
 }
 
-func NewCachedRankingRepository(cache cache.RankingCache) RankingRepository {
-	return &CachedRankingRepository{cache: cache}
+func NewCachedRankingRepository(cache *cache.RedisRankingCache, localCache *cache.RankingLocalCache) RankingRepository {
+	return &CachedRankingRepository{
+		redisCache: cache,
+		localCache: localCache,
+	}
 }
 
 func (c *CachedRankingRepository) ReplaceTopN(ctx context.Context, arts []domain.Article) error {
-	return c.cache.Set(ctx, arts)
+	_ = c.localCache.Set(ctx, arts)
+	return c.redisCache.Set(ctx, arts)
 }
 
 func (c *CachedRankingRepository) GetTopN(ctx context.Context) ([]domain.Article, error) {
-	return c.cache.Get(ctx)
+	arts, err := c.localCache.Get(ctx)
+	if err == nil {
+		return arts, nil
+	}
+
+	arts, err = c.redisCache.Get(ctx)
+	if err == nil {
+		// 回写本地缓存
+		_ = c.localCache.Set(ctx, arts)
+	} else {
+		return c.localCache.ForceGet(ctx)
+	}
+	return arts, err
 }

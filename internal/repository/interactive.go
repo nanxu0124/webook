@@ -73,7 +73,7 @@ func (c *CachedReadCntRepository) BatchIncrReadCnt(ctx context.Context, bizs []s
 	//	// 遍历每个业务和对应的业务ID
 	//	for i := 0; i < len(bizs); i++ {
 	//		// 更新缓存中的阅读计数，如果更新失败，则记录错误日志
-	//		err := c.cache.IncrReadCntIfPresent(ctx, bizs[i], bizIds[i])
+	//		err := c.redisCache.IncrReadCntIfPresent(ctx, bizs[i], bizIds[i])
 	//		if err != nil {
 	//			// 记录缓存更新失败的日志
 	//			c.l.Error("更新缓存阅读计数失败",

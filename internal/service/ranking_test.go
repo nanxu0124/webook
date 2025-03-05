@@ -13,12 +13,13 @@ import (
 
 func TestBatchRankingService_rankTopN(t *testing.T) {
 	const batchSize = 2
+	now := time.Now()
 	testCases := []struct {
 		name string
 		mock func(ctrl *gomock.Controller) (InteractiveService,
 			ArticleService)
 		wantErr error
-		wantRes []int64
+		wantRes []domain.Article
 	}{
 		{
 			name: "计算成功-两批次",
@@ -27,13 +28,13 @@ func TestBatchRankingService_rankTopN(t *testing.T) {
 				artSvc := svcmocks.NewMockArticleService(ctrl)
 				artSvc.EXPECT().ListPub(gomock.Any(), gomock.Any(), 0, batchSize).
 					Return([]domain.Article{
-						{Id: 1, Utime: time.Now()},
-						{Id: 2, Utime: time.Now()},
+						{Id: 1, Utime: now},
+						{Id: 2, Utime: now},
 					}, nil)
 				artSvc.EXPECT().ListPub(gomock.Any(), gomock.Any(), 2, batchSize).
 					Return([]domain.Article{
-						{Id: 4, Utime: time.Now()},
-						{Id: 3, Utime: time.Now()},
+						{Id: 4, Utime: now},
+						{Id: 3, Utime: now},
 					}, nil)
 				artSvc.EXPECT().ListPub(gomock.Any(), gomock.Any(), 4, batchSize).
 					Return([]domain.Article{}, nil)
@@ -51,7 +52,11 @@ func TestBatchRankingService_rankTopN(t *testing.T) {
 					Return(map[int64]domain.Interactive{}, nil)
 				return intrSvc, artSvc
 			},
-			wantRes: []int64{4, 3, 2},
+			wantRes: []domain.Article{
+				{Id: 4, Utime: now},
+				{Id: 3, Utime: now},
+				{Id: 2, Utime: now},
+			},
 		},
 		{
 			name: "intr失败",
@@ -115,7 +120,7 @@ func TestBatchRankingService_rankTopN(t *testing.T) {
 				intrSvc:   intrSvc,
 				artSvc:    artSvc,
 				BatchSize: batchSize,
-				n:         3,
+				N:         3,
 				scoreFunc: func(likeCnt int64, utime time.Time) float64 {
 					return float64(likeCnt)
 				},
