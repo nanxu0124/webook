@@ -15,7 +15,7 @@ type CronJobBuilder struct {
 
 func NewCronJobBuilder(l logger.Logger, opt prometheus.SummaryOpts) *CronJobBuilder {
 	vector := prometheus.NewSummaryVec(opt, []string{"name", "success"})
-	prometheus.MustRegister()
+	prometheus.MustRegister(vector)
 	return &CronJobBuilder{vector: vector, l: l}
 }
 
