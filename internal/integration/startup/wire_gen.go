@@ -11,6 +11,7 @@ import (
 	"github.com/google/wire"
 	"time"
 	article2 "webook/internal/events/article"
+	"webook/internal/job"
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
@@ -103,8 +104,9 @@ func InitRankingService(expiration time.Duration) service.RankingService {
 	syncProducer := NewSyncProducer(client)
 	producer := article2.NewKafkaProducer(syncProducer)
 	articleService := service.NewArticleService(articleRepository, logger, producer)
-	rankingCache := cache.NewRedisRankingCache(cmdable, expiration)
-	rankingRepository := repository.NewCachedRankingRepository(rankingCache)
+	redisRankingCache := cache.NewRedisRankingCache(cmdable)
+	rankingLocalCache := cache.NewRankingLocalCache()
+	rankingRepository := repository.NewCachedRankingRepository(redisRankingCache, rankingLocalCache)
 	rankingService := service.NewBatchRankingService(interactiveService, articleService, rankingRepository)
 	return rankingService
 }
@@ -130,6 +132,16 @@ func InitJwtHdl() jwt.Handler {
 	return handler
 }
 
+func InitJobScheduler() *job.Scheduler {
+	gormDB := InitTestDB()
+	cronJobDAO := dao.NewGORMJobDAO(gormDB)
+	cronJobRepository := repository.NewCronJobRepositoryImpl(cronJobDAO)
+	logger := InitTestLogger()
+	cronJobService := service.NewCronJobService(cronJobRepository, logger)
+	scheduler := job.NewScheduler(cronJobService, logger)
+	return scheduler
+}
+
 // wire.go:
 
 // 第三方依赖
@@ -144,4 +156,6 @@ var articlSvcProvider = wire.NewSet(article.NewGORMArticleDAO, article2.NewKafka
 
 var interactiveSvcProvider = wire.NewSet(service.NewInteractiveService, repository.NewCachedInteractiveRepository, dao.NewGORMInteractiveDAO, cache.NewRedisInteractiveCache)
 
-var rankServiceProvider = wire.NewSet(service.NewBatchRankingService, repository.NewCachedRankingRepository, cache.NewRedisRankingCache)
+var rankServiceProvider = wire.NewSet(service.NewBatchRankingService, repository.NewCachedRankingRepository, cache.NewRedisRankingCache, cache.NewRankingLocalCache)
+
+var jobProviderSet = wire.NewSet(service.NewCronJobService, repository.NewCronJobRepositoryImpl, dao.NewGORMJobDAO)

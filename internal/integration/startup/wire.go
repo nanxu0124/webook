@@ -7,6 +7,7 @@ import (
 	"github.com/google/wire"
 	"time"
 	article2 "webook/internal/events/article"
+	"webook/internal/job"
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
 	"webook/internal/repository/dao"
@@ -47,7 +48,13 @@ var rankServiceProvider = wire.NewSet(
 	service.NewBatchRankingService,
 	repository.NewCachedRankingRepository,
 	cache.NewRedisRankingCache,
+	cache.NewRankingLocalCache,
 )
+
+var jobProviderSet = wire.NewSet(
+	service.NewCronJobService,
+	repository.NewCronJobRepositoryImpl,
+	dao.NewGORMJobDAO)
 
 //go:generate wire
 func InitWebServer() *gin.Engine {
@@ -125,4 +132,9 @@ func InitJwtHdl() ijwt.Handler {
 		thirdProvider,
 		ijwt.NewRedisHandler)
 	return ijwt.NewRedisHandler(nil)
+}
+
+func InitJobScheduler() *job.Scheduler {
+	wire.Build(jobProviderSet, thirdProvider, job.NewScheduler)
+	return &job.Scheduler{}
 }
