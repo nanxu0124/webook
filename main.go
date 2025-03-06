@@ -21,6 +21,14 @@ func main() {
 			panic(err)
 		}
 	}
+
+	app.cron.Start()
+	// 停掉所有的 jobs
+	defer func() {
+		ctx := app.cron.Stop()
+		<-ctx.Done()
+	}()
+
 	server := app.web
 	// 注册路由
 	server.GET("/hello", func(ctx *gin.Context) {

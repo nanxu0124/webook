@@ -7,6 +7,7 @@
 package main
 
 import (
+	"github.com/google/wire"
 	article2 "webook/internal/events/article"
 	"webook/internal/repository"
 	"webook/internal/repository/cache"
@@ -54,9 +55,23 @@ func InitApp() *App {
 	engine := ioc.InitWebServer(v, userHandler, articleHandler)
 	interactiveReadEventBatchConsumer := article2.NewInteractiveReadEventBatchConsumer(client, logger, interactiveRepository)
 	v2 := ioc.NewConsumers(interactiveReadEventBatchConsumer)
+	redisRankingCache := cache.NewRedisRankingCache(cmdable)
+	rankingLocalCache := cache.NewRankingLocalCache()
+	rankingRepository := repository.NewCachedRankingRepository(redisRankingCache, rankingLocalCache)
+	rankingService := service.NewBatchRankingService(interactiveService, articleService, rankingRepository)
+	rankingJob := ioc.InitRankingJob(rankingService, logger)
+	cron := ioc.InitJobs(logger, rankingJob)
 	app := &App{
 		web:       engine,
 		consumers: v2,
+		cron:      cron,
 	}
 	return app
 }
+
+// wire.go:
+
+// 第三方依赖
+var thirdProvider = wire.NewSet(ioc.InitDB, ioc.InitRedis, ioc.InitLogger, ioc.InitKafka, ioc.NewSyncProducer)
+
+var rankServiceProvider = wire.NewSet(service.NewBatchRankingService, repository.NewCachedRankingRepository, cache.NewRedisRankingCache, cache.NewRankingLocalCache)

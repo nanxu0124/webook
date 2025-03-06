@@ -15,14 +15,31 @@ import (
 	"webook/ioc"
 )
 
+// 第三方依赖
+var thirdProvider = wire.NewSet(
+	ioc.InitDB,
+	ioc.InitRedis,
+	ioc.InitLogger,
+	ioc.InitKafka,
+	ioc.NewSyncProducer,
+)
+
+var rankServiceProvider = wire.NewSet(
+	service.NewBatchRankingService,
+	repository.NewCachedRankingRepository,
+	cache.NewRedisRankingCache,
+	cache.NewRankingLocalCache,
+)
+
 func InitApp() *App {
 	wire.Build(
 		// 最基础的第三方依赖
-		ioc.InitDB,
-		ioc.InitRedis,
-		ioc.InitLogger,
-		ioc.InitKafka,
-		ioc.NewSyncProducer,
+		thirdProvider,
+
+		// cron 部分
+		rankServiceProvider,
+		ioc.InitJobs,
+		ioc.InitRankingJob,
 
 		// DAO 部分
 		dao.NewGormUserDAO,
