@@ -103,6 +103,7 @@ func (r *RedisInteractiveCache) Get(ctx context.Context, biz string, bizId int64
 
 	// 返回包含互动数据的结构体（domain.Interactive），不需要返回错误
 	return domain.Interactive{
+		BizId:      bizId,
 		CollectCnt: collectCnt, // 收藏数
 		LikeCnt:    likeCnt,    // 点赞数
 		ReadCnt:    readCnt,    // 阅读数

@@ -65,6 +65,12 @@ func (s *ArticleMongoHandlerTestSuite) TearDownTest() {
 	assert.NoError(s.T(), err)
 }
 
+type Article struct {
+	Id      int64  `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
 func (s *ArticleMongoHandlerTestSuite) TestArticleHandler_Edit() {
 	t := s.T()
 

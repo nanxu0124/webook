@@ -3,6 +3,7 @@ package ginx
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	ijwt "webook/internal/web/jwt"
 	"webook/pkg/logger"
 )
 
@@ -56,8 +57,15 @@ func WrapClaims(fn func(*gin.Context, UserClaims) (Result, error)) gin.HandlerFu
 			return
 		}
 		// 注意，这里要求放进去 ctx 的不能是*UserClaims
-		claims, ok := rawVal.(UserClaims)
-		if !ok {
+		claims := UserClaims{}
+		if rawClaims, ok := rawVal.(ijwt.UserClaims); ok {
+			claims = UserClaims{
+				Id:               rawClaims.Id,
+				UserAgent:        rawClaims.UserAgent,
+				Ssid:             rawClaims.Ssid,
+				RegisteredClaims: rawClaims.RegisteredClaims,
+			}
+		} else {
 			ctx.AbortWithStatus(http.StatusUnauthorized)
 			log.Error("无法获得 claims",
 				logger.String("path", ctx.Request.URL.Path))

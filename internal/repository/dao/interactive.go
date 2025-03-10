@@ -237,8 +237,8 @@ func (dao *GORMInteractiveDAO) InsertCollectionBiz(ctx context.Context, cb UserC
 		// 更新或插入 Interactive 表中的收藏计数（如果记录已存在则更新）
 		return tx.Clauses(clause.OnConflict{
 			DoUpdates: clause.Assignments(map[string]any{
-				"like_cnt": gorm.Expr("`like_cnt`+1"), // 增加收藏计数
-				"utime":    now,                       // 更新时间
+				"collect_cnt": gorm.Expr("`collect_cnt`+1"), // 增加收藏计数
+				"utime":       now,                          // 更新时间
 			}),
 		}).Create(&Interactive{
 			CollectCnt: 1,        // 初始收藏计数为 1
