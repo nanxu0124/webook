@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"golang.org/x/sync/errgroup"
-	"webook/internal/domain"
-	"webook/internal/repository"
+	"webook/interactive/domain"
+	"webook/interactive/repository"
 	"webook/pkg/logger"
 )
 

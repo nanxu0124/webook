@@ -6,6 +6,7 @@ import (
 	"github.com/ecodeclub/ekit/slice"
 	"math"
 	"time"
+	service2 "webook/interactive/service"
 	"webook/internal/domain"
 	"webook/internal/repository"
 )
@@ -17,7 +18,7 @@ type RankingService interface {
 }
 
 type BatchRankingService struct {
-	intrSvc   InteractiveService
+	intrSvc   service2.InteractiveService
 	artSvc    ArticleService
 	repo      repository.RankingRepository
 	BatchSize int
@@ -25,7 +26,7 @@ type BatchRankingService struct {
 	scoreFunc func(likeCnt int64, utime time.Time) float64
 }
 
-func NewBatchRankingService(intrSvc InteractiveService, artSvc ArticleService, repo repository.RankingRepository) RankingService {
+func NewBatchRankingService(intrSvc service2.InteractiveService, artSvc ArticleService, repo repository.RankingRepository) RankingService {
 	res := &BatchRankingService{
 		intrSvc:   intrSvc,
 		artSvc:    artSvc,

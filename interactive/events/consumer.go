@@ -1,13 +1,22 @@
-package article
+package events
 
 import (
 	"context"
 	"github.com/IBM/sarama"
 	"time"
-	"webook/internal/repository"
+	"webook/interactive/repository"
 	"webook/pkg/logger"
 	"webook/pkg/saramax"
 )
+
+const topicReadEvent = "article_read_event"
+
+// ReadEvent 定义了一个文章阅读事件的结构体
+// 包含了用户 ID（Uid）和文章 ID（Aid），表示某个用户阅读了某篇文章
+type ReadEvent struct {
+	Uid int64 // 用户 ID，标识阅读文章的用户
+	Aid int64 // 文章 ID，标识被阅读的文章
+}
 
 // InteractiveReadEventConsumer 定义了一个消费 Kafka 消息的消费者
 // 用于消费来自 topicReadEvent topic的文章阅读事件

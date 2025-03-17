@@ -10,9 +10,9 @@ import (
 	"gorm.io/gorm"
 	"testing"
 	"time"
+	"webook/interactive/repository/dao"
 	"webook/internal/domain"
 	"webook/internal/integration/startup"
-	"webook/internal/repository/dao"
 	"webook/internal/repository/dao/article"
 	"webook/internal/service"
 )

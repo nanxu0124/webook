@@ -7,13 +7,15 @@ import (
 	"github.com/redis/go-redis/v9"
 	"strconv"
 	"time"
-	"webook/internal/domain"
+	"webook/interactive/domain"
 )
 
 var (
 	//go:embed lua/interative_incr_cnt.lua
 	luaIncrCnt string
 )
+
+var ErrKeyNotExist = redis.Nil
 
 const (
 	fieldReadCnt    = "read_cnt"

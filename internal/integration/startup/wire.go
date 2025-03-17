@@ -16,6 +16,11 @@ import (
 	"webook/internal/web"
 	ijwt "webook/internal/web/jwt"
 	"webook/ioc"
+
+	interactive_repository "webook/interactive/repository"
+	repository_cache "webook/interactive/repository/cache"
+	repository_dao "webook/interactive/repository/dao"
+	interactive_service "webook/interactive/service"
 )
 
 // 第三方依赖
@@ -38,10 +43,10 @@ var articlSvcProvider = wire.NewSet(
 	service.NewArticleService)
 
 var interactiveSvcProvider = wire.NewSet(
-	service.NewInteractiveService,
-	repository.NewCachedInteractiveRepository,
-	dao.NewGORMInteractiveDAO,
-	cache.NewRedisInteractiveCache,
+	interactive_service.NewInteractiveService,
+	interactive_repository.NewCachedInteractiveRepository,
+	repository_dao.NewGORMInteractiveDAO,
+	repository_cache.NewRedisInteractiveCache,
 )
 
 var rankServiceProvider = wire.NewSet(
@@ -118,13 +123,6 @@ func InitRankingService(expiration time.Duration) service.RankingService {
 
 		rankServiceProvider)
 	return &service.BatchRankingService{}
-}
-
-func InitInteractiveService() service.InteractiveService {
-	wire.Build(
-		thirdProvider,
-		interactiveSvcProvider)
-	return service.NewInteractiveService(nil, nil)
 }
 
 func InitJwtHdl() ijwt.Handler {
