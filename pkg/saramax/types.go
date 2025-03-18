@@ -1,4 +1,4 @@
-package events
+package saramax
 
 type Consumer interface {
 	Start() error
