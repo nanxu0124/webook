@@ -56,14 +56,15 @@ func InitApp() *App {
 	interactiveCache := cache2.NewRedisInteractiveCache(cmdable)
 	interactiveRepository := repository2.NewCachedInteractiveRepository(interactiveDAO, interactiveCache, logger)
 	interactiveService := service2.NewInteractiveService(interactiveRepository, logger)
-	articleHandler := web.NewArticleHandler(articleService, interactiveService, logger)
+	interactiveServiceClient := ioc.InitIntrGRPCClient(interactiveService, logger)
+	articleHandler := web.NewArticleHandler(articleService, interactiveServiceClient, logger)
 	engine := ioc.InitWebServer(v, userHandler, articleHandler)
 	interactiveReadEventBatchConsumer := events.NewInteractiveReadEventBatchConsumer(client, logger, interactiveRepository)
 	v2 := ioc.NewConsumers(interactiveReadEventBatchConsumer)
 	redisRankingCache := cache.NewRedisRankingCache(cmdable)
 	rankingLocalCache := cache.NewRankingLocalCache()
 	rankingRepository := repository.NewCachedRankingRepository(redisRankingCache, rankingLocalCache)
-	rankingService := service.NewBatchRankingService(interactiveService, articleService, rankingRepository)
+	rankingService := service.NewBatchRankingService(interactiveServiceClient, articleService, rankingRepository)
 	rankingJob := ioc.InitRankingJob(rankingService, logger)
 	cron := ioc.InitJobs(logger, rankingJob)
 	app := &App{
@@ -80,3 +81,7 @@ func InitApp() *App {
 var thirdProvider = wire.NewSet(ioc.InitDB, ioc.InitRedis, ioc.InitLogger, ioc.InitKafka, ioc.NewSyncProducer)
 
 var rankServiceProvider = wire.NewSet(service.NewBatchRankingService, repository.NewCachedRankingRepository, cache.NewRedisRankingCache, cache.NewRankingLocalCache)
+
+// 这一部分是用作本地 interactive 服务
+// 防止切换服务的时候出问题
+var interactiveServiceProducer = wire.NewSet(dao2.NewGORMInteractiveDAO, cache2.NewRedisInteractiveCache, repository2.NewCachedInteractiveRepository, service2.NewInteractiveService, events.NewInteractiveReadEventBatchConsumer)

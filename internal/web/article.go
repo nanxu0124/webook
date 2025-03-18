@@ -8,8 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	domain2 "webook/interactive/domain"
-	service2 "webook/interactive/service"
+	intrv1 "webook/api/proto/gen/intr/v1"
 	"webook/internal/domain"
 	"webook/internal/service"
 	"webook/internal/web/jwt"
@@ -19,12 +18,12 @@ import (
 
 type ArticleHandler struct {
 	svc     service.ArticleService
-	intrSvc service2.InteractiveService
+	intrSvc intrv1.InteractiveServiceClient
 	biz     string
 	l       logger.Logger
 }
 
-func NewArticleHandler(svc service.ArticleService, intrSvc service2.InteractiveService, l logger.Logger) *ArticleHandler {
+func NewArticleHandler(svc service.ArticleService, intrSvc intrv1.InteractiveServiceClient, l logger.Logger) *ArticleHandler {
 	return &ArticleHandler{
 		svc:     svc,
 		l:       l,
@@ -50,7 +49,12 @@ func (hdl *ArticleHandler) RegisterRoutes(s *gin.Engine) {
 }
 
 func (hdl *ArticleHandler) Collect(ctx *gin.Context, req CollectReq, uc ginx.UserClaims) (Result, error) {
-	err := hdl.intrSvc.Collect(ctx, hdl.biz, req.Id, req.Cid, uc.Id)
+	_, err := hdl.intrSvc.Collect(ctx, &intrv1.CollectRequest{
+		Biz:   hdl.biz,
+		BizId: req.Id,
+		Cid:   req.Cid,
+		Uid:   uc.Id,
+	})
 	if err != nil {
 		return Result{
 			Code: 5,
@@ -63,9 +67,17 @@ func (hdl *ArticleHandler) Collect(ctx *gin.Context, req CollectReq, uc ginx.Use
 func (hdl *ArticleHandler) Like(ctx *gin.Context, req LikeReq, uc ginx.UserClaims) (Result, error) {
 	var err error
 	if req.Like {
-		err = hdl.intrSvc.Like(ctx, hdl.biz, req.Id, uc.Id)
+		_, err = hdl.intrSvc.Like(ctx, &intrv1.LikeRequest{
+			Biz:   hdl.biz,
+			BizId: req.Id,
+			Uid:   uc.Id,
+		})
 	} else {
-		err = hdl.intrSvc.CancelLike(ctx, hdl.biz, req.Id, uc.Id)
+		_, err = hdl.intrSvc.CancelLike(ctx, &intrv1.CancelLikeRequest{
+			Biz:   hdl.biz,
+			BizId: req.Id,
+			Uid:   uc.Id,
+		})
 	}
 
 	if err != nil {
@@ -90,9 +102,9 @@ func (hdl *ArticleHandler) PubDetail(ctx *gin.Context, uc ginx.UserClaims) (Resu
 
 	// 使用 error group 来同时查询数据
 	var (
-		eg   errgroup.Group
-		art  domain.Article
-		intr domain2.Interactive
+		eg       errgroup.Group
+		art      domain.Article
+		intrResp *intrv1.GetResponse
 	)
 	eg.Go(func() error {
 		var er error
@@ -102,7 +114,11 @@ func (hdl *ArticleHandler) PubDetail(ctx *gin.Context, uc ginx.UserClaims) (Resu
 
 	eg.Go(func() error {
 		var er error
-		intr, er = hdl.intrSvc.Get(ctx, hdl.biz, id, uc.Id)
+		intrResp, er = hdl.intrSvc.Get(ctx, &intrv1.GetRequest{
+			Biz:   hdl.biz,
+			BizId: id,
+			Uid:   uc.Id,
+		})
 		return er
 	})
 
@@ -124,7 +140,7 @@ func (hdl *ArticleHandler) PubDetail(ctx *gin.Context, uc ginx.UserClaims) (Resu
 	//		hdl.l.Error("增加文章阅读数失败", logger.Error(err))
 	//	}
 	//}()
-
+	intr := intrResp.Intr
 	return Result{
 		Data: ArticleVo{
 			Id:      art.Id,

@@ -5,3 +5,15 @@ redis:
   addr: "localhost:6379"
   password: ""
   db: 1
+
+kafka:
+  addrs:
+    - "localhost:9094"
+
+grpc:
+  client:
+    intr:
+      addr: "localhost:8090"
+      secure: false
+      #      全部都走grpc调用
+      threshold: 100

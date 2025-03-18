@@ -4,7 +4,7 @@ package main
 
 import (
 	"github.com/google/wire"
-	"webook/interactive/events"
+	events2 "webook/interactive/events"
 	repository2 "webook/interactive/repository"
 	cache2 "webook/interactive/repository/cache"
 	dao2 "webook/interactive/repository/dao"
@@ -36,6 +36,16 @@ var rankServiceProvider = wire.NewSet(
 	cache.NewRankingLocalCache,
 )
 
+// 这一部分是用作本地 interactive 服务
+// 防止切换服务的时候出问题
+var interactiveServiceProducer = wire.NewSet(
+	dao2.NewGORMInteractiveDAO,
+	cache2.NewRedisInteractiveCache,
+	repository2.NewCachedInteractiveRepository,
+	service2.NewInteractiveService,
+	events2.NewInteractiveReadEventBatchConsumer,
+)
+
 func InitApp() *App {
 	wire.Build(
 		// 最基础的第三方依赖
@@ -46,34 +56,32 @@ func InitApp() *App {
 		ioc.InitJobs,
 		ioc.InitRankingJob,
 
+		// 微服务部分
+		interactiveServiceProducer,
+		ioc.InitIntrGRPCClient,
+
 		// DAO 部分
 		dao.NewGormUserDAO,
 		article.NewGORMArticleDAO,
-		dao2.NewGORMInteractiveDAO,
 
 		// Cache 部分
 		cache.NewRedisUserCache,
 		cache.NewRedisCodeCache,
 		cache.NewRedisArticleCache,
-		cache2.NewRedisInteractiveCache,
 
 		// repository 部分
 		repository.NewCachedUserRepository,
 		repository.NewCachedCodeRepository,
 		repository.NewArticleRepository,
-		repository2.NewCachedInteractiveRepository,
 
 		// events 部分
 		eventsArticle.NewKafkaProducer,
-		//eventsArticle.NewInteractiveReadEventConsumer,
-		events.NewInteractiveReadEventBatchConsumer,
 		ioc.NewConsumers,
 
 		// service 部分
 		service.NewUserService,
 		service.NewSMSCodeService,
 		service.NewArticleService,
-		service2.NewInteractiveService,
 		ioc.InitSmsService,
 
 		// handler 部分

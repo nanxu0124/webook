@@ -117,10 +117,10 @@ func TestBatchRankingService_rankTopN(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
-			intrSvc, artSvc := tc.mock(ctrl)
+			//intrSvc, artSvc := tc.mock(ctrl)
 			svc := &BatchRankingService{
-				intrSvc:   intrSvc,
-				artSvc:    artSvc,
+				//intrSvc:   intrSvc,
+				//artSvc:    artSvc,
 				BatchSize: batchSize,
 				N:         3,
 				scoreFunc: func(likeCnt int64, utime time.Time) float64 {
